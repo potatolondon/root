@@ -9,20 +9,20 @@
   </style>
 </head>
 <body>
-  <div id="demo"></div>
+  <div id="synth"></div>
 
   <script type="module">
     import { html, render } from 'lit';
-    import '../web-audio.js';
+    import './web-audio.js';
 
-    const title = 'Hello owc World!';
+    const title = 'Hello World!';
     render(
       html`
         <web-audio .title=${title}>
           some light-dom
         </web-audio>
       `,
-      document.querySelector('#demo')
+      document.querySelector('#synth')
     );
   </script>
 </body>
