@@ -13,14 +13,11 @@
 
   <script type="module">
     import { html, render } from 'lit';
-    import './web-audio.js';
+    import './src/components/oscillator/oscillator.lit.js';
 
-    const title = 'Hello World!';
     render(
       html`
-        <web-audio .title=${title}>
-          some light-dom
-        </web-audio>
+      <synth-osc></synth-osc>
       `,
       document.querySelector('#synth')
     );
