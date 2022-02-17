@@ -13,11 +13,16 @@
 
   <script type="module">
     import { html, render } from 'lit';
+    import './src/components/keyboard/keyboard.lit.js';
     import './src/components/oscillator/oscillator.lit.js';
+    import './src/components/synth/synth.lit.js';
 
     render(
       html`
-      <synth-osc></synth-osc>
+      <wapp-synth>
+        <wapp-osc></wapp-osc>
+        <wapp-keyboard></wapp-keyboard>
+      </wapp-synth>
       `,
       document.querySelector('#synth')
     );

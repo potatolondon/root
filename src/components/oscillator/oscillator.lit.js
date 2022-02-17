@@ -1,7 +1,8 @@
-import { html, LitElement } from 'lit';
+import { html } from 'lit';
+import { WappElement } from '../base.lit.js';
 import { audioCtx } from '../../context/audioContext.js';
 
-export class Oscillator extends LitElement {
+export class Oscillator extends WappElement {
   constructor() {
     super();
     this.oscillator = audioCtx.createOscillator();
@@ -17,4 +18,4 @@ export class Oscillator extends LitElement {
   }
 }
 
-window.customElements.define('synth-osc', Oscillator);
+window.customElements.define('wapp-osc', Oscillator);
