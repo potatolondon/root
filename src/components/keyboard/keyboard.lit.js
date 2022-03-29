@@ -10,6 +10,8 @@ export class Keyboard extends WappElement {
   constructor() {
     super();
 
+    this.baseFreq = 261.63;
+
     this.keys = [
       {
         name: 'C',
