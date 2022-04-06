@@ -1,26 +1,8 @@
-import { html, LitElement, css } from 'lit';
+import { html } from 'lit';
+import { WappElement } from '../base.lit.js';
 import { audioCtx } from '../../context/audioContext.js';
 
-export class UserInputElement extends LitElement {
-  static styles = css`
-    dialog[open] {
-      border-radius: 5px;
-      display: grid;
-      place-items: center;
-    }
-
-    form {
-      display: contents;
-    }
-
-    button {
-      all: unset;
-      border-radius: 5px;
-      border-style: solid;
-      padding: 8px 16px;
-    }
-  `;
-
+export class UserInputElement extends WappElement {
   connectedCallback() {
     super.connectedCallback();
     audioCtx.addEventListener('statechange', () => this.updated());
@@ -42,7 +24,7 @@ export class UserInputElement extends LitElement {
 
   updated() {
     if (audioCtx.state === 'suspended') {
-      this.shadowRoot.querySelector('dialog').showModal();
+      this.querySelector('dialog').showModal();
     }
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import { WappElement } from '../base.lit.js';
 
 export class MIDIInputElement extends WappElement {
@@ -16,15 +15,27 @@ export class MIDIInputElement extends WappElement {
   }
 
   onMidiMessage(message) {
-    const [toggle, midiNum] = message.data;
+    const [toggle, note] = message.data;
     if (toggle === 144 || toggle === 128) {
-      const note = 440 * 2 ** ((midiNum - 69) / 12);
       if (toggle === 144) {
-        this.parentElement.noteOn(note);
-      } else {
-        this.parentElement.noteOff(note);
+        return this.__noteOn(note);
       }
     }
+    return this.__noteOff(note);
+  }
+
+  __onNoteOn(note) {
+    this.dispatchEvent(new CustomEvent('noteOn', {
+      bubbles: true,
+      detail: { note },
+    }));
+  }
+
+  __onNoteOff(note) {
+    this.dispatchEvent(new CustomEvent('noteOff', {
+      bubbles: true,
+      detail: { note },
+    }));
   }
 }
 
