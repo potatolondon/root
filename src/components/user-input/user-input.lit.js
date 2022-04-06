@@ -21,6 +21,11 @@ export class UserInputElement extends LitElement {
     }
   `;
 
+  connectedCallback() {
+    super.connectedCallback();
+    audioCtx.addEventListener('statechange', () => this.updated());
+  }
+
   render() {
     return html`
       <dialog @close=${() => audioCtx.resume()}>
