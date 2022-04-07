@@ -5,6 +5,7 @@
   <style>
     body {
       background: #fafafa;
+      font-family: system-ui, sans-serif;
     }
   </style>
 </head>
@@ -16,6 +17,7 @@
     import './src/components/keyboard/keyboard.lit.js';
     import './src/components/oscillator/oscillator.lit.js';
     import './src/components/synth/synth.lit.js';
+    import './src/components/user-input/user-input.lit.js';
 
     render(
       html`
@@ -23,8 +25,9 @@
         <wapp-osc></wapp-osc>
         <wapp-keyboard></wapp-keyboard>
       </wapp-synth>
+      <user-input></user-input>
       `,
-      document.querySelector('#synth')
+      document.querySelector('#synth'),
     );
   </script>
 </body>

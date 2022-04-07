@@ -1,0 +1,7 @@
+env:
+  browser: true
+extends:
+  - '@open-wc/eslint-config'
+parserOptions:
+  ecmaVersion: latest
+root: true
