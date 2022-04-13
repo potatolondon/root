@@ -1,56 +1,55 @@
 import { html } from 'lit';
 import { WappElement } from '../base.lit.js';
 
-const KEY_STYLES = {
-  WHITE: 'white',
-  BLACK: 'black',
-};
-
 export class Keyboard extends WappElement {
   constructor() {
     super();
 
     this.baseFreq = 261.63;
+    this.octaves = 1;
 
-    this.keys = [
-      {
-        name: 'C',
-        frequency: 261.63,
-        style: KEY_STYLES.WHITE,
-      },
-      {
-        name: 'D',
-        frequency: 293.66,
-        style: KEY_STYLES.WHITE,
-      },
-    ];
-
-    this.__onKeydown = this.__onKeydown.bind(this);
+    this.keys = [];
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('click', this.__onKeydown);
+    this.__generateKeys();
+    this.addEventListener('mousedown', this.__onKeydown);
+    this.addEventListener('mouseup', this.__onKeyup);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.removeEventListener('click', this.__onKeydown);
+    this.removeEventListener('mousedown', this.__onKeydown);
+    this.removeEventListener('mouseup', this.__onKeyup);
+  }
+
+  __generateKeys() {
+    let currFreq = this.baseFreq;
+    const numberOfKeys = this.octaves * 12;
+
+    for (let i = 0; i <= numberOfKeys; i += 1) {
+      const frequency = currFreq;
+      this.keys.push({
+        frequency,
+      });
+      currFreq *= 2 ** (1 / 12);
+    }
   }
 
   __onKeydown(event) {
-    this.parentElement.noteOn(event);
+    this.parentElement.noteOn(event.target.attributes['data-note'].value);
   }
 
   __onKeyup(event) {
-    this.parentElement.noteOff(event);
+    this.parentElement.noteOff(event.target.attributes['data-note'].value);
   }
 
   render() {
     return html`
       ${this.keys.map(
         key => html`
-          <button class="note" data-note=${key.frequency}>${key.name}</button>
+          <button class="note" data-note=${key.frequency}>key</button>
         `
       )}
     `;

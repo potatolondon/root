@@ -18,12 +18,13 @@
     import './src/components/oscillator/oscillator.lit.js';
     import './src/components/synth/synth.lit.js';
     import './src/components/user-input/user-input.lit.js';
+    import './src/components/midi-input/midi-input.lit.js';
 
     render(
       html`
       <wapp-synth>
-        <wapp-osc></wapp-osc>
         <wapp-keyboard></wapp-keyboard>
+        <wapp-midi></wapp-midi>
       </wapp-synth>
       <user-input></user-input>
       `,
