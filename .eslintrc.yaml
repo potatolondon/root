@@ -5,3 +5,8 @@ extends:
 parserOptions:
   ecmaVersion: latest
 root: true
+plugins: 
+  - 'jest'
+overrides: 
+  - files:
+      - 'src/*.test.js'
