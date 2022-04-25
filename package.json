@@ -12,7 +12,7 @@
     "lint": "eslint --ext .js,.html . --ignore-path .gitignore && prettier \"**/*.js\" --check --ignore-path .gitignore",
     "format": "eslint --ext .js,.html . --fix --ignore-path .gitignore && prettier \"**/*.js\" --write --ignore-path .gitignore",
     "test": "web-test-runner src/components/**/*.test.js --coverage --node-resolve",
-    "test:watch": "web-test-runner test/**/*.test.js --node-resolve --watch"
+    "test:watch": "web-test-runner src/components/**/*.test.js --node-resolve --watch"
   },
   "dependencies": {
     "lit": "^2.2.1"
@@ -25,7 +25,7 @@
     "@web/test-runner": "^0.13.27",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
-    "husky": "^7.0.4",
+    "husky": "^4.3.8",
     "lint-staged": "^12.3.7",
     "prettier": "^2.6.2"
   },
