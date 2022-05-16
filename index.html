@@ -2,35 +2,12 @@
 <html lang="en-GB">
 <head>
   <meta charset="utf-8">
-  <style>
-    body {
-      background: #fafafa;
-      font-family: system-ui, sans-serif;
-    }
-  </style>
+  <meta content="initial-scale=1" name="viewport">
+  <link href="./src/index.css" rel="stylesheet">
 </head>
 <body>
   <div id="synth"></div>
 
-  <script type="module">
-    import { html, render } from 'lit';
-    import './src/components/keyboard/keyboard.lit.js';
-    import './src/components/oscillator/oscillator.lit.js';
-    import './src/components/synth/synth.lit.js';
-    import './src/components/user-input/user-input.lit.js';
-    import './src/components/midi-input/midi-input.lit.js';
-
-    render(
-      html`
-      <wapp-synth>
-        <wapp-osc></wapp-osc>
-        <wapp-keyboard></wapp-keyboard>
-        <wapp-midi></wapp-midi>
-      </wapp-synth>
-      <user-input></user-input>
-      `,
-      document.querySelector('#synth'),
-    );
-  </script>
+  <script src="./src/index.js" type="module"></script>
 </body>
 </html>
