@@ -5,7 +5,7 @@ handlers:
   - url: /src
     require_matching_file: true
     secure: always
-    static_dir: src
+    static_dir: dist  # Files in src/ get compiled to dist/ for production
 
   # Handle root index
   - url: /(index.html)?
