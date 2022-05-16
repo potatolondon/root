@@ -14,13 +14,18 @@
 
   <script type="module">
     import { html, render } from 'lit';
-
+    import './src/components/keyboard/keyboard.lit.js';
     import './src/components/oscillator/oscillator.lit.js';
+    import './src/components/synth/synth.lit.js';
     import './src/components/user-input/user-input.lit.js';
+    import './src/components/midi-input/midi-input.lit.js';
 
     render(
       html`
-      <synth-osc></synth-osc>
+      <wapp-synth>
+        <wapp-keyboard></wapp-keyboard>
+        <wapp-midi></wapp-midi>
+      </wapp-synth>
       <user-input></user-input>
       `,
       document.querySelector('#synth'),
