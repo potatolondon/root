@@ -1,0 +1,15 @@
+runtime: python39
+
+handlers:
+  # Static files
+  - url: /src
+    require_matching_file: true
+    secure: always
+    static_dir: src
+
+  # Handle root index
+  - url: /(index.html)?
+    require_matching_file: true
+    secure: always
+    static_files: index.html
+    upload: index.html
