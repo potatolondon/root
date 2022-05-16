@@ -15,7 +15,7 @@ export class Oscillator extends WappElement {
     triangle: 'Triangle',
   };
 
-  oscillators = new Map();
+  activeNotes = new Map();
 
   waveform = 'sine';
 
@@ -23,24 +23,35 @@ export class Oscillator extends WappElement {
     this.waveform = currentTarget.value;
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    this.gain = new GainNode(audioCtx, { gain: 0.2 });
+    this.gain.connect(audioCtx.destination);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.gain.disconnect();
+  }
+
   start(note) {
-    if (this.oscillators.has(note)) return;
+    if (this.activeNotes.has(note)) return;
     const oscillator = new OscillatorNode(audioCtx, {
       frequency: Oscillator.noteToFrequency(note),
       type: this.waveform,
     });
-    oscillator.connect(audioCtx.destination);
+    oscillator.connect(this.gain);
     oscillator.start();
-    this.oscillators.set(note, oscillator);
+    this.activeNotes.set(note, oscillator);
     oscillator.onended = () => {
-      oscillator.connect(audioCtx.destination);
-      this.oscillators.delete(note);
+      oscillator.disconnect();
+      this.activeNotes.delete(note);
     };
   }
 
   stop(note) {
-    if (!this.oscillators.has(note)) return;
-    const oscillator = this.oscillators.get(note);
+    if (!this.activeNotes.has(note)) return;
+    const oscillator = this.activeNotes.get(note);
     oscillator.stop();
   }
 
