@@ -15,23 +15,25 @@ export class MIDIInputElement extends WappElement {
   }
 
   onMidiMessage(message) {
-    const [toggle, note] = message.data;
-    if (toggle === 144 || toggle === 128) {
-      if (toggle === 144) {
-        return this.__noteOn(note);
-      }
+    const [command, note, value] = message.data;
+
+    if (command === 144 && value > 0) {
+      this.__noteOn(note);
     }
-    return this.__noteOff(note);
+
+    if (command === 128 || (command === 144 && value === 0)) {
+      this.__noteOff(note);
+    }
   }
 
-  __onNoteOn(note) {
+  __noteOn(note) {
     this.dispatchEvent(new CustomEvent('noteOn', {
       bubbles: true,
       detail: { note },
     }));
   }
 
-  __onNoteOff(note) {
+  __noteOff(note) {
     this.dispatchEvent(new CustomEvent('noteOff', {
       bubbles: true,
       detail: { note },
