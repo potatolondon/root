@@ -32,12 +32,9 @@ To automatically fix linting and formatting errors, run
 npm run format
 ```
 
-
 ## Tooling configs
 
 For most of the tools, the configuration is in the `package.json` to minimize the amount of files in your project.
-
-If you customize the configuration a lot, you can consider moving them to individual files.
 
 ## Local Demo with `web-dev-server`
 
@@ -46,3 +43,19 @@ npm start
 ```
 
 To run a local development server that serves the app located in `/index.html`
+
+# Building and deploying
+
+To build the project for production, run
+
+```bash
+npm run build
+```
+
+To build the project and deploy it to App Engine, run
+
+```bash
+npm run deploy
+```
+
+Once deployed, the production version uses the app located in `/index.html` but serves built assets from the `/dist/` folder.
