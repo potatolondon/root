@@ -1,56 +1,71 @@
+import { html } from 'lit';
+import { map } from 'lit/directives/map.js';
 import { WappElement } from '../base.lit.js';
 import { audioCtx } from '../../context/audioContext.js';
 
 export class Oscillator extends WappElement {
-  static get properties() {
-    return {
-      isNoteOn: { type: Boolean },
-      frequency: { type: Number },
-    };
+  static noteToFrequency(note) {
+    return 2 ** ((note - 69) / 12) * 440;
   }
 
-  constructor() {
-    super();
-    this.oscillator = undefined;
-    this.activeNotes = [];
+  static waveforms = {
+    sawtooth: 'Sawtooth',
+    sine: 'Sine',
+    square: 'Square',
+    triangle: 'Triangle',
+  };
+
+  activeNotes = new Map();
+
+  waveform = 'sine';
+
+  __oninput({ currentTarget }) {
+    this.waveform = currentTarget.value;
   }
 
   connectedCallback() {
     super.connectedCallback();
-    audioCtx.addEventListener('statechange', () => this.updated());
+    this.gain = new GainNode(audioCtx, { gain: 0.2 });
+    this.gain.connect(audioCtx.destination);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    audioCtx.removeEventListener('statechange', () => this.updated());
+    this.gain.disconnect();
   }
 
-  __play() {
-    this.oscillator = audioCtx.createOscillator();
-    this.oscillator.frequency.setValueAtTime(
-      this.frequency,
-      audioCtx.currentTime
-    );
-    this.oscillator.start();
-    this.activeNotes.push({ note: this.frequency, osc: this.oscillator });
-    this.oscillator.connect(audioCtx.destination);
+  start(note) {
+    if (this.activeNotes.has(note)) return;
+    const oscillator = new OscillatorNode(audioCtx, {
+      frequency: Oscillator.noteToFrequency(note),
+      type: this.waveform,
+    });
+    oscillator.connect(this.gain);
+    oscillator.start();
+    this.activeNotes.set(note, oscillator);
+    oscillator.onended = () => {
+      oscillator.disconnect();
+      this.activeNotes.delete(note);
+    };
   }
 
-  __stop(note) {
-    const oscillatorToStop = this.activeNotes.find(
-      activeNote => activeNote.note === note
-    ).osc;
-    oscillatorToStop.stop();
+  stop(note) {
+    if (!this.activeNotes.has(note)) return;
+    const oscillator = this.activeNotes.get(note);
+    oscillator.stop();
   }
 
-  updated() {
-    if (this.frequency) {
-      if (this.isNoteOn) {
-        this.__play();
-      } else {
-        this.__stop(this.frequency);
-      }
-    }
+  render() {
+    return html`
+      <label for="waveform">Osc waveform</label>
+      <select id="waveform" @input=${this.__oninput}>
+        ${map(Object.entries(Oscillator.waveforms), ([value, label]) => html`
+          <option ?selected=${value === this.waveform} value=${value}>
+            ${label}
+          </option>
+        `)}
+      </select>
+    `;
   }
 }
 

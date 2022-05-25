@@ -1,39 +1,33 @@
-/* eslint-disable class-methods-use-this */
-import { html } from 'lit';
 import { WappElement } from '../base.lit.js';
 import '../oscillator/oscillator.lit.js';
 
 export class Synth extends WappElement {
-  static get properties() {
-    return {
-      isNoteOn: { type: Boolean },
-      noteFrequency: { type: Number },
-    };
-  }
-
   constructor() {
     super();
-    this.isNoteOn = false;
-    this.noteFrequency = undefined;
+    this.__onNoteOn = this.__onNoteOn.bind(this);
+    this.__onNoteOff = this.__onNoteOff.bind(this);
   }
 
-  noteOn(note) {
-    this.isNoteOn = true;
-    this.noteFrequency = note;
+  connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener('noteOn', this.__onNoteOn);
+    this.addEventListener('noteOff', this.__onNoteOff);
+    this.oscillator = this.querySelector('wapp-osc');
   }
 
-  noteOff(note) {
-    this.isNoteOn = false;
-    this.noteFrequency = note;
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener('noteOn', this.__onNoteOn);
+    this.removeEventListener('noteOff', this.__onNoteOff);
   }
 
-  render() {
-    return html`
-      <wapp-osc
-        .isNoteOn=${this.isNoteOn}
-        .frequency=${this.noteFrequency}
-      ></wapp-osc>
-    `;
+  __onNoteOn(event) {
+    this.oscillator.start(event.detail.note);
+  }
+
+  __onNoteOff(event) {
+    this.oscillator.stop(event.detail.note);
   }
 }
+
 window.customElements.define('wapp-synth', Synth);

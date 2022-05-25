@@ -2,6 +2,9 @@ env:
   browser: true
 extends:
   - '@open-wc/eslint-config'
+  - plugin:lit/recommended
 parserOptions:
   ecmaVersion: latest
+plugins:
+  - lit
 root: true
