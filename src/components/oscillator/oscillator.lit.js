@@ -19,14 +19,14 @@ export class Oscillator extends WappElement {
 
   waveform = 'sine';
 
+  oscillatorNode;
+
   __oninput({ currentTarget }) {
     this.waveform = currentTarget.value;
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.gain = new GainNode(audioCtx, { gain: 0.2 });
-    this.gain.connect(audioCtx.destination);
   }
 
   disconnectedCallback() {
@@ -36,34 +36,36 @@ export class Oscillator extends WappElement {
 
   start(note) {
     if (this.activeNotes.has(note)) return;
-    const oscillator = new OscillatorNode(audioCtx, {
+    this.oscillatorNode = new OscillatorNode(audioCtx, {
       frequency: Oscillator.noteToFrequency(note),
       type: this.waveform,
     });
-    oscillator.connect(this.gain);
-    oscillator.start();
-    this.activeNotes.set(note, oscillator);
-    oscillator.onended = () => {
-      oscillator.disconnect();
+    this.oscillatorNode.start();
+    this.activeNotes.set(note, this.oscillatorNode);
+    this.oscillatorNode.onended = () => {
+      this.oscillatorNode.disconnect();
       this.activeNotes.delete(note);
     };
   }
 
   stop(note) {
     if (!this.activeNotes.has(note)) return;
-    const oscillator = this.activeNotes.get(note);
-    oscillator.stop();
+    this.oscillatorNode = this.activeNotes.get(note);
+    this.oscillatorNode.stop();
   }
 
   render() {
     return html`
       <label for="waveform">Osc waveform</label>
       <select id="waveform" @input=${this.__oninput}>
-        ${map(Object.entries(Oscillator.waveforms), ([value, label]) => html`
-          <option ?selected=${value === this.waveform} value=${value}>
-            ${label}
-          </option>
-        `)}
+        ${map(
+          Object.entries(Oscillator.waveforms),
+          ([value, label]) => html`
+            <option ?selected=${value === this.waveform} value=${value}>
+              ${label}
+            </option>
+          `
+        )}
       </select>
     `;
   }
