@@ -1,0 +1,7 @@
+# Ignore all files
+*
+
+# Include these files explicitly
+!/app.yaml
+!/index.html
+!/dist/
