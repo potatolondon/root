@@ -14,7 +14,6 @@ render(
       <wapp-keyboard></wapp-keyboard>
       <wapp-midi></wapp-midi>
     </wapp-synth>
-    <user-input></user-input>
   `,
   document.querySelector('#synth')
 );

@@ -15,6 +15,8 @@ export class Filter extends WappElement {
 
   filterNode = audioCtx.createBiquadFilter();
 
+  initialFrequency = 1000;
+
   connectedCallback() {
     super.connectedCallback();
     this.filterNode.type = 'bandpass';
@@ -23,14 +25,22 @@ export class Filter extends WappElement {
   }
 
   __oninput({ currentTarget }) {
-    const { id, value } = currentTarget;
+    const { id, value, type } = currentTarget;
 
     if (id.includes('type')) {
       this.filterNode.type = value;
     }
 
     if (id.includes('frequency')) {
-      this.filterNode.frequency.setValueAtTime(value, audioCtx.currentTime);
+      const rangeInput = document.querySelector('#filter-frequency-range');
+      const numberInput = document.querySelector('#filter-frequency-number');
+
+      if (type === 'number') {
+        rangeInput.value = Math.log(value * 80) * 7;
+      } else {
+        numberInput.value = Math.exp(parseInt(value, 10) / 10.4);
+        this.filterNode.frequency.setValueAtTime(value, audioCtx.currentTime);
+      }
     }
   }
 
@@ -50,10 +60,19 @@ export class Filter extends WappElement {
       <div>
         <label for="filter-frequency">Filter Frequency: </label>
         <input
-          @change=${this.__oninput}
+          @input=${this.__oninput}
+          type="range"
+          value="1"
+          id="filter-frequency-range"
+          name="filter-frequency"
+          min="0"
+          max="127"
+        />
+        <input
+          @input=${this.__oninput}
           type="number"
           value="1000"
-          id="filter-frequency"
+          id="filter-frequency-number"
           name="filter-frequency"
           min="20"
           max="20000"

@@ -17,7 +17,7 @@ export class Oscillator extends WappElement {
 
   activeNotes = new Map();
 
-  waveform = 'sine';
+  waveform = 'triangle';
 
   oscillatorNode;
 

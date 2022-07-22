@@ -2,3 +2,7 @@ body {
   background: #fafafa;
   font-family: system-ui, sans-serif;
 }
+
+input[type="number"] {
+  width: 100px;
+}
