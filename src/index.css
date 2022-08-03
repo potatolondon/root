@@ -1,4 +1,49 @@
 body {
   background: #fafafa;
   font-family: system-ui, sans-serif;
+  margin: 1rem;
+}
+
+.osc {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: auto 1fr;
+  place-items: center start;
+}
+
+.osc-pitch-bend {
+  display: flex;
+  gap: 1rem;
+}
+
+.notes {
+  display: flex;
+  height: 10vw;
+  justify-content: space-between;
+  margin-block: 1rem;
+  min-height: 5rem;
+  overflow-x: auto;
+}
+
+.note {
+  align-items: flex-end;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-basis: 100%;
+  justify-content: center;
+  padding: .5rem;
+}
+
+.note:not(:last-of-type) {
+  border-right: none;
+}
+
+.note-natural {
+  background-color: #fff;
+  color: #000;
+}
+
+.note-accidental {
+  background-color: #000;
+  color: #fff;
 }
