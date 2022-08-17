@@ -21,6 +21,8 @@ export class Filter extends WappElement {
 
   dividingValue = 80.015;
 
+  isFilterOn = false;
+
   connectedCallback() {
     super.connectedCallback();
     this.filterNode.type = 'bandpass';
@@ -31,7 +33,21 @@ export class Filter extends WappElement {
     this.filterNode.gain.setValueAtTime(25, audioCtx.currentTime);
   }
 
+  toggleFilter() {
+    this.isFilterOn = !this.isFilterOn;
+    this.dispatchEvent(
+      new CustomEvent('is-filter-on', {
+        detail: {
+          isFilterOn: this.isFilterOn,
+        },
+      })
+    );
+  }
+
   __oninput({ currentTarget }) {
+    if (!this.isFilterOn) {
+      return;
+    }
     const { id, value, type } = currentTarget;
 
     if (id.includes('type')) {
@@ -48,12 +64,17 @@ export class Filter extends WappElement {
 
       if (type === 'number') {
         rangeInput.value = this._numberToRange(value);
+        this.filterNode.frequency.setValueAtTime(value, audioCtx.currentTime);
       } else {
-        numberInput.value = Math.floor(
+        const newFrequency = Math.floor(
           Math.exp(parseInt(value, 10) / this.exponentValue) /
             this.dividingValue
         );
-        this.filterNode.frequency.setValueAtTime(value, audioCtx.currentTime);
+        numberInput.value = newFrequency;
+        this.filterNode.frequency.setValueAtTime(
+          newFrequency,
+          audioCtx.currentTime
+        );
       }
     }
   }
@@ -65,6 +86,15 @@ export class Filter extends WappElement {
   render() {
     return html`
       <div>
+        <div>
+          <input
+            type="checkbox"
+            id="filter-switch"
+            name="filter-switch"
+            @input=${this.toggleFilter}
+          />
+          <label for="filter-switch">Filter Switch</label>
+        </div>
         <label for="filter-type">Filter Type</label>
         <select id="filter-type" @input=${this.__oninput}>
           ${map(
