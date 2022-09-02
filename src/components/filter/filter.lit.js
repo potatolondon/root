@@ -17,14 +17,13 @@ export class Filter extends WappElement {
 
   initialFrequency = 1000;
 
-  exponentValue = 7;
-
-  dividingValue = 80.015;
-
-  isFilterOn = false;
+  static properties = {
+    isFilterOn: { type: Boolean },
+  };
 
   connectedCallback() {
     super.connectedCallback();
+    this.isFilterOn = false;
     this.filterNode.type = 'bandpass';
     this.filterNode.frequency.setValueAtTime(
       this.initialFrequency,
@@ -61,26 +60,14 @@ export class Filter extends WappElement {
     if (id.includes('frequency')) {
       const rangeInput = document.querySelector('#filter-frequency-range');
       const numberInput = document.querySelector('#filter-frequency-number');
-
       if (type === 'number') {
-        rangeInput.value = this._numberToRange(value);
+        rangeInput.value = value;
         this.filterNode.frequency.setValueAtTime(value, audioCtx.currentTime);
       } else {
-        const newFrequency = Math.floor(
-          Math.exp(parseInt(value, 10) / this.exponentValue) /
-            this.dividingValue
-        );
-        numberInput.value = newFrequency;
-        this.filterNode.frequency.setValueAtTime(
-          newFrequency,
-          audioCtx.currentTime
-        );
+        numberInput.value = value;
+        this.filterNode.frequency.setValueAtTime(value, audioCtx.currentTime);
       }
     }
-  }
-
-  _numberToRange(value) {
-    return Math.log(value * this.dividingValue) * this.exponentValue;
   }
 
   render() {
@@ -96,7 +83,11 @@ export class Filter extends WappElement {
           <label for="filter-switch">Filter Switch</label>
         </div>
         <label for="filter-type">Filter Type</label>
-        <select id="filter-type" @input=${this.__oninput}>
+        <select
+          id="filter-type"
+          @input=${this.__oninput}
+          .disabled="${!this.isFilterOn}"
+        >
           ${map(
             Object.entries(Filter.filterTypes),
             ([value, label]) => html`
@@ -114,11 +105,12 @@ export class Filter extends WappElement {
           <input
             @input=${this.__oninput}
             type="range"
-            .value=${this._numberToRange(this.initialFrequency)}
+            .value=${this.initialFrequency}
             id="filter-frequency-range"
             name="filter-frequency"
-            min="0"
-            max="100"
+            min="20"
+            max="20000"
+            .disabled="${!this.isFilterOn}"
           />
           <input
             @input=${this.__oninput}
@@ -128,6 +120,7 @@ export class Filter extends WappElement {
             name="filter-frequency"
             min="20"
             max="20000"
+            .disabled="${!this.isFilterOn}"
           />
         </div>
       </div>
