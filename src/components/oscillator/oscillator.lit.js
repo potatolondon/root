@@ -17,7 +17,7 @@ export class Oscillator extends WappElement {
 
   activeNotes = new Map();
 
-  waveform = 'triangle';
+  waveform = 'sine';
 
   oscillatorNode;
 
@@ -31,7 +31,6 @@ export class Oscillator extends WappElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.gain.disconnect();
   }
 
   start(note) {

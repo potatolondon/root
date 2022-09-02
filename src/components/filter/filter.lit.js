@@ -29,7 +29,7 @@ export class Filter extends WappElement {
       this.initialFrequency,
       audioCtx.currentTime
     );
-    this.filterNode.gain.setValueAtTime(25, audioCtx.currentTime);
+    this.filterNode.gain.value = 10;
   }
 
   toggleFilter() {
@@ -43,7 +43,7 @@ export class Filter extends WappElement {
     );
   }
 
-  __oninput({ currentTarget }) {
+  __onInput({ currentTarget }) {
     if (!this.isFilterOn) {
       return;
     }
@@ -60,12 +60,13 @@ export class Filter extends WappElement {
     if (id.includes('frequency')) {
       const rangeInput = document.querySelector('#filter-frequency-range');
       const numberInput = document.querySelector('#filter-frequency-number');
+      const val = parseInt(value, 10);
       if (type === 'number') {
-        rangeInput.value = value;
-        this.filterNode.frequency.setValueAtTime(value, audioCtx.currentTime);
+        rangeInput.value = val;
+        this.filterNode.frequency.setValueAtTime(val, audioCtx.currentTime);
       } else {
         numberInput.value = value;
-        this.filterNode.frequency.setValueAtTime(value, audioCtx.currentTime);
+        this.filterNode.frequency.setValueAtTime(val, audioCtx.currentTime);
       }
     }
   }
@@ -85,7 +86,7 @@ export class Filter extends WappElement {
         <label for="filter-type">Filter Type</label>
         <select
           id="filter-type"
-          @input=${this.__oninput}
+          @input=${this.__onInput}
           .disabled="${!this.isFilterOn}"
         >
           ${map(
@@ -103,7 +104,7 @@ export class Filter extends WappElement {
         <div>
           <label for="filter-frequency">Filter Frequency: </label>
           <input
-            @input=${this.__oninput}
+            @input=${this.__onInput}
             type="range"
             .value=${this.initialFrequency}
             id="filter-frequency-range"
@@ -111,6 +112,7 @@ export class Filter extends WappElement {
             min="20"
             max="20000"
             .disabled="${!this.isFilterOn}"
+            aria-label="Filter frequency range"
           />
           <input
             @input=${this.__oninput}
@@ -121,6 +123,7 @@ export class Filter extends WappElement {
             min="20"
             max="20000"
             .disabled="${!this.isFilterOn}"
+            aria-label="Filter frequency number input"
           />
         </div>
       </div>
