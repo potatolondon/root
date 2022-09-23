@@ -8,3 +8,9 @@ parserOptions:
 plugins:
   - lit
 root: true
+rules:
+  import/no-extraneous-dependencies: off
+  no-unused-expressions: off
+  object-curly-newline:
+    - error
+    - consistent: true
