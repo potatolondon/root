@@ -39,7 +39,7 @@ describe('Keyboard', () => {
 
     /** @type {Keyboard} */
     const el = await fixture(html` <wapp-keyboard></wapp-keyboard> `);
-    el.addEventListener('noteOn', (event) => {
+    el.addEventListener('noteOn', event => {
       state.noteOnFired = true;
       state.note = /** @type {CustomEvent} */ (event).detail.note;
     });

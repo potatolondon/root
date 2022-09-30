@@ -47,3 +47,7 @@ body {
   background-color: #000;
   color: #fff;
 }
+
+input[type="number"] {
+  width: 100px;
+}

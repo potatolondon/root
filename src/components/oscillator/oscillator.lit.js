@@ -26,6 +26,8 @@ export class Oscillator extends WappElement {
   /** @type {OscillatorType} */
   waveform = 'sine';
 
+  oscillatorNode;
+
   __onWaveform({ currentTarget }) {
     this.waveform = currentTarget.value;
   }
@@ -57,35 +59,31 @@ export class Oscillator extends WappElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.gain = new GainNode(audioCtx, { gain: 0.2 });
-    this.gain.connect(audioCtx.destination);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.gain.disconnect();
   }
 
   start(note) {
     if (this.activeNotes.has(note)) return;
-    const oscillator = new OscillatorNode(audioCtx, {
+    this.oscillatorNode = new OscillatorNode(audioCtx, {
       detune: this.detune,
       frequency: Oscillator.noteToFrequency(note),
       type: this.waveform,
     });
-    oscillator.connect(this.gain);
-    oscillator.start();
-    this.activeNotes.set(note, oscillator);
-    oscillator.onended = () => {
-      oscillator.disconnect();
+    this.oscillatorNode.start();
+    this.activeNotes.set(note, this.oscillatorNode);
+    this.oscillatorNode.onended = () => {
+      this.oscillatorNode.disconnect();
       this.activeNotes.delete(note);
     };
   }
 
   stop(note) {
     if (!this.activeNotes.has(note)) return;
-    const oscillator = this.activeNotes.get(note);
-    oscillator.stop();
+    this.oscillatorNode = this.activeNotes.get(note);
+    this.oscillatorNode.stop();
   }
 
   render() {
@@ -102,9 +100,9 @@ export class Oscillator extends WappElement {
             step="any"
             type="range"
             value="0"
-          >
+          />
           <label for="sticky">Sticky?</label>
-          <input @input=${this.__onStickyToggle} id="sticky" type="checkbox">
+          <input @input=${this.__onStickyToggle} id="sticky" type="checkbox" />
         </div>
         <label for="detune-amount">Pitch bend semitones</label>
         <input
@@ -113,14 +111,17 @@ export class Oscillator extends WappElement {
           step="1"
           type="number"
           value="2"
-        >
+        />
         <label for="waveform">Osc waveform</label>
         <select id="waveform" @input=${this.__onWaveform}>
-          ${map(Object.entries(Oscillator.waveforms), ([value, label]) => html`
-            <option ?selected=${value === this.waveform} value=${value}>
-              ${label}
-            </option>
-          `)}
+          ${map(
+            Object.entries(Oscillator.waveforms),
+            ([value, label]) => html`
+              <option ?selected=${value === this.waveform} value=${value}>
+                ${label}
+              </option>
+            `
+          )}
         </select>
       </div>
     `;
