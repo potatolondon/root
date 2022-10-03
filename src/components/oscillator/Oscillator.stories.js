@@ -5,7 +5,7 @@ import './oscillator.lit.js';
 import OscillatorDocumentation from './OscillatorDocumentation.mdx';
 
 export default {
-  title: 'Example/Oscillator',
+  title: 'Oscillator',
   parameters: {
     docs: {
       page: OscillatorDocumentation,
