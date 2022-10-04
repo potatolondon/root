@@ -9,6 +9,8 @@ test:
   only:
     - merge_requests
     - main
+  variables:
+  CHROME_PATH: Chrome
   before_script:
     - npm install
   script:
