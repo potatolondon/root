@@ -1,19 +1,6 @@
 stages:
-  - lint
   - test
   - build
-
-lint:
-  interruptible: true
-  stage: lint
-  image: node:17
-  only:
-    - merge_requests
-    - main
-  before_script:
-    - npm install
-  script:
-    - npm run lint
 
 test:
   interruptible: true

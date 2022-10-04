@@ -7,7 +7,8 @@ import { LitElement } from 'lit';
  *
  * The main reason is that we're planning to keep the rendering on the backend as much as possible
  * but when we do have to render something on the frontend we want the old themes, styles and apis
- * (written in the context of angularjs) to work without having to re-architecture the microsyte styes.
+ * (written in the context of angularjs)
+ * to work without having to re-architecture the microsyte styes.
  *
  * */
 class WappElement extends LitElement {
