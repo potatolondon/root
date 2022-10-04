@@ -9,8 +9,8 @@ test:
   only:
     - merge_requests
     - main
-  variables:
-    CHROME_PATH: Chrome
+  services:
+    - name: selenium/standalone-chrome:latest 
   before_script:
     - npm install
   script:
