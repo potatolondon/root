@@ -9,9 +9,8 @@ test:
   only:
     - merge_requests
     - main
-  services:
-    - name: selenium/standalone-chrome:latest 
   before_script:
+    - apt-get -y install google-chrome-stable=VERSION
     - npm install
   script:
     - npm run test
