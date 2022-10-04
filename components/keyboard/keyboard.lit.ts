@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { WappElement } from '../base.lit.js';
+import { WappElement } from '../base.lit';
 
 export class Keyboard extends WappElement {
   // Keyboard keys to use for musical typing

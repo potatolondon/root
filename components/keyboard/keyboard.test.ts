@@ -1,5 +1,5 @@
 import { html, fixture, expect, nextFrame } from '@open-wc/testing';
-import { Keyboard } from './keyboard.lit.js';
+import { Keyboard } from './keyboard.lit.ts';
 
 describe('Keyboard', () => {
   it('exists', async () => {

@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
-import { WappElement } from '../base.lit.js';
-import { audioCtx } from '../../context/audioContext.js';
+import { WappElement } from '../base.lit';
+import { audioCtx } from '../../lib/audioContext';
 
 export class Oscillator extends WappElement {
   static noteToFrequency(note) {

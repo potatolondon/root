@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { html, fixture, expect, nextFrame } from '@open-wc/testing';
-import './filter.lit.js';
+import './filter.lit.ts';
 
 describe('Filter', () => {
   it('exists', async () => {

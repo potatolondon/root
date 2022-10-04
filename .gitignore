@@ -20,5 +20,10 @@
 /dist/
 /out-tsc/
 
+# built js files
+/components/**/*.lit.js
+/components/**/*.test.js
+/lib/**/*.js
+
 storybook-static
 custom-elements.json

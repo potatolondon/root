@@ -1,3 +1,4 @@
+import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { puppeteerLauncher } from '@web/test-runner-puppeteer';
 
 export default {
@@ -8,4 +9,6 @@ export default {
       },
     }),
   ],
+  files: ['src/**/*.test.ts', 'src/**/*.spec.ts'],
+  plugins: [esbuildPlugin({ ts: true })],
 };

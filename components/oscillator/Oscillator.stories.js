@@ -1,6 +1,6 @@
 import { html } from 'lit-html';
 
-import './oscillator.lit.js';
+import './oscillator.lit.ts';
 
 import OscillatorDocumentation from './OscillatorDocumentation.mdx';
 

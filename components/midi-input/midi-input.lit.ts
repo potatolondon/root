@@ -1,4 +1,4 @@
-import { WappElement } from '../base.lit.js';
+import { WappElement } from '../base.lit';
 
 export class MIDIInputElement extends WappElement {
   connectedCallback() {

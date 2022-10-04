@@ -1,11 +1,11 @@
 import { html } from 'lit';
-import { WappElement } from '../base.lit.js';
-import { audioCtx } from '../../context/audioContext.js';
-import '../oscillator/oscillator.lit.js';
-import '../filter/filter.lit.js';
-import '../keyboard/keyboard.lit.js';
-import '../user-input/user-input.lit.js';
-import '../midi-input/midi-input.lit.js';
+import { WappElement } from '../base.lit';
+import { audioCtx } from '../../lib/audioContext';
+import '../oscillator/oscillator.lit';
+import '../filter/filter.lit';
+import '../keyboard/keyboard.lit';
+import '../user-input/user-input.lit';
+import '../midi-input/midi-input.lit';
 
 export class Synth extends WappElement {
   isNoteOn = false;

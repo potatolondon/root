@@ -1,6 +1,6 @@
 import { html } from 'lit-html';
 
-import './keyboard.lit.js';
+import './keyboard.lit.ts';
 import '../../index.css';
 
 import KeyboardDocumentation from './KeyboardDocumentation.mdx';
