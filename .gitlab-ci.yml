@@ -1,9 +1,21 @@
 stages:
+  - lint
   - test
   - build
 
+
+lint:
+  stage: lint
+  image: node:17
+  only:
+    - merge_requests
+    - master
+  before_script:
+    - npm install
+  script:
+    - npm run lint
+
 test:
-  interruptible: true
   stage: test
   image: node:17
   only:
