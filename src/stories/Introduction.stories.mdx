@@ -1,0 +1,51 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Introduction" />
+
+# Web Audio Component Library - Potato Labs
+
+
+## Background
+The web audio guild has been working on a synth inspired by the use of reusable web components from this video — [Declarative Web Audio API](https://www.youtube.com/watch?v=5K6GiLusIV0). 
+Whilst building one of the components, they realised that there are few to no inspirations for building UI for audio components. 
+Most audio components on the web tend to use knobs or linear input ranges instead of logarithmic scales or frequency to amplitude input change.
+
+
+## Goal
+Taking inspiration from UI libraries like Google’s Glue or Twitter’s bootstrap, we could like to build a UI library for web audio components. The future version of this is going to be open-source.
+
+## Days to complete:
+9 days (about 1 full sprint)
+
+## Components to be built
+
+### Filter
+- Logarithmic input range
+- Linear for Q, gain
+- Dropdown for Filter Types
+- On/Off switch
+- Graphical representation
+- Nice to have: Interactive graphical rep, spectrum analyser
+
+### Keyboard:
+- Looks like a piano
+- Responds to mouse, computer keyboard and MIDI keyboard, touch
+- Octave Switches
+- Pitch bend, mod wheel
+- Visual representation of key presses
+- Nice to have: Responds to MIDI events from synth, i.e Arp compresses/lights up notes on the keyboard
+
+### Oscillator:
+- 2x oscillator nodes in the demo
+- Default types: sine, sawtooth, square, off.
+- Detune linear range knob.
+- Visual representation of waveforms in dropdown.
+- Gain for each oscillator node.
+- Nice to have: Noise oscillator.
+
+### Visualiser:
+- Show a waveform
+- Ability to customise colour of waveform and background
+- Nice to have: Frequency vs time domain toggle
+- Nice to have: axes and grid lines
+
