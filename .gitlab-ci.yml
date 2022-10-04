@@ -10,7 +10,7 @@ test:
     - merge_requests
     - main
   before_script:
-    - apt-get -y install google-chrome-stable=VERSION
+    - apt-get -y install google-chrome-stable
     - npm install
   script:
     - npm run test
