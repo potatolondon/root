@@ -1,6 +1,12 @@
 import { html } from 'lit';
 import { WappElement } from '../base.lit';
 
+export interface Key {
+  key: string;
+  natural: boolean;
+  note: number | false;
+}
+
 export class Keyboard extends WappElement {
   // Keyboard keys to use for musical typing
   static keys = Array.from("awsedftgyhujkolp;']\\");
@@ -9,11 +15,11 @@ export class Keyboard extends WappElement {
   static naturals = [0, 2, 4, 5, 7, 9, 11];
 
   // Returns true if the note is natural or false if accidental
-  static isNatural(note) {
+  static isNatural(note: number) {
     return this.naturals.includes(note % 12);
   }
 
-  keys = [];
+  keys: Key[] = [];
 
   octave = 5; // 5 * 12 = MIDI note 60 = C5 = Middle C
 
@@ -44,9 +50,9 @@ export class Keyboard extends WappElement {
     this.removeEventListener('mouseup', this.__onKeyup);
   }
 
-  getNoteForKey(key) {
+  getNoteForKey(key: string) {
     const index = Keyboard.keys.indexOf(key);
-    if (index < 0) return false;
+    if (index < 0) throw new Error();
     return index + this.octave * 12;
   }
 
@@ -58,7 +64,7 @@ export class Keyboard extends WappElement {
     }
   }
 
-  async __onKeyboarddown(event) {
+  async __onKeyboarddown(event: KeyboardEvent) {
     const note = this.getNoteForKey(event.key);
     if (!note) return;
     event.preventDefault();
@@ -70,7 +76,7 @@ export class Keyboard extends WappElement {
     );
   }
 
-  async __onKeyboardup(event) {
+  async __onKeyboardup(event: KeyboardEvent) {
     const note = await this.getNoteForKey(event.key);
     if (!note) return;
     event.preventDefault();
@@ -82,8 +88,11 @@ export class Keyboard extends WappElement {
     );
   }
 
-  __onKeydown(event) {
-    const note = parseInt(event.target.dataset.note, 10);
+  __onKeydown(event: KeyboardEvent | MouseEvent) {
+    if (!(event?.target instanceof HTMLElement)) return;
+    if (!event.target.matches('[data-note]')) return;
+
+    const note = parseInt(event.target.dataset.note ?? '', 10);
     if (!note) return;
     this.dispatchEvent(
       new CustomEvent('noteOn', {
@@ -93,8 +102,11 @@ export class Keyboard extends WappElement {
     );
   }
 
-  __onKeyup(event) {
-    const note = parseInt(event.target.dataset.note, 10);
+  __onKeyup(event: KeyboardEvent | MouseEvent) {
+    if (!(event?.target instanceof HTMLElement)) return;
+    if (!event.target.matches('[data-note]')) return;
+
+    const note = parseInt(event.target.dataset.note ?? '', 10);
     if (!note) return;
     this.dispatchEvent(
       new CustomEvent('noteOff', {
