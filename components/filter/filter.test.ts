@@ -1,5 +1,5 @@
 import { html, fixture, expect, nextFrame } from '@open-wc/testing';
-import './filter.lit.ts';
+import { Filter } from './filter.lit';
 
 describe('Filter', () => {
   it('exists', async () => {
@@ -8,7 +8,7 @@ describe('Filter', () => {
   });
 
   it('initial values', async () => {
-    const el = await fixture(html` <wapp-filter></wapp-filter>`);
+    const el: Filter = await fixture(html` <wapp-filter></wapp-filter>`);
     expect(el.filterNode).to.not.equal(undefined);
     expect(el.isFilterOn).to.equal(false);
     expect(el.initialFrequency).to.equal(1000);
@@ -17,27 +17,36 @@ describe('Filter', () => {
   });
 
   it('disables elements if filter is turned off', async () => {
-    const el = await fixture(html` <wapp-filter></wapp-filter>`);
+    const el: Filter = await fixture(html` <wapp-filter></wapp-filter>`);
     expect(el.isFilterOn).to.equal(false);
-    expect(el.querySelector('#filter-type').disabled).to.equal(true);
-    expect(el.querySelector('#filter-frequency-range').disabled).to.equal(true);
-    expect(el.querySelector('#filter-frequency-number').disabled).to.equal(
-      true
-    );
+    // TODO expose these as ref properties?
+    const elFilterType = el.querySelector('#filter-type') as HTMLInputElement;
+    const elFrequencyRange = el.querySelector(
+      '#filter-frequency-range'
+    ) as HTMLInputElement;
+    const elFrequencyNumber = el.querySelector(
+      '#filter-frequency-number'
+    ) as HTMLInputElement;
+    expect(elFilterType.disabled).to.equal(true);
+    expect(elFrequencyRange.disabled).to.equal(true);
+    expect(elFrequencyNumber.disabled).to.equal(true);
   });
 
   it('enables elements when filter is turned on', async () => {
-    const el = await fixture(html` <wapp-filter></wapp-filter>`);
+    const el: Filter = await fixture(html` <wapp-filter></wapp-filter>`);
     expect(el.isFilterOn).to.equal(false);
-
-    el.querySelector('#filter-switch').click();
+    const elFilterSwitch = el.querySelector('#filter-switch') as HTMLElement;
+    elFilterSwitch.click();
     await nextFrame();
-    expect(el.querySelector('#filter-type').disabled).to.equal(false);
-    expect(el.querySelector('#filter-frequency-range').disabled).to.equal(
-      false
-    );
-    expect(el.querySelector('#filter-frequency-number').disabled).to.equal(
-      false
-    );
+    const elFilterType = el.querySelector('#filter-type') as HTMLInputElement;
+    const elFrequencyRange = el.querySelector(
+      '#filter-frequency-range'
+    ) as HTMLInputElement;
+    const elFrequencyNumber = el.querySelector(
+      '#filter-frequency-number'
+    ) as HTMLInputElement;
+    expect(elFilterType.disabled).to.equal(false);
+    expect(elFrequencyRange.disabled).to.equal(false);
+    expect(elFrequencyNumber.disabled).to.equal(false);
   });
 });

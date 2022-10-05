@@ -7,14 +7,16 @@ export class MIDIInputElement extends WappElement {
   }
 
   async __getDevice() {
-    const access = await navigator.requestMIDIAccess();
-    const devices = access.inputs.values();
-    for (const device of devices) {
-      device.onmidimessage = this.onMidiMessage.bind(this);
-    }
+    try {
+      const access = await navigator.requestMIDIAccess();
+      const devices = access.inputs.values();
+      for (const device of devices) {
+        device.onmidimessage = this.onMidiMessage.bind(this);
+      }
+    } catch {}
   }
 
-  onMidiMessage(message) {
+  onMidiMessage(message: WebMidi.MIDIMessageEvent) {
     const [command, note, value] = message.data;
 
     if (command === 144 && value > 0) {
@@ -26,7 +28,7 @@ export class MIDIInputElement extends WappElement {
     }
   }
 
-  __noteOn(note) {
+  __noteOn(note: number) {
     this.dispatchEvent(
       new CustomEvent('noteOn', {
         bubbles: true,
@@ -35,7 +37,7 @@ export class MIDIInputElement extends WappElement {
     );
   }
 
-  __noteOff(note) {
+  __noteOff(note: number) {
     this.dispatchEvent(
       new CustomEvent('noteOff', {
         bubbles: true,

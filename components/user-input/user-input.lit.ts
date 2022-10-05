@@ -24,7 +24,7 @@ export class UserInputElement extends WappElement {
 
   updated() {
     if (audioCtx.state === 'suspended') {
-      this.querySelector('dialog').showModal();
+      this.querySelector('dialog')?.showModal();
     }
   }
 }
