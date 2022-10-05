@@ -23,6 +23,7 @@
 # built js files
 /components/**/*.lit.js
 /components/**/*.test.js
+/demo/**/*.js
 /lib/**/*.js
 
 storybook-static
