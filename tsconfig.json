@@ -21,6 +21,7 @@
     "target": "es2018"
   },
   "include": [
-    "src/**/*.ts"
+    "components/**/*.ts",
+    "lib/**/*.ts",
   ]
 }

@@ -1,16 +1,31 @@
 {
   "name": "web-audio",
-  "description": "Webcomponent web-audio following open-wc recommendations",
+  "description": "Web Audio Component Library",
   "license": "MIT",
-  "author": "web-audio",
+  "author": "Potato London Ltd <opensource@potatolondon.com> (https://p.ota.to)",
+  "contributors": [
+    "Liam Newmarch <liam@potatolondon.com>",
+    "Purvi Trivedi <purvi.trivedi@potatolondon.com>"
+  ],
   "version": "0.0.0",
-  "main": "index.js",
-  "module": "index.js",
+  "exports": {
+    "./components/filter": "./components/filter/filter.lit.js",
+    "./components/keyboard": "./components/keyboard/keyboard.lit.js",
+    "./components/midi-input": "./components/midi-input/midi-input.lit.js",
+    "./components/oscillator": "./components/oscillator/oscillator.lit.js",
+    "./components/synth": "./components/synth/synth.lit.js",
+    "./components/user-input": "./components/user-input/user-input.lit.js",
+    "./lib/audioContext": "./lib/audioContext.js"
+  },
   "scripts": {
     "analyze": "cem analyze --litelement",
-    "build": "esbuild components/**/*.lit.ts --outdir=components && esbuild lib/*.ts --outdir=lib",
-    "deploy": "npm run build && gcloud --project=potato-synth --quiet app deploy demo",
-    "start": "web-dev-server",
+    "build": "npm run build:components && npm run build:lib",
+    "build:components": "esbuild components/**/*.lit.ts --outdir=components",
+    "build:demo": "esbuild demo/index.ts --bundle --minify --outdir=demo",
+    "build:lib": "esbuild lib/*.ts --outdir=lib",
+    "clean": "find components demo lib -name '*.js' -delete",
+    "deploy": "npm run clean && npm run build && gcloud --project=potato-synth --quiet app deploy demo",
+    "start": "esbuild demo/index.ts --bundle --minify --serve=8000 --servedir=demo",
     "lint": "prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "test": "web-test-runner components/**/*.test.ts --coverage --node-resolve",
@@ -19,13 +34,11 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@web/dev-server-esbuild": "^0.3.2",
     "lit": "^2.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@custom-elements-manifest/analyzer": "^0.5.7",
-    "@open-wc/eslint-config": "^7.0.0",
     "@open-wc/testing": "^3.1.3",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",
@@ -34,6 +47,7 @@
     "@storybook/manager-webpack4": "^6.5.12",
     "@storybook/web-components": "^6.5.12",
     "@web/dev-server": "^0.1.30",
+    "@web/dev-server-esbuild": "^0.3.2",
     "@web/test-runner": "^0.13.27",
     "@web/test-runner-puppeteer": "^0.10.5",
     "babel-loader": "^8.2.5",
@@ -48,12 +62,6 @@
     "prettier": "^2.6.2"
   },
   "customElements": "custom-elements.json",
-  "eslintConfig": {
-    "extends": [
-      "@open-wc",
-      "prettier"
-    ]
-  },
   "prettier": {
     "singleQuote": true,
     "arrowParens": "avoid"
