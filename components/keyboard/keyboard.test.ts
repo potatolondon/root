@@ -1,5 +1,5 @@
 import { html, fixture, expect, nextFrame } from '@open-wc/testing';
-import { Keyboard } from './keyboard.lit.ts';
+import { Keyboard } from './keyboard.lit';
 
 describe('Keyboard', () => {
   it('exists', async () => {
@@ -41,7 +41,7 @@ describe('Keyboard', () => {
     const el = await fixture(html` <wapp-keyboard></wapp-keyboard> `);
     el.addEventListener('noteOn', event => {
       state.noteOnFired = true;
-      state.note = /** @type {CustomEvent} */ (event).detail.note;
+      state.note = /** @type {CustomEvent} */ event.detail.note;
     });
     el.addEventListener('noteOff', () => {
       state.noteOffFired = true;
