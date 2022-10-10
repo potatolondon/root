@@ -14,3 +14,5 @@ rules:
   object-curly-newline:
     - error
     - consistent: true
+  indent:
+    - off

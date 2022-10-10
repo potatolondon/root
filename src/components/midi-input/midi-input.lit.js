@@ -27,17 +27,21 @@ export class MIDIInputElement extends WappElement {
   }
 
   __noteOn(note) {
-    this.dispatchEvent(new CustomEvent('noteOn', {
-      bubbles: true,
-      detail: { note },
-    }));
+    this.dispatchEvent(
+      new CustomEvent('noteOn', {
+        bubbles: true,
+        detail: { note },
+      })
+    );
   }
 
   __noteOff(note) {
-    this.dispatchEvent(new CustomEvent('noteOff', {
-      bubbles: true,
-      detail: { note },
-    }));
+    this.dispatchEvent(
+      new CustomEvent('noteOff', {
+        bubbles: true,
+        detail: { note },
+      })
+    );
   }
 }
 
