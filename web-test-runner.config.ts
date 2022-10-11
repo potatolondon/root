@@ -1,3 +1,4 @@
+import { TestRunnerConfig } from '@web/test-runner';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { puppeteerLauncher } from '@web/test-runner-puppeteer';
 
@@ -10,4 +11,4 @@ export default {
     }),
   ],
   plugins: [esbuildPlugin({ ts: true })],
-};
+} as TestRunnerConfig;
