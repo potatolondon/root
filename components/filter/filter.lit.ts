@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { property } from 'lit/decorators';
+import { property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { WappElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
