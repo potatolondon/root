@@ -30,6 +30,7 @@
     "lint": "prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "test": "npm run build:test && web-test-runner components/**/*.test.js --coverage --node-resolve",
+    "test:ci": "npm run build:test && web-test-runner components/**/*.test.js --coverage --node-resolve",
     "test:watch": "npm run build:test && web-test-runner components/**/*.test.js --node-resolve --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
