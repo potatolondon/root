@@ -19,7 +19,7 @@ export class Filter extends WappElement {
   initialFrequency = 1000;
 
   @property({ type: Boolean })
-  isFilterOn = false;
+  isFilterOn: boolean = false;
 
   connectedCallback() {
     super.connectedCallback();
@@ -91,7 +91,7 @@ export class Filter extends WappElement {
         <select
           id="filter-type"
           @input=${this.__onInput}
-          .disabled="${!this.isFilterOn}"
+          ?disabled=${!this.isFilterOn}
         >
           ${map(
             Object.entries(Filter.filterTypes),
@@ -115,7 +115,7 @@ export class Filter extends WappElement {
             name="filter-frequency"
             min="20"
             max="20000"
-            .disabled="${!this.isFilterOn}"
+            ?disabled=${!this.isFilterOn}
             aria-label="Filter frequency range"
           />
           <input
@@ -126,7 +126,7 @@ export class Filter extends WappElement {
             name="filter-frequency"
             min="20"
             max="20000"
-            .disabled="${!this.isFilterOn}"
+            ?disabled=${!this.isFilterOn}
             aria-label="Filter frequency number input"
           />
         </div>
