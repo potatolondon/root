@@ -3,8 +3,9 @@ import { Filter } from './filter.lit';
 
 describe('Filter', () => {
   it('exists', async () => {
-    const el = await fixture(html` <wapp-filter></wapp-filter> `);
+    const el: Filter = await fixture(html` <wapp-filter></wapp-filter> `);
     await expect(el).to.be.accessible();
+    expect(el).to.be.instanceOf(Filter);
   });
 
   it('initial values', async () => {
@@ -37,7 +38,7 @@ describe('Filter', () => {
     expect(el.isFilterOn).to.equal(false);
     const elFilterSwitch = el.querySelector('#filter-switch') as HTMLElement;
     elFilterSwitch.click();
-    await nextFrame();
+    await el.requestUpdate();
     const elFilterType = el.querySelector('#filter-type') as HTMLInputElement;
     const elFrequencyRange = el.querySelector(
       '#filter-frequency-range'
