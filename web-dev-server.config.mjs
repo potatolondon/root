@@ -1,9 +1,9 @@
-import { DevServerConfig } from '@web/dev-server';
 // import { hmrPlugin, presets } from '@open-wc/dev-server-hmr';
 
 /** Use Hot Module replacement by adding --hmr to the start command */
 const hmr = process.argv.includes('--hmr');
 
+/** @type {import('@web/dev-server').DevServerConfig} */
 export default {
   open: '/',
   /** Use regular watch mode if HMR is not enabled. */
@@ -25,4 +25,4 @@ export default {
   ],
 
   // See documentation for all available options
-} as DevServerConfig;
+};
