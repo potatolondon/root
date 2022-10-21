@@ -1,7 +1,7 @@
 import { html } from 'lit-html';
 
-import './keyboard.lit.js';
-import '../../index.css';
+import './keyboard.lit.ts';
+import '../../demo/index.css'; // TODO move keyboard styles to ./keyboard.css
 
 import KeyboardDocumentation from './KeyboardDocumentation.mdx';
 

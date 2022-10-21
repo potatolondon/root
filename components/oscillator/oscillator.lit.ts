@@ -1,10 +1,10 @@
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
-import { WappElement } from '../base.lit.js';
-import { audioCtx } from '../../context/audioContext.js';
+import { WappElement } from '../base.lit';
+import { audioCtx } from '../../lib/audioContext';
 
 export class Oscillator extends WappElement {
-  static noteToFrequency(note) {
+  static noteToFrequency(note: number) {
     return 2 ** ((note - 69) / 12) * 440;
   }
 
@@ -15,7 +15,7 @@ export class Oscillator extends WappElement {
     triangle: 'Triangle',
   };
 
-  activeNotes = new Map();
+  activeNotes: Map<number, OscillatorNode> = new Map();
 
   detune = 0;
 
@@ -23,38 +23,45 @@ export class Oscillator extends WappElement {
 
   stickyPitchBend = false;
 
-  /** @type {OscillatorType} */
-  waveform = 'sine';
+  waveform: keyof typeof Oscillator.waveforms = 'sine';
 
-  oscillatorNode;
+  oscillatorNode?: OscillatorNode;
 
-  __onWaveform({ currentTarget }) {
-    this.waveform = currentTarget.value;
+  __onWaveform(event: InputEvent) {
+    if (!(event.currentTarget instanceof HTMLInputElement)) return;
+    if (!Object.keys(Oscillator.waveforms).includes(event.currentTarget.value))
+      return;
+    this.waveform = event.currentTarget
+      .value as keyof typeof Oscillator.waveforms;
   }
 
-  __onDetune(event) {
+  __onDetune(event: InputEvent) {
+    if (!(event.currentTarget instanceof HTMLInputElement)) return;
     this.detune = event.currentTarget.valueAsNumber * this.detuneAmount * 100;
     for (const oscillator of this.activeNotes.values()) {
       oscillator.detune.setValueAtTime(this.detune, audioCtx.currentTime);
     }
   }
 
-  __onDetuneAmount(event) {
+  __onDetuneAmount(event: InputEvent) {
+    if (!(event.currentTarget instanceof HTMLInputElement)) return;
     this.detuneAmount = event.currentTarget.valueAsNumber;
   }
 
-  __onDetuneStop(event) {
+  __onDetuneStop(event: MouseEvent) {
+    if (!(event.currentTarget instanceof HTMLInputElement)) return;
     if (this.stickyPitchBend) return;
-    event.currentTarget.value = 0; // eslint-disable-line no-param-reassign
+    event.currentTarget.value = '0';
     this.detune = 0;
     for (const oscillator of this.activeNotes.values()) {
       oscillator.detune.setValueAtTime(this.detune, audioCtx.currentTime);
     }
   }
 
-  __onStickyToggle(event) {
+  __onStickyToggle(event: InputEvent) {
+    if (!(event.currentTarget instanceof HTMLInputElement)) return;
     this.stickyPitchBend = event.currentTarget.checked;
-    this.querySelector('#detune').dispatchEvent(new MouseEvent('mouseup'));
+    this.querySelector('#detune')?.dispatchEvent(new MouseEvent('mouseup'));
   }
 
   connectedCallback() {
@@ -65,7 +72,7 @@ export class Oscillator extends WappElement {
     super.disconnectedCallback();
   }
 
-  start(note) {
+  start(note: number) {
     if (this.activeNotes.has(note)) return;
     this.oscillatorNode = new OscillatorNode(audioCtx, {
       detune: this.detune,
@@ -75,15 +82,15 @@ export class Oscillator extends WappElement {
     this.oscillatorNode.start();
     this.activeNotes.set(note, this.oscillatorNode);
     this.oscillatorNode.onended = () => {
-      this.oscillatorNode.disconnect();
+      this.oscillatorNode?.disconnect();
       this.activeNotes.delete(note);
     };
   }
 
-  stop(note) {
+  stop(note: number) {
     if (!this.activeNotes.has(note)) return;
     this.oscillatorNode = this.activeNotes.get(note);
-    this.oscillatorNode.stop();
+    this.oscillatorNode?.stop();
   }
 
   render() {

@@ -1,6 +1,6 @@
 import { html } from 'lit-html';
 
-import './filter.lit.js';
+import './filter.lit.ts';
 
 import FilterDocumentation from './FilterDocumentation.mdx';
 

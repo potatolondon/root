@@ -2,14 +2,14 @@ runtime: python39
 
 handlers:
   # Static files
-  - url: /src
+  - url: /
     require_matching_file: true
     secure: always
-    static_dir: dist  # Files in src/ get compiled to dist/ for production
+    static_dir: demo
 
   # Handle root index
   - url: /(index.html)?
     require_matching_file: true
     secure: always
-    static_files: index.html
-    upload: index.html
+    static_files: demo/index.html
+    upload: demo/index.html
