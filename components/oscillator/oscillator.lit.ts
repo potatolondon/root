@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
 import { WappElement } from '../base.lit';
-import { Oscillator as BaseOscillator } from './index';
+import { BaseOscillator } from './index';
 
 export class Oscillator extends WappElement {
   oscillator: BaseOscillator;
@@ -23,7 +23,6 @@ export class Oscillator extends WappElement {
     this.__onWaveform = this.oscillator.__onWaveform;
     this.waveforms = BaseOscillator.waveforms;
     this.waveform = this.oscillator.waveform;
-
   }
   connectedCallback() {
     super.connectedCallback();
@@ -60,7 +59,7 @@ export class Oscillator extends WappElement {
           value="2"
         />
         <label for="waveform">Osc waveform</label>
-        <select id="waveform" @input=${this.__onWaveform}>
+        <select id="waveform" @change=${this.__onWaveform}>
           ${map(
             Object.entries(this.waveforms),
             ([value, label]) => html`

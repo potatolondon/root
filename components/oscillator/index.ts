@@ -1,6 +1,6 @@
 import { audioCtx } from '../../lib/audioContext';
 
-export class Oscillator {
+export class BaseOscillator {
   static noteToFrequency(note: number) {
     return 2 ** ((note - 69) / 12) * 440;
   }
@@ -21,7 +21,7 @@ export class Oscillator {
 
   stickyPitchBend = false;
 
-  waveform: keyof typeof Oscillator.waveforms = 'sine';
+  waveform: keyof typeof BaseOscillator.waveforms = 'sine';
 
   oscillatorNode?: OscillatorNode;
 
@@ -34,11 +34,13 @@ export class Oscillator {
   }
 
   __onWaveform(event: InputEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
-    if (!Object.keys(Oscillator.waveforms).includes(event.currentTarget.value))
+    if (!(event.currentTarget instanceof HTMLSelectElement)) return;
+    if (
+      !Object.keys(BaseOscillator.waveforms).includes(event.currentTarget.value)
+    )
       return;
     this.waveform = event.currentTarget
-      .value as keyof typeof Oscillator.waveforms;
+      .value as keyof typeof BaseOscillator.waveforms;
   }
 
   __onDetune(event: InputEvent) {
@@ -67,15 +69,14 @@ export class Oscillator {
   __onStickyToggle(event: InputEvent) {
     if (!(event.currentTarget instanceof HTMLInputElement)) return;
     this.stickyPitchBend = event.currentTarget.checked;
-    this.querySelector('#detune')?.dispatchEvent(new MouseEvent('mouseup'));
+    document.querySelector('#detune')?.dispatchEvent(new MouseEvent('mouseup'));
   }
-
 
   start(note: number) {
     if (this.activeNotes.has(note)) return;
     this.oscillatorNode = new OscillatorNode(audioCtx, {
       detune: this.detune,
-      frequency: Oscillator.noteToFrequency(note),
+      frequency: BaseOscillator.noteToFrequency(note),
       type: this.waveform,
     });
     this.oscillatorNode.start();
