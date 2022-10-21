@@ -6,7 +6,7 @@ describe('Oscillator', () => {
     /** @type {Oscillator} */
     const el = await fixture(html` <wapp-osc></wapp-osc> `);
     await expect(el).to.be.accessible();
-    expect(el.activeNotes.size).to.equal(0);
+    await expect(el.activeNotes.size).to.equal(0);
   });
 
   it('can convert a MIDI note to a frequency', () => {
