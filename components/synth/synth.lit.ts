@@ -67,14 +67,14 @@ export class Synth extends WappElement {
 
   __onNoteOn(event: NoteOnEvent) {
     this.isNoteOn = true;
-    this.oscillator?.start(event.detail.note);
-    this.oscNode = this.oscillator?.oscillatorNode;
+    this.oscillator?.oscillator.start(event.detail.note);
+    this.oscNode = this.oscillator?.oscillator.oscillatorNode;
     this.__connect();
   }
 
   __onNoteOff(event: NoteOffEvent) {
     this.isNoteOn = false;
-    this.oscillator?.stop(event.detail.note);
+    this.oscillator?.oscillator.stop(event.detail.note);
   }
 
   onFilterChange(e: CustomEvent) {
