@@ -1,5 +1,5 @@
 import { html } from 'lit-html';
-import '../../components/synth/synth.lit.js';
+import '../../components/synth/synth.lit.ts';
 
 export default {
   title: 'Synth',

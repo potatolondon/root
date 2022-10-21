@@ -1,6 +1,6 @@
 import { html } from 'lit';
-import { WappElement } from '../base.lit.js';
-import { audioCtx } from '../../context/audioContext.js';
+import { WappElement } from '../base.lit';
+import { audioCtx } from '../../lib/audioContext';
 
 export class UserInputElement extends WappElement {
   connectedCallback() {
@@ -24,7 +24,7 @@ export class UserInputElement extends WappElement {
 
   updated() {
     if (audioCtx.state === 'suspended') {
-      this.querySelector('dialog').showModal();
+      this.querySelector('dialog')?.showModal();
     }
   }
 }

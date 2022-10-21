@@ -1,17 +1,15 @@
 import { html, fixture, expect, nextFrame } from '@open-wc/testing';
-import { Keyboard } from './keyboard.lit.js';
+import { Keyboard } from './keyboard.lit';
 
 describe('Keyboard', () => {
   it('exists', async () => {
-    /** @type {Keyboard} */
-    const el = await fixture(html` <wapp-keyboard></wapp-keyboard> `);
+    const el: Keyboard = await fixture(html` <wapp-keyboard></wapp-keyboard> `);
     await expect(el).to.be.accessible();
     expect(el.octave).to.equal(5);
   });
 
   it('should generate keys', async () => {
-    /** @type {Keyboard} */
-    const el = await fixture(html` <wapp-keyboard></wapp-keyboard> `);
+    const el: Keyboard = await fixture(html` <wapp-keyboard></wapp-keyboard> `);
     expect(el.keys.length).to.be.equal(20);
     const C4 = el.keys[0];
     expect(C4.key).to.be.equal('a');
@@ -21,8 +19,7 @@ describe('Keyboard', () => {
   });
 
   it('returns a note for a given key', async () => {
-    /** @type {Keyboard} */
-    const el = await fixture(html` <wapp-keyboard></wapp-keyboard> `);
+    const el: Keyboard = await fixture(html` <wapp-keyboard></wapp-keyboard> `);
     const Eb4 = el.keys[1];
     const Bb4 = el.keys[10];
     expect(el.getNoteForKey('w')).to.be.equal(Eb4.note);
@@ -35,13 +32,14 @@ describe('Keyboard', () => {
   });
 
   it('should respond to keyboard events with a noteOn and noteOff', async () => {
-    const state = {};
+    const state: Record<string, any> = {};
 
-    /** @type {Keyboard} */
-    const el = await fixture(html` <wapp-keyboard></wapp-keyboard> `);
+    const el: Keyboard = await fixture(html` <wapp-keyboard></wapp-keyboard> `);
     el.addEventListener('noteOn', event => {
-      state.noteOnFired = true;
-      state.note = /** @type {CustomEvent} */ (event).detail.note;
+      if (event instanceof CustomEvent) {
+        state.noteOnFired = true;
+        state.note = event.detail.note;
+      }
     });
     el.addEventListener('noteOff', () => {
       state.noteOffFired = true;
