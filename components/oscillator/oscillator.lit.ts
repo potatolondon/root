@@ -13,9 +13,12 @@ export class Oscillator extends WappElement {
   __onWaveform: (event: InputEvent) => void;
   waveforms: {};
   waveform: string;
+  enabled = true;
+  audioNode?: OscillatorNode;
 
   @property({ type: String })
   sendTo: string = '';
+
 
   constructor() {
     super();
@@ -30,7 +33,9 @@ export class Oscillator extends WappElement {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.oscillator.sendTo = this.sendTo;
+    document.addEventListener('noteOn', () => {
+      this.audioNode = this.oscillator.getAudioNode();
+    });
   }
 
   disconnectedCallback() {

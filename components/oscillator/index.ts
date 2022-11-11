@@ -1,5 +1,4 @@
 import { audioCtx } from '../../lib/audioContext';
-import { connect } from '../utils/connect.ts';
 
 export type NoteOffEvent = CustomEvent<{ note: number }>;
 export type NoteOnEvent = CustomEvent<{ note: number }>;
@@ -37,6 +36,8 @@ export class BaseOscillator {
   isNoteOn = false;
 
   sendTo = '';
+
+  enabled = true;
 
   constructor() {
     this.__onWaveform = this.__onWaveform.bind(this);
@@ -92,7 +93,6 @@ export class BaseOscillator {
   __onNoteOn(event: NoteOnEvent) {
     this.isNoteOn = true;
     this.start(event.detail.note);
-    connect(this.audioNode, this.sendTo);
   }
 
   __onNoteOff(event: NoteOffEvent) {
@@ -120,5 +120,9 @@ export class BaseOscillator {
     if (!this.activeNotes.has(note)) return;
     this.audioNode = this.activeNotes.get(note);
     this.audioNode?.stop();
+  }
+
+  getAudioNode() {
+    return this.audioNode;
   }
 }

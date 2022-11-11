@@ -3,7 +3,6 @@ import { property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { WappElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
-import { connect } from '../utils/connect';
 
 export class Filter extends WappElement {
   static filterTypes = {
@@ -18,18 +17,12 @@ export class Filter extends WappElement {
   audioNode = audioCtx.createBiquadFilter();
 
   initialFrequency = 1000;
-  
 
   @property({type: Boolean})
-  isFilterOn:boolean = true;
+  enabled:boolean = true;
 
   @property({ type: String })
   sendTo: string = '';
-
-  @property({ type: String })
-  recieveFrom: string = '';
-
-
 
   connectedCallback() {
     super.connectedCallback();
@@ -39,17 +32,14 @@ export class Filter extends WappElement {
       audioCtx.currentTime
     );
     this.audioNode.gain.value = 10;
-    if(this.sendTo) {
-      connect(this.audioNode, this.sendTo);
-    }
   }
 
   toggleFilter() {
-    this.isFilterOn = !this.isFilterOn;
+    this.enabled = !this.enabled;
   }
 
   __onInput({ currentTarget }: InputEvent) {
-    if (!this.isFilterOn) return;
+    if (!this.enabled) return;
     if (!(currentTarget instanceof HTMLInputElement)) return;
 
     const { id, value, type } = currentTarget;
@@ -98,7 +88,7 @@ export class Filter extends WappElement {
         <select
           id="filter-type"
           @input=${this.__onInput}
-          ?disabled=${!this.isFilterOn}
+          ?disabled=${!this.enabled}
         >
           ${map(
             Object.entries(Filter.filterTypes),
@@ -122,7 +112,7 @@ export class Filter extends WappElement {
             name="filter-frequency"
             min="20"
             max="20000"
-            ?disabled=${!this.isFilterOn}
+            ?disabled=${!this.enabled}
             aria-label="Filter frequency range"
           />
           <input
@@ -133,7 +123,7 @@ export class Filter extends WappElement {
             name="filter-frequency"
             min="20"
             max="20000"
-            ?disabled=${!this.isFilterOn}
+            ?disabled=${!this.enabled}
             aria-label="Filter frequency number input"
           />
         </div>
