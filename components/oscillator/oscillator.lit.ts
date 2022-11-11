@@ -1,5 +1,6 @@
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
+import { property } from 'lit/decorators.js';
 import { WappElement } from '../base.lit';
 import { BaseOscillator } from './index';
 
@@ -13,6 +14,9 @@ export class Oscillator extends WappElement {
   waveforms: {};
   waveform: string;
 
+  @property({ type: String })
+  sendTo: string = '';
+
   constructor() {
     super();
     this.oscillator = new BaseOscillator();
@@ -22,10 +26,11 @@ export class Oscillator extends WappElement {
     this.__onDetuneAmount = this.oscillator.__onDetuneAmount;
     this.__onWaveform = this.oscillator.__onWaveform;
     this.waveforms = BaseOscillator.waveforms;
-    this.waveform = this.oscillator.waveform;
+    this.waveform = this.oscillator.waveform; 
   }
   connectedCallback() {
     super.connectedCallback();
+    this.oscillator.sendTo = this.sendTo;
   }
 
   disconnectedCallback() {

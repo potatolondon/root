@@ -3,6 +3,7 @@ import { property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { WappElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
+import { connect } from '../utils/connect';
 
 export class Filter extends WappElement {
   static filterTypes = {
@@ -14,32 +15,37 @@ export class Filter extends WappElement {
     notch: 'Notch',
   };
 
-  filterNode = audioCtx.createBiquadFilter();
+  audioNode = audioCtx.createBiquadFilter();
 
   initialFrequency = 1000;
+  
 
-  @property({ type: Boolean })
-  isFilterOn: boolean = false;
+  @property({type: Boolean})
+  isFilterOn:boolean = true;
+
+  @property({ type: String })
+  sendTo: string = '';
+
+  @property({ type: String })
+  recieveFrom: string = '';
+
+
 
   connectedCallback() {
     super.connectedCallback();
-    this.filterNode.type = 'bandpass';
-    this.filterNode.frequency.setValueAtTime(
+    this.audioNode.type = 'bandpass';
+    this.audioNode.frequency.setValueAtTime(
       this.initialFrequency,
       audioCtx.currentTime
     );
-    this.filterNode.gain.value = 10;
+    this.audioNode.gain.value = 10;
+    if(this.sendTo) {
+      connect(this.audioNode, this.sendTo);
+    }
   }
 
   toggleFilter() {
     this.isFilterOn = !this.isFilterOn;
-    this.dispatchEvent(
-      new CustomEvent('is-filter-on', {
-        detail: {
-          isFilterOn: this.isFilterOn,
-        },
-      })
-    );
   }
 
   __onInput({ currentTarget }: InputEvent) {
@@ -49,12 +55,12 @@ export class Filter extends WappElement {
     const { id, value, type } = currentTarget;
 
     if (id.includes('type')) {
-      this.filterNode.type = value as BiquadFilterType;
+      this.audioNode.type = value as BiquadFilterType;
     }
 
     if (id.includes('gain')) {
       const val = parseInt(value, 10);
-      this.filterNode.gain.setValueAtTime(val, audioCtx.currentTime);
+      this.audioNode.gain.setValueAtTime(val, audioCtx.currentTime);
     }
 
     if (id.includes('frequency')) {
@@ -67,10 +73,10 @@ export class Filter extends WappElement {
       const val = parseInt(value, 10);
       if (type === 'number' && rangeInput) {
         rangeInput.value = String(val);
-        this.filterNode.frequency.setValueAtTime(val, audioCtx.currentTime);
+        this.audioNode.frequency.setValueAtTime(val, audioCtx.currentTime);
       } else if (numberInput) {
         numberInput.value = String(value);
-        this.filterNode.frequency.setValueAtTime(val, audioCtx.currentTime);
+        this.audioNode.frequency.setValueAtTime(val, audioCtx.currentTime);
       }
     }
   }
@@ -84,6 +90,7 @@ export class Filter extends WappElement {
             id="filter-switch"
             name="filter-switch"
             @input=${this.toggleFilter}
+            checked
           />
           <label for="filter-switch">Filter Switch</label>
         </div>
@@ -97,7 +104,7 @@ export class Filter extends WappElement {
             Object.entries(Filter.filterTypes),
             ([value, label]) => html`
               <option
-                ?selected=${value === this.filterNode.type}
+                ?selected=${value === this.audioNode.type}
                 value=${value}
               >
                 ${label}

@@ -1,5 +1,15 @@
 import { audioCtx } from '../../lib/audioContext';
+import { connect } from '../utils/connect.ts';
 
+export type NoteOffEvent = CustomEvent<{ note: number }>;
+export type NoteOnEvent = CustomEvent<{ note: number }>;
+
+declare global {
+  interface GlobalEventHandlersEventMap {
+    noteOff: NoteOffEvent;
+    noteOn: NoteOnEvent;
+  }
+}
 export class BaseOscillator {
   static noteToFrequency(note: number) {
     return 2 ** ((note - 69) / 12) * 440;
@@ -13,7 +23,6 @@ export class BaseOscillator {
   };
 
   activeNotes: Map<number, OscillatorNode> = new Map();
-  test = 'hello';
 
   detune = 0;
 
@@ -23,7 +32,11 @@ export class BaseOscillator {
 
   waveform: keyof typeof BaseOscillator.waveforms = 'sine';
 
-  oscillatorNode?: OscillatorNode;
+  audioNode?: OscillatorNode;
+
+  isNoteOn = false;
+
+  sendTo = '';
 
   constructor() {
     this.__onWaveform = this.__onWaveform.bind(this);
@@ -31,6 +44,10 @@ export class BaseOscillator {
     this.__onDetuneAmount = this.__onDetuneAmount.bind(this);
     this.__onDetuneStop = this.__onDetuneStop.bind(this);
     this.__onStickyToggle = this.__onStickyToggle.bind(this);
+    this.__onNoteOn = this.__onNoteOn.bind(this);
+    this.__onNoteOff = this.__onNoteOff.bind(this);
+    document.addEventListener('noteOn', this.__onNoteOn);
+    document.addEventListener('noteOff', this.__onNoteOff);
   }
 
   __onWaveform(event: InputEvent) {
@@ -72,24 +89,36 @@ export class BaseOscillator {
     document.querySelector('#detune')?.dispatchEvent(new MouseEvent('mouseup'));
   }
 
+  __onNoteOn(event: NoteOnEvent) {
+    this.isNoteOn = true;
+    this.start(event.detail.note);
+    connect(this.audioNode, this.sendTo);
+  }
+
+  __onNoteOff(event: NoteOffEvent) {
+    this.isNoteOn = false;
+    this.stop(event.detail.note);
+  }
+
+
   start(note: number) {
     if (this.activeNotes.has(note)) return;
-    this.oscillatorNode = new OscillatorNode(audioCtx, {
+    this.audioNode = new OscillatorNode(audioCtx, {
       detune: this.detune,
       frequency: BaseOscillator.noteToFrequency(note),
       type: this.waveform,
     });
-    this.oscillatorNode.start();
-    this.activeNotes.set(note, this.oscillatorNode);
-    this.oscillatorNode.onended = () => {
-      this.oscillatorNode?.disconnect();
+    this.audioNode.start();
+    this.activeNotes.set(note, this.audioNode);
+    this.audioNode.onended = () => {
+      this.audioNode?.disconnect();
       this.activeNotes.delete(note);
     };
   }
 
   stop(note: number) {
     if (!this.activeNotes.has(note)) return;
-    this.oscillatorNode = this.activeNotes.get(note);
-    this.oscillatorNode?.stop();
+    this.audioNode = this.activeNotes.get(note);
+    this.audioNode?.stop();
   }
 }
