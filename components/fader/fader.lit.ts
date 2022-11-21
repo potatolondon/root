@@ -45,7 +45,7 @@ export class Fader extends WappElement {
   }
 
   onInput(event: InputEvent) {
-    this.dispatchEvent(new InputEvent(event.type, event))
+    this.dispatchEvent(new InputEvent(event.type, event));
   }
 
   render() {
@@ -59,7 +59,7 @@ export class Fader extends WappElement {
         .value=${this.initialValue}
         step="any"
         type="range"
-      >
+      />
     `;
   }
 }
