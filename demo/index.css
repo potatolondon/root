@@ -1,3 +1,5 @@
+@import url("../components/fader/fader.css");
+
 html {
   --color-dark: #121212;
   --color-light: #fafafa;
