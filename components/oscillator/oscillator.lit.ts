@@ -1,5 +1,6 @@
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
+import { Fader } from '../fader/fader.lit';
 import { WappElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
 
@@ -36,7 +37,7 @@ export class Oscillator extends WappElement {
   }
 
   __onDetune(event: InputEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
+    if (!(event.currentTarget instanceof Fader)) return;
     this.detune = event.currentTarget.valueAsNumber * this.detuneAmount * 100;
     for (const oscillator of this.activeNotes.values()) {
       oscillator.detune.setValueAtTime(this.detune, audioCtx.currentTime);
@@ -98,16 +99,12 @@ export class Oscillator extends WappElement {
       <div class="osc">
         <label for="detune">Pitch bend</label>
         <div class="osc-pitch-bend">
-          <input
+          <root-fader
             @input=${this.__onDetune}
             @mouseup=${this.__onDetuneStop}
             id="detune"
-            max="1"
             min="-1"
-            step="any"
-            type="range"
-            value="0"
-          />
+          ></root-fader>
           <label for="sticky">Sticky?</label>
           <input @input=${this.__onStickyToggle} id="sticky" type="checkbox" />
         </div>
