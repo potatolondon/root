@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
 import { property } from 'lit/decorators.js';
 import { WappElement } from '../base.lit';
-import { BaseOscillator } from './index';
+import { BaseOscillator, NoteOnEvent } from './index';
 
 export class Oscillator extends WappElement {
   oscillator: BaseOscillator;
@@ -11,13 +11,16 @@ export class Oscillator extends WappElement {
   __onStickyToggle: (event: InputEvent) => void;
   __onDetuneAmount: (event: InputEvent) => void;
   __onWaveform: (event: InputEvent) => void;
+  __onNoteOn: (event: NoteOnEvent) => OscillatorNode | undefined;
   waveforms: {};
   waveform: string;
   enabled = true;
-  audioNode?: OscillatorNode;
 
   @property({ type: String })
   sendTo: string = '';
+
+  @property({ type: String })
+  recieveFrom: string = '';
 
 
   constructor() {
@@ -28,14 +31,12 @@ export class Oscillator extends WappElement {
     this.__onStickyToggle = this.oscillator.__onStickyToggle;
     this.__onDetuneAmount = this.oscillator.__onDetuneAmount;
     this.__onWaveform = this.oscillator.__onWaveform;
+    this.__onNoteOn = this.oscillator.__onNoteOn;
     this.waveforms = BaseOscillator.waveforms;
     this.waveform = this.oscillator.waveform; 
   }
   connectedCallback() {
     super.connectedCallback();
-    document.addEventListener('noteOn', () => {
-      this.audioNode = this.oscillator.getAudioNode();
-    });
   }
 
   disconnectedCallback() {

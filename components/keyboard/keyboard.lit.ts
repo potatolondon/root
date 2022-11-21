@@ -64,7 +64,7 @@ export class Keyboard extends WappElement {
     }
   }
 
-  async __onKeyboarddown(event: KeyboardEvent) {
+  __onKeyboarddown(event: KeyboardEvent) {
     const note = this.getNoteForKey(event.key);
     if (!note) return;
     event.preventDefault();
@@ -76,8 +76,8 @@ export class Keyboard extends WappElement {
     );
   }
 
-  async __onKeyboardup(event: KeyboardEvent) {
-    const note = await this.getNoteForKey(event.key);
+  __onKeyboardup(event: KeyboardEvent) {
+    const note = this.getNoteForKey(event.key);
     if (!note) return;
     event.preventDefault();
     this.dispatchEvent(
@@ -122,9 +122,6 @@ export class Keyboard extends WappElement {
         ${this.keys.map(
           ({ key, natural, note }) => html`
             <button
-              @mousedown=${this.__onKeydown}
-              @mouseout=${this.__onKeyup}
-              @mouseup=${this.__onKeyup}
               class="note note-${natural ? 'natural' : 'accidental'}"
               data-note=${note}
             >

@@ -15,8 +15,8 @@ export class Synth extends WappElement {
     <wapp-midi></wapp-midi>
     <wapp-keyboard></wapp-keyboard>
     <wapp-connect>
-      <wapp-osc id="oscillator-1" sendTo="filter-1"></wapp-osc>
-      <wapp-filter id="filter-1" sendTo="output"></wapp-filter>
+      <wapp-osc id="osc-1" sendTo="filter-1"></wapp-osc>
+      <wapp-filter id="filter-1" sendTo="output" recieveFrom="osc-1"></wapp-filter>
     </wapp-connect>
     `;
   }

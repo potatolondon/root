@@ -47,7 +47,6 @@ export class BaseOscillator {
     this.__onStickyToggle = this.__onStickyToggle.bind(this);
     this.__onNoteOn = this.__onNoteOn.bind(this);
     this.__onNoteOff = this.__onNoteOff.bind(this);
-    document.addEventListener('noteOn', this.__onNoteOn);
     document.addEventListener('noteOff', this.__onNoteOff);
   }
 
@@ -93,6 +92,7 @@ export class BaseOscillator {
   __onNoteOn(event: NoteOnEvent) {
     this.isNoteOn = true;
     this.start(event.detail.note);
+    return this.audioNode;
   }
 
   __onNoteOff(event: NoteOffEvent) {
@@ -100,7 +100,7 @@ export class BaseOscillator {
     this.stop(event.detail.note);
   }
 
-
+//creates the osc and sets the audio Node
   start(note: number) {
     if (this.activeNotes.has(note)) return;
     this.audioNode = new OscillatorNode(audioCtx, {
@@ -120,9 +120,5 @@ export class BaseOscillator {
     if (!this.activeNotes.has(note)) return;
     this.audioNode = this.activeNotes.get(note);
     this.audioNode?.stop();
-  }
-
-  getAudioNode() {
-    return this.audioNode;
   }
 }

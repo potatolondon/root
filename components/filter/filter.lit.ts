@@ -24,6 +24,9 @@ export class Filter extends WappElement {
   @property({ type: String })
   sendTo: string = '';
 
+  @property({ type: String })
+  recieveFrom: string = '';
+
   connectedCallback() {
     super.connectedCallback();
     this.audioNode.type = 'bandpass';

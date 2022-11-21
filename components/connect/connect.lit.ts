@@ -1,25 +1,83 @@
 import { WappElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
+import { NoteOnEvent } from 'components/oscillator';
+import { property } from 'lit/decorators.js';
 
 const output = 'output';
 
+type AudioChainObject = {
+  audioNode: AudioNode,
+  destination: AudioNode,
+};
+
 export class Connect extends WappElement {
-  connectedCallback() {
-    super.connectedCallback();
-    document.addEventListener('noteOn', this.__connectNodes);
+
+  @property()
+  audioChain: AudioChainObject[];
+
+  constructor() {
+    super();
+    this.audioChain = [];
+    this.__getNodeChain = this.__getNodeChain.bind(this);
   }
 
-  __connectNodes() {
-    const nodes = this.querySelectorAll('[sendTo]');
-    nodes.forEach(node => {
-      const destination = node.sendTo === output ? audioCtx.destination : this.querySelector(`#${node.sendTo}`).audioNode;
-      const audioNode = node.audioNode;
-      console.log(audioNode);
-      if(audioNode) {
-        node.audioNode.connect(destination);
-      }
-    })
+  connectedCallback() {
+    super.connectedCallback();
+    document.addEventListener('noteOn', this.__getNodeChain);
   }
+
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener('noteOn', this.__getNodeChain);
+  }
+
+
+  // gets nodes and connects them
+  __getNodeChain(event: NoteOnEvent) {
+    this.audioChain = [];
+    let audioNodes = Array.from(this.querySelectorAll('[sendTo]'));
+    const disabledNodes = audioNodes.filter(node => !node.enabled);
+
+    if(disabledNodes) {
+      for(const disabledNode of disabledNodes) {
+        audioNodes = audioNodes.map(audioNode => {
+          if(audioNode.id === disabledNode.recieveFrom) {
+             audioNode.setAttribute('sendTo', disabledNode.sendTo);
+          }
+          return audioNode;
+        });
+      }
+    }
+
+    for(const node of audioNodes) {
+      if(!node.enabled) {
+        break;
+      }
+      
+      let audioNode;
+      if(node.oscillator) {
+        audioNode = node.__onNoteOn(event);
+      } else {
+        audioNode = node.audioNode;
+      }
+
+      const destination = node.sendTo === output ? audioCtx.destination : document.querySelector(`#${node.sendTo}`).audioNode;
+      this.audioChain.push({  
+        audioNode,
+        destination
+      });
+    }
+  }
+
+  updated() {
+    if(this.audioChain) {
+      for(const node of this.audioChain) {
+        node.audioNode.connect(node.destination);
+      }
+    }
+  }
+
 }
 
 customElements.define('wapp-connect', Connect);
