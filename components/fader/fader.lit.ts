@@ -19,9 +19,9 @@ export class Fader extends WappElement {
 
   private get parentAttributes() {
     const attrs: { [name: string]: string | null } = {};
-    const skip = ['max', 'min', 'value'];
+    const exclude = ['id', 'max', 'min', 'value'];
     for (const name of this.getAttributeNames()) {
-      if (!skip.includes(name)) {
+      if (!exclude.includes(name)) {
         attrs[name] = this.getAttribute(name);
       }
     }
