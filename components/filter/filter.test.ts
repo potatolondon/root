@@ -3,13 +3,13 @@ import { Filter } from './filter.lit';
 
 describe('Filter', () => {
   it('exists', async () => {
-    const el: Filter = await fixture(html` <wapp-filter></wapp-filter> `);
+    const el: Filter = await fixture(html` <root-filter></root-filter> `);
     await expect(el).to.be.accessible();
     expect(el).to.be.instanceOf(Filter);
   });
 
   it('initial values', async () => {
-    const el: Filter = await fixture(html` <wapp-filter></wapp-filter>`);
+    const el: Filter = await fixture(html` <root-filter></root-filter>`);
     expect(el.audioNode).to.not.equal(undefined);
     expect(el.enabled).to.equal(true);
     expect(el.initialFrequency).to.equal(1000);
@@ -18,7 +18,7 @@ describe('Filter', () => {
   });
 
   it('disables elements if filter is turned off', async () => {
-    const el: Filter = await fixture(html` <wapp-filter></wapp-filter>`);
+    const el: Filter = await fixture(html` <root-filter></root-filter>`);
     expect(el.enabled).to.equal(true);
     const elFilterSwitch = el.querySelector('#filter-switch') as HTMLElement;
     elFilterSwitch.click();
@@ -39,7 +39,7 @@ describe('Filter', () => {
   });
 
   it('enables elements when filter is turned on', async () => {
-    const el: Filter = await fixture(html` <wapp-filter></wapp-filter>`);
+    const el: Filter = await fixture(html` <root-filter></root-filter>`);
     expect(el.enabled).to.equal(true);
     const elFilterType = el.querySelector('#filter-type') as HTMLInputElement;
     const elFrequencyRange = el.querySelector(

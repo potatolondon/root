@@ -11,7 +11,7 @@ import { LitElement } from 'lit';
  * to work without having to re-architecture the microsyte styes.
  *
  * */
-class WappElement extends LitElement {
+class RootElement extends LitElement {
   createRenderRoot() {
     /**
      * Render template without shadow DOM. Note that shadow DOM features like
@@ -21,4 +21,4 @@ class WappElement extends LitElement {
   }
 }
 
-export { WappElement };
+export { RootElement };

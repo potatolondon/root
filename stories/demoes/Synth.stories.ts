@@ -6,6 +6,6 @@ export default {
   parameters: {},
 };
 
-const Template = () => html`<wapp-synth></wapp-synth>`;
+const Template = () => html`<root-synth></root-synth>`;
 
 export const Basic = Template.bind({});

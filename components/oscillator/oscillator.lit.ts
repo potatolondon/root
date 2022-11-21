@@ -1,10 +1,10 @@
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
 import { property } from 'lit/decorators.js';
-import { WappElement } from '../base.lit';
+import { RootElement } from '../base.lit';
 import { BaseOscillator, NoteOnEvent } from './index';
 
-export class Oscillator extends WappElement {
+export class Oscillator extends RootElement {
   oscillator: BaseOscillator;
   private __onDetune: (event: InputEvent) => void;
   private __onDetuneStop: (event: MouseEvent) => void;
@@ -85,4 +85,4 @@ export class Oscillator extends WappElement {
   }
 }
 
-window.customElements.define('wapp-osc', Oscillator);
+window.customElements.define('root-osc', Oscillator);

@@ -1,6 +1,6 @@
-import { WappElement } from '../base.lit';
+import { RootElement } from '../base.lit';
 
-export class MIDIInputElement extends WappElement {
+export class MIDIInputElement extends RootElement {
   connectedCallback() {
     super.connectedCallback();
     this.__getDevice();
@@ -47,4 +47,4 @@ export class MIDIInputElement extends WappElement {
   }
 }
 
-window.customElements.define('wapp-midi', MIDIInputElement);
+window.customElements.define('root-midi', MIDIInputElement);

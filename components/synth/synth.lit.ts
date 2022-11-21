@@ -1,5 +1,5 @@
 import { html, PropertyValueMap } from 'lit';
-import { WappElement } from '../base.lit';
+import { RootElement } from '../base.lit';
 import '../oscillator/oscillator.lit';
 import '../filter/filter.lit';
 import '../keyboard/keyboard.lit';
@@ -8,18 +8,18 @@ import '../midi-input/midi-input.lit';
 import '../connect/connect.lit';
 
 
-export class Synth extends WappElement {
+export class Synth extends RootElement {
 
   render() {
     return html`
-    <wapp-midi></wapp-midi>
-    <wapp-keyboard></wapp-keyboard>
-    <wapp-connect>
-      <wapp-osc id="osc-1" sendTo="filter-1"></wapp-osc>
-      <wapp-filter id="filter-1" sendTo="output" recieveFrom="osc-1"></wapp-filter>
-    </wapp-connect>
+    <root-midi></root-midi>
+    <root-keyboard></root-keyboard>
+    <root-connect>
+      <root-osc id="osc-1" sendTo="filter-1"></root-osc>
+      <root-filter id="filter-1" sendTo="output" recieveFrom="osc-1"></root-filter>
+    </root-connect>
     `;
   }
 }
 
-window.customElements.define('wapp-synth', Synth);
+window.customElements.define('root-synth', Synth);

@@ -1,10 +1,10 @@
 import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
-import { WappElement } from '../base.lit';
+import { RootElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
 
-export class Filter extends WappElement {
+export class Filter extends RootElement {
   static filterTypes = {
     lowpass: 'Lowpass',
     highpass: 'Highpass',
@@ -135,4 +135,4 @@ export class Filter extends WappElement {
   }
 }
 
-window.customElements.define('wapp-filter', Filter);
+window.customElements.define('root-filter', Filter);

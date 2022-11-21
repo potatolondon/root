@@ -1,4 +1,4 @@
-import { WappElement } from '../base.lit';
+import { RootElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
 import { NoteOnEvent } from 'components/oscillator';
 import { property } from 'lit/decorators.js';
@@ -10,7 +10,7 @@ type AudioChainObject = {
   destination: AudioNode,
 };
 
-export class Connect extends WappElement {
+export class Connect extends RootElement {
 
   @property()
   audioChain: AudioChainObject[];
@@ -80,4 +80,4 @@ export class Connect extends WappElement {
 
 }
 
-customElements.define('wapp-connect', Connect);
+customElements.define('root-connect', Connect);

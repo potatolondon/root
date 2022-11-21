@@ -1,8 +1,8 @@
 import { html } from 'lit';
-import { WappElement } from '../base.lit';
+import { RootElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
 
-export class UserInputElement extends WappElement {
+export class UserInputElement extends RootElement {
   connectedCallback() {
     super.connectedCallback();
     audioCtx.addEventListener('statechange', () => this.updated());

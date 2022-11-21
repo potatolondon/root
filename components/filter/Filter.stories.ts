@@ -13,6 +13,6 @@ export default {
   },
 };
 
-const Template = () => html`<wapp-filter></wapp-filter>`;
+const Template = () => html`<root-filter></root-filter>`;
 
 export const Basic = Template.bind({});
