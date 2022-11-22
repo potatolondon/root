@@ -22,7 +22,6 @@ export class Oscillator extends RootElement {
   @property({ type: String })
   recieveFrom: string = '';
 
-
   constructor() {
     super();
     this.oscillator = new BaseOscillator();
@@ -33,7 +32,7 @@ export class Oscillator extends RootElement {
     this.__onWaveform = this.oscillator.__onWaveform;
     this.__onNoteOn = this.oscillator.__onNoteOn;
     this.waveforms = BaseOscillator.waveforms;
-    this.waveform = this.oscillator.waveform; 
+    this.waveform = this.oscillator.waveform;
   }
   connectedCallback() {
     super.connectedCallback();

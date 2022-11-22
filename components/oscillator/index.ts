@@ -100,7 +100,7 @@ export class BaseOscillator {
     this.stop(event.detail.note);
   }
 
-//creates the osc and sets the audio Node
+  //creates the osc and sets the audio Node
   start(note: number) {
     if (this.activeNotes.has(note)) return;
     this.audioNode = new OscillatorNode(audioCtx, {

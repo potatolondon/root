@@ -11,12 +11,15 @@ export default {
   parameters: {},
 };
 
-const Template = () => html`
-<root-midi></root-midi>
-<root-keyboard></root-keyboard>
-<root-connect>
-  <root-osc id="osc-1" sendTo="filter-1"></root-osc>
-  <root-filter id="filter-1" sendTo="output" recieveFrom="osc-1"></root-filter>
-</root-connect>`;
+const Template = () => html` <root-midi></root-midi>
+  <root-keyboard></root-keyboard>
+  <root-connect>
+    <root-osc id="osc-1" sendTo="filter-1"></root-osc>
+    <root-filter
+      id="filter-1"
+      sendTo="output"
+      recieveFrom="osc-1"
+    ></root-filter>
+  </root-connect>`;
 
 export const Basic = Template.bind({});

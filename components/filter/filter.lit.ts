@@ -18,8 +18,8 @@ export class Filter extends RootElement {
 
   initialFrequency = 1000;
 
-  @property({type: Boolean})
-  enabled:boolean = true;
+  @property({ type: Boolean })
+  enabled: boolean = true;
 
   @property({ type: String })
   sendTo: string = '';
@@ -96,10 +96,7 @@ export class Filter extends RootElement {
           ${map(
             Object.entries(Filter.filterTypes),
             ([value, label]) => html`
-              <option
-                ?selected=${value === this.audioNode.type}
-                value=${value}
-              >
+              <option ?selected=${value === this.audioNode.type} value=${value}>
                 ${label}
               </option>
             `
