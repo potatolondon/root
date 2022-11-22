@@ -3,13 +3,18 @@ import { audioCtx } from '../../lib/audioContext';
 export type NoteOffEvent = CustomEvent<{ note: number }>;
 export type NoteOnEvent = CustomEvent<{ note: number }>;
 
+export interface AudioComponent {
+  audioNode?: AudioNode;
+  enabled: boolean;
+  sendTo: string;
+}
 declare global {
   interface GlobalEventHandlersEventMap {
     noteOff: NoteOffEvent;
     noteOn: NoteOnEvent;
   }
 }
-export class BaseOscillator {
+export class BaseOscillator implements AudioComponent {
   static noteToFrequency(note: number) {
     return 2 ** ((note - 69) / 12) * 440;
   }

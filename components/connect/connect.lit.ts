@@ -1,19 +1,11 @@
 import { RootElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
-import { NoteOnEvent } from 'components/oscillator';
+import { AudioComponent, NoteOnEvent } from 'components/oscillator';
 import { property } from 'lit/decorators.js';
 
 const output = 'output';
 
-type AudioChainObject = {
-  audioNode: AudioNode;
-  destination: AudioNode;
-};
-
 export class Connect extends RootElement {
-  @property()
-  audioChain: AudioChainObject[];
-
   constructor() {
     super();
     this.audioChain = [];
@@ -30,51 +22,64 @@ export class Connect extends RootElement {
     document.removeEventListener('noteOn', this.__getNodeChain);
   }
 
+  __searchBackwards(node: AudioComponent) {
+    let from;
+
+    while (node) {
+      if (node.enabled) {
+        return node.audioNode;
+      }
+      from = document.getElementById(node.recieveFrom);
+      if (from && from.enabled) break;
+      node = from;
+    }
+    return from.audioNode;
+  }
+
+  __searchForwards(node: AudioComponent) {
+    let to;
+
+    while (node) {
+      if (node.sendTo === output) {
+        return audioCtx.destination;
+      }
+      to = document.getElementById(node.sendTo);
+      if (to && to.enabled) break;
+      node = to;
+    }
+
+    return to.audioNode;
+  }
+
   // gets nodes and connects them
   __getNodeChain(event: NoteOnEvent) {
-    this.audioChain = [];
+    const audioChain = new Set();
     let audioNodes = Array.from(this.querySelectorAll('[sendTo]'));
-    const disabledNodes = audioNodes.filter(node => !node.enabled);
 
-    if (disabledNodes) {
-      for (const disabledNode of disabledNodes) {
-        audioNodes = audioNodes.map(audioNode => {
-          if (audioNode.id === disabledNode.recieveFrom) {
-            audioNode.setAttribute('sendTo', disabledNode.sendTo);
-          }
-          return audioNode;
+    for (const node of audioNodes) {
+      if (audioChain.has(node)) {
+        break;
+      }
+
+      let from;
+      // TODO make audio classes responsible for returning their own audioNode. This current logic will break if the source node is a microphone.
+      if (node.oscillator) {
+        from = node.__onNoteOn(event);
+      } else {
+        from = this.__searchBackwards(node);
+      }
+      const destination = this.__searchForwards(node);
+
+      if (node.enabled) {
+        audioChain.add({
+          from,
+          destination,
         });
       }
     }
 
-    for (const node of audioNodes) {
-      if (!node.enabled) {
-        break;
-      }
-
-      let audioNode;
-      if (node.oscillator) {
-        audioNode = node.__onNoteOn(event);
-      } else {
-        audioNode = node.audioNode;
-      }
-
-      const destination =
-        node.sendTo === output
-          ? audioCtx.destination
-          : document.querySelector(`#${node.sendTo}`).audioNode;
-      this.audioChain.push({
-        audioNode,
-        destination,
-      });
-    }
-  }
-
-  updated() {
-    if (this.audioChain) {
-      for (const node of this.audioChain) {
-        node.audioNode.connect(node.destination);
-      }
+    for (const node of audioChain) {
+      node.from.connect(node.destination);
     }
   }
 }
