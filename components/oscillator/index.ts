@@ -2,19 +2,13 @@ import { audioCtx } from '../../lib/audioContext';
 
 export type NoteOffEvent = CustomEvent<{ note: number }>;
 export type NoteOnEvent = CustomEvent<{ note: number }>;
-
-export interface AudioComponent {
-  audioNode?: AudioNode;
-  enabled: boolean;
-  sendTo: string;
-}
 declare global {
   interface GlobalEventHandlersEventMap {
     noteOff: NoteOffEvent;
     noteOn: NoteOnEvent;
   }
 }
-export class BaseOscillator implements AudioComponent {
+export class BaseOscillator {
   static noteToFrequency(note: number) {
     return 2 ** ((note - 69) / 12) * 440;
   }
@@ -39,10 +33,6 @@ export class BaseOscillator implements AudioComponent {
   audioNode?: OscillatorNode;
 
   isNoteOn = false;
-
-  sendTo = '';
-
-  enabled = true;
 
   constructor() {
     this.__onWaveform = this.__onWaveform.bind(this);

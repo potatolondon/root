@@ -1,10 +1,10 @@
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
 import { property } from 'lit/decorators.js';
-import { RootElement } from '../base.lit';
+import { AudioComponent, RootElement } from '../base.lit';
 import { BaseOscillator, NoteOnEvent } from './index';
 
-export class Oscillator extends RootElement {
+export class Oscillator extends RootElement implements AudioComponent {
   oscillator: BaseOscillator;
   private __onDetune: (event: InputEvent) => void;
   private __onDetuneStop: (event: MouseEvent) => void;

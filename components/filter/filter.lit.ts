@@ -1,10 +1,10 @@
 import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
-import { RootElement } from '../base.lit';
+import { AudioComponent, RootElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
 
-export class Filter extends RootElement {
+export class Filter extends RootElement implements AudioComponent{
   static filterTypes = {
     lowpass: 'Lowpass',
     highpass: 'Highpass',

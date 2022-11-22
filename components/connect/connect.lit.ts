@@ -1,14 +1,13 @@
-import { RootElement } from '../base.lit';
+import { AudioComponent, RootElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
-import { AudioComponent, NoteOnEvent } from 'components/oscillator';
-import { property } from 'lit/decorators.js';
+import { NoteOnEvent } from 'components/oscillator';
+import { Oscillator } from 'components/oscillator/oscillator.lit';
 
 const output = 'output';
 
 export class Connect extends RootElement {
   constructor() {
     super();
-    this.audioChain = [];
     this.__getNodeChain = this.__getNodeChain.bind(this);
   }
 
@@ -22,48 +21,47 @@ export class Connect extends RootElement {
     document.removeEventListener('noteOn', this.__getNodeChain);
   }
 
-  __searchBackwards(node: AudioComponent) {
-    let from;
+  __searchBackwards(node: AudioComponent | null) {
+    let from: AudioComponent | null = null;
 
     while (node) {
       if (node.enabled) {
         return node.audioNode;
       }
-      from = document.getElementById(node.recieveFrom);
+      from = document.querySelector(`#${node.recieveFrom}`);
       if (from && from.enabled) break;
       node = from;
     }
-    return from.audioNode;
+    return from?.audioNode;
   }
 
-  __searchForwards(node: AudioComponent) {
-    let to;
+  __searchForwards(node: AudioComponent | null) {
+    let to: AudioComponent | null = null;
 
     while (node) {
       if (node.sendTo === output) {
         return audioCtx.destination;
       }
-      to = document.getElementById(node.sendTo);
+      to = document.querySelector(`#${node.sendTo}`);
       if (to && to.enabled) break;
       node = to;
     }
 
-    return to.audioNode;
+    return to?.audioNode;
   }
 
   // gets nodes and connects them
   __getNodeChain(event: NoteOnEvent) {
-    const audioChain = new Set();
-    let audioNodes = Array.from(this.querySelectorAll('[sendTo]'));
+    const audioChain: Set<{
+      from?: AudioNode | null;
+      destination?: AudioNode | null;
+    }> = new Set();
+    let audioNodes: AudioComponent[] = Array.from(this.querySelectorAll('[sendTo]'));
 
     for (const node of audioNodes) {
-      if (audioChain.has(node)) {
-        break;
-      }
-
       let from;
       // TODO make audio classes responsible for returning their own audioNode. This current logic will break if the source node is a microphone.
-      if (node.oscillator) {
+      if (node instanceof Oscillator) {
         from = node.__onNoteOn(event);
       } else {
         from = this.__searchBackwards(node);
@@ -79,7 +77,9 @@ export class Connect extends RootElement {
     }
 
     for (const node of audioChain) {
-      node.from.connect(node.destination);
+      if (node.from && node.destination) {
+        node.from.connect(node.destination);
+      }
     }
   }
 }

@@ -1,5 +1,12 @@
 import { LitElement } from 'lit';
 
+export interface AudioComponent extends LitElement {
+  audioNode?: AudioNode | null;
+  enabled: boolean;
+  sendTo: string;
+  recieveFrom?: string | undefined;
+}
+
 /**
  * Base class for components used in the Microsite.
  * The main purpose for this component is to override Lit default rending root (shadow dom) in
