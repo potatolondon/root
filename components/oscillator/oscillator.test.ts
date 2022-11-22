@@ -1,77 +1,85 @@
-import { html, fixture, expect, nextFrame } from '@open-wc/testing';
-import { Oscillator } from './oscillator.lit.js';
+import { expect, html, fixture } from '@open-wc/testing';
+import { BaseOscillator } from './index';
+
+let oscillator: BaseOscillator;
+let inputEl;
+let stickyEl;
+let detuneInput: HTMLInputElement;
+let stickyInput: HTMLInputElement;
 
 describe('Oscillator', () => {
-  it('exists', async () => {
-    /** @type {Oscillator} */
-    const el = await fixture(html` <wapp-osc></wapp-osc> `);
-    await expect(el).to.be.accessible();
-    await expect(el.activeNotes.size).to.equal(0);
+  beforeEach(() => {
+    oscillator = new BaseOscillator();
+  });
+
+  it('exists', () => {
+    expect(oscillator).to.be.accessible();
+    expect(oscillator.activeNotes.size).to.equal(0);
   });
 
   it('can convert a MIDI note to a frequency', () => {
-    expect(Oscillator.noteToFrequency(69)).to.be.equal(440);
+    expect(BaseOscillator.noteToFrequency(69)).to.be.equal(440);
   });
 
-  it('plays when start method is called', async () => {
-    /** @type {Oscillator} */
-    const el = await fixture(html` <wapp-osc></wapp-osc> `);
+  it('plays when start method is called', () => {
+    oscillator.start(69); // A4 - 440 Hz
+    expect(oscillator.activeNotes.size).to.equal(1);
 
-    el.start(69); // A4 - 440 Hz
-    expect(el.activeNotes.size).to.equal(1);
-
-    await nextFrame();
-
-    const oscillator = el.activeNotes.get(69);
-    expect(oscillator.type).to.equal('sine');
-    expect(oscillator.frequency.value).to.equal(440);
+    const oscillatorNode: OscillatorNode | undefined =
+      oscillator.activeNotes.get(69);
+    expect(oscillatorNode?.type).to.equal('sine');
+    expect(oscillatorNode?.frequency.value).to.equal(440);
   });
 
-  it('stops playing when stop method is called', async () => {
-    /** @type {Oscillator} */
-    const el = await fixture(html` <wapp-osc></wapp-osc> `);
-    el.stop(69); // A4 - 440 Hz
-    expect(el.activeNotes.size).to.equal(0);
+  it('stops playing when stop method is called', () => {
+    oscillator.stop(69); // A4 - 440 Hz
+    expect(oscillator.activeNotes.size).to.equal(0);
+  });
+});
+
+describe('Detune', () => {
+  beforeEach(async () => {
+    oscillator = new BaseOscillator();
+    inputEl = html`<input
+      @input=${oscillator.__onDetune}
+      @mouseup=${oscillator.__onDetuneStop}
+      id="detune"
+      max="1"
+      min="-1"
+      step="any"
+      type="range"
+      value="0"
+    />`;
+
+    detuneInput = await fixture(inputEl);
+    stickyEl = html`<input
+      @input=${oscillator.__onStickyToggle}
+      id="sticky"
+      type="checkbox"
+    />`;
+    stickyInput = await fixture(stickyEl);
   });
 
-  it('responds to detune', async () => {
-    /** @type {Oscillator} */
-    const el = await fixture(html` <wapp-osc></wapp-osc> `);
-
-    /** @type {HTMLInputElement?} */
-    const detuneInput = el.querySelector('#detune');
-    if (!detuneInput) throw new Error('<wapp-osc> does not contain #detune');
-
+  it('responds to detune', () => {
     detuneInput.value = '-1';
     detuneInput.dispatchEvent(new InputEvent('input'));
-    expect(el.detune).to.equal(-200);
-    expect(el.stickyPitchBend).to.be.false;
+    expect(oscillator.detune).to.equal(-200);
+    expect(oscillator.stickyPitchBend).to.be.false;
 
     detuneInput.dispatchEvent(new MouseEvent('mouseup'));
-    expect(el.detune).to.equal(0);
+    expect(oscillator.detune).to.equal(0);
   });
 
-  it('detune stickiness', async () => {
-    /** @type {Oscillator} */
-    const el = await fixture(html` <wapp-osc></wapp-osc> `);
-
-    /** @type {HTMLInputElement?} */
-    const stickyInput = el.querySelector('#sticky');
-    if (!stickyInput) throw new Error('<wapp-osc> does not contain #sticky');
-
+  it('detune stickiness', () => {
     stickyInput.checked = true;
     stickyInput.dispatchEvent(new InputEvent('input'));
 
-    /** @type {HTMLInputElement?} */
-    const detuneInput = el.querySelector('#detune');
-    if (!detuneInput) throw new Error('<wapp-osc> does not contain #detune');
-
     detuneInput.value = '-1';
     detuneInput.dispatchEvent(new InputEvent('input'));
-    expect(el.detune).to.equal(-200);
-    expect(el.stickyPitchBend).to.be.true;
+    expect(oscillator.detune).to.equal(-200);
+    expect(oscillator.stickyPitchBend).to.be.true;
 
     detuneInput?.dispatchEvent(new MouseEvent('mouseup'));
-    expect(el.detune).to.equal(-200);
+    expect(oscillator.detune).to.equal(-200);
   });
 });

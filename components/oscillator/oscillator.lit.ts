@@ -1,96 +1,45 @@
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
-import { WappElement } from '../base.lit';
-import { audioCtx } from '../../lib/audioContext';
+import { property } from 'lit/decorators.js';
+import { AudioComponent, RootElement } from '../base.lit';
+import { BaseOscillator, NoteOnEvent } from './index';
 
-export class Oscillator extends WappElement {
-  static noteToFrequency(note: number) {
-    return 2 ** ((note - 69) / 12) * 440;
+export class Oscillator extends RootElement implements AudioComponent {
+  oscillator: BaseOscillator;
+  private __onDetune: (event: InputEvent) => void;
+  private __onDetuneStop: (event: MouseEvent) => void;
+  __onStickyToggle: (event: InputEvent) => void;
+  __onDetuneAmount: (event: InputEvent) => void;
+  __onWaveform: (event: InputEvent) => void;
+  __onNoteOn: (event: NoteOnEvent) => OscillatorNode | undefined;
+  waveforms: {};
+  waveform: string;
+  enabled = true;
+
+  @property({ type: String })
+  sendTo: string = '';
+
+  @property({ type: String })
+  recieveFrom: string = '';
+
+  constructor() {
+    super();
+    this.oscillator = new BaseOscillator();
+    this.__onDetune = this.oscillator.__onDetune;
+    this.__onDetuneStop = this.oscillator.__onDetuneStop;
+    this.__onStickyToggle = this.oscillator.__onStickyToggle;
+    this.__onDetuneAmount = this.oscillator.__onDetuneAmount;
+    this.__onWaveform = this.oscillator.__onWaveform;
+    this.__onNoteOn = this.oscillator.__onNoteOn;
+    this.waveforms = BaseOscillator.waveforms;
+    this.waveform = this.oscillator.waveform;
   }
-
-  static waveforms = {
-    sawtooth: 'Sawtooth',
-    sine: 'Sine',
-    square: 'Square',
-    triangle: 'Triangle',
-  };
-
-  activeNotes: Map<number, OscillatorNode> = new Map();
-
-  detune = 0;
-
-  detuneAmount = 2;
-
-  stickyPitchBend = false;
-
-  waveform: keyof typeof Oscillator.waveforms = 'sine';
-
-  oscillatorNode?: OscillatorNode;
-
-  __onWaveform(event: InputEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
-    if (!Object.keys(Oscillator.waveforms).includes(event.currentTarget.value))
-      return;
-    this.waveform = event.currentTarget
-      .value as keyof typeof Oscillator.waveforms;
-  }
-
-  __onDetune(event: InputEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
-    this.detune = event.currentTarget.valueAsNumber * this.detuneAmount * 100;
-    for (const oscillator of this.activeNotes.values()) {
-      oscillator.detune.setValueAtTime(this.detune, audioCtx.currentTime);
-    }
-  }
-
-  __onDetuneAmount(event: InputEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
-    this.detuneAmount = event.currentTarget.valueAsNumber;
-  }
-
-  __onDetuneStop(event: MouseEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
-    if (this.stickyPitchBend) return;
-    event.currentTarget.value = '0';
-    this.detune = 0;
-    for (const oscillator of this.activeNotes.values()) {
-      oscillator.detune.setValueAtTime(this.detune, audioCtx.currentTime);
-    }
-  }
-
-  __onStickyToggle(event: InputEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
-    this.stickyPitchBend = event.currentTarget.checked;
-    this.querySelector('#detune')?.dispatchEvent(new MouseEvent('mouseup'));
-  }
-
   connectedCallback() {
     super.connectedCallback();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-  }
-
-  start(note: number) {
-    if (this.activeNotes.has(note)) return;
-    this.oscillatorNode = new OscillatorNode(audioCtx, {
-      detune: this.detune,
-      frequency: Oscillator.noteToFrequency(note),
-      type: this.waveform,
-    });
-    this.oscillatorNode.start();
-    this.activeNotes.set(note, this.oscillatorNode);
-    this.oscillatorNode.onended = () => {
-      this.oscillatorNode?.disconnect();
-      this.activeNotes.delete(note);
-    };
-  }
-
-  stop(note: number) {
-    if (!this.activeNotes.has(note)) return;
-    this.oscillatorNode = this.activeNotes.get(note);
-    this.oscillatorNode?.stop();
   }
 
   render() {
@@ -120,9 +69,9 @@ export class Oscillator extends WappElement {
           value="2"
         />
         <label for="waveform">Osc waveform</label>
-        <select id="waveform" @input=${this.__onWaveform}>
+        <select id="waveform" @change=${this.__onWaveform}>
           ${map(
-            Object.entries(Oscillator.waveforms),
+            Object.entries(this.waveforms),
             ([value, label]) => html`
               <option ?selected=${value === this.waveform} value=${value}>
                 ${label}
@@ -135,4 +84,4 @@ export class Oscillator extends WappElement {
   }
 }
 
-window.customElements.define('wapp-osc', Oscillator);
+window.customElements.define('root-osc', Oscillator);

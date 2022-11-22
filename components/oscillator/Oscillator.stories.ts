@@ -13,6 +13,6 @@ export default {
   },
 };
 
-const Template = () => html`<wapp-osc></wapp-osc>`;
+const Template = () => html`<root-osc></root-osc>`;
 
 export const Basic = Template.bind({});
