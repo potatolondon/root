@@ -4,7 +4,7 @@ import { map } from 'lit/directives/map.js';
 import { AudioComponent, RootElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
 
-export class Filter extends RootElement implements AudioComponent{
+export class Filter extends RootElement implements AudioComponent {
   static filterTypes = {
     lowpass: 'Lowpass',
     highpass: 'Highpass',

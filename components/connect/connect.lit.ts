@@ -56,7 +56,9 @@ export class Connect extends RootElement {
       from?: AudioNode | null;
       destination?: AudioNode | null;
     }> = new Set();
-    let audioNodes: AudioComponent[] = Array.from(this.querySelectorAll('[sendTo]'));
+    let audioNodes: AudioComponent[] = Array.from(
+      this.querySelectorAll('[sendTo]')
+    );
 
     for (const node of audioNodes) {
       let from;
