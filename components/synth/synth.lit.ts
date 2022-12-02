@@ -1,6 +1,7 @@
 import { html, PropertyValueMap } from 'lit';
 import { RootElement } from '../base.lit';
 import '../oscillator/oscillator.lit';
+import '../oscillator/oscillator-module.lit';
 import '../filter/filter.lit';
 import '../keyboard/keyboard.lit';
 import '../user-input/user-input.lit';
@@ -13,7 +14,7 @@ export class Synth extends RootElement {
       <root-midi></root-midi>
       <root-keyboard></root-keyboard>
       <root-connect>
-        <root-osc id="osc-1" sendTo="filter-1"></root-osc>
+        <root-osc-module id="osc-1" sendTo="filter-1"></root-osc-module>
         <root-filter
           id="filter-1"
           sendTo="output"
