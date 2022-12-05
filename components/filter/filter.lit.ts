@@ -1,10 +1,10 @@
 import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
-import { WappElement } from '../base.lit';
+import { AudioComponent, RootElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
 
-export class Filter extends WappElement {
+export class Filter extends RootElement implements AudioComponent {
   static filterTypes = {
     lowpass: 'Lowpass',
     highpass: 'Highpass',
@@ -14,47 +14,46 @@ export class Filter extends WappElement {
     notch: 'Notch',
   };
 
-  filterNode = audioCtx.createBiquadFilter();
+  audioNode = audioCtx.createBiquadFilter();
 
   initialFrequency = 1000;
 
   @property({ type: Boolean })
-  isFilterOn: boolean = false;
+  enabled: boolean = true;
+
+  @property({ type: String })
+  sendTo: string = '';
+
+  @property({ type: String })
+  recieveFrom: string = '';
 
   connectedCallback() {
     super.connectedCallback();
-    this.filterNode.type = 'bandpass';
-    this.filterNode.frequency.setValueAtTime(
+    this.audioNode.type = 'bandpass';
+    this.audioNode.frequency.setValueAtTime(
       this.initialFrequency,
       audioCtx.currentTime
     );
-    this.filterNode.gain.value = 10;
+    this.audioNode.gain.value = 10;
   }
 
   toggleFilter() {
-    this.isFilterOn = !this.isFilterOn;
-    this.dispatchEvent(
-      new CustomEvent('is-filter-on', {
-        detail: {
-          isFilterOn: this.isFilterOn,
-        },
-      })
-    );
+    this.enabled = !this.enabled;
   }
 
   __onInput({ currentTarget }: InputEvent) {
-    if (!this.isFilterOn) return;
+    if (!this.enabled) return;
     if (!(currentTarget instanceof HTMLInputElement)) return;
 
     const { id, value, type } = currentTarget;
 
     if (id.includes('type')) {
-      this.filterNode.type = value as BiquadFilterType;
+      this.audioNode.type = value as BiquadFilterType;
     }
 
     if (id.includes('gain')) {
       const val = parseInt(value, 10);
-      this.filterNode.gain.setValueAtTime(val, audioCtx.currentTime);
+      this.audioNode.gain.setValueAtTime(val, audioCtx.currentTime);
     }
 
     if (id.includes('frequency')) {
@@ -67,10 +66,10 @@ export class Filter extends WappElement {
       const val = parseInt(value, 10);
       if (type === 'number' && rangeInput) {
         rangeInput.value = String(val);
-        this.filterNode.frequency.setValueAtTime(val, audioCtx.currentTime);
+        this.audioNode.frequency.setValueAtTime(val, audioCtx.currentTime);
       } else if (numberInput) {
         numberInput.value = String(value);
-        this.filterNode.frequency.setValueAtTime(val, audioCtx.currentTime);
+        this.audioNode.frequency.setValueAtTime(val, audioCtx.currentTime);
       }
     }
   }
@@ -84,6 +83,7 @@ export class Filter extends WappElement {
             id="filter-switch"
             name="filter-switch"
             @input=${this.toggleFilter}
+            checked
           />
           <label for="filter-switch">Filter Switch</label>
         </div>
@@ -91,15 +91,12 @@ export class Filter extends WappElement {
         <select
           id="filter-type"
           @input=${this.__onInput}
-          ?disabled=${!this.isFilterOn}
+          ?disabled=${!this.enabled}
         >
           ${map(
             Object.entries(Filter.filterTypes),
             ([value, label]) => html`
-              <option
-                ?selected=${value === this.filterNode.type}
-                value=${value}
-              >
+              <option ?selected=${value === this.audioNode.type} value=${value}>
                 ${label}
               </option>
             `
@@ -115,7 +112,7 @@ export class Filter extends WappElement {
             name="filter-frequency"
             min="20"
             max="20000"
-            ?disabled=${!this.isFilterOn}
+            ?disabled=${!this.enabled}
             aria-label="Filter frequency range"
           />
           <input
@@ -126,7 +123,7 @@ export class Filter extends WappElement {
             name="filter-frequency"
             min="20"
             max="20000"
-            ?disabled=${!this.isFilterOn}
+            ?disabled=${!this.enabled}
             aria-label="Filter frequency number input"
           />
         </div>
@@ -135,4 +132,4 @@ export class Filter extends WappElement {
   }
 }
 
-window.customElements.define('wapp-filter', Filter);
+window.customElements.define('root-filter', Filter);

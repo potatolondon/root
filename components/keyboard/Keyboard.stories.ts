@@ -14,6 +14,6 @@ export default {
   },
 };
 
-const Template = () => html`<wapp-keyboard></wapp-keyboard>`;
+const Template = () => html`<root-keyboard></root-keyboard>`;
 
 export const Basic = Template.bind({});

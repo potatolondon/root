@@ -1,5 +1,12 @@
 import { LitElement } from 'lit';
 
+export interface AudioComponent extends LitElement {
+  audioNode?: AudioNode | null;
+  enabled: boolean;
+  sendTo: string;
+  recieveFrom?: string | undefined;
+}
+
 /**
  * Base class for components used in the Microsite.
  * The main purpose for this component is to override Lit default rending root (shadow dom) in
@@ -11,7 +18,7 @@ import { LitElement } from 'lit';
  * to work without having to re-architecture the microsyte styes.
  *
  * */
-class WappElement extends LitElement {
+class RootElement extends LitElement {
   createRenderRoot() {
     /**
      * Render template without shadow DOM. Note that shadow DOM features like
@@ -21,4 +28,4 @@ class WappElement extends LitElement {
   }
 }
 
-export { WappElement };
+export { RootElement };
