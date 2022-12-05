@@ -8,15 +8,15 @@ export type FaderFormula = (x: number, min: number, max: number) => number;
 
 /**
  * These fader formulas are easing functions that adjust how faders behave.
- * The default formula is `FaderFormulas.LINEAR` which maps the fader
+ * The default formula is `FaderFormulas.linear` which maps the fader
  * position directly to its output value. To change the easing you can set
  * the fader’s `formula` property to a different function. You can pass any
  * of the default `FaderFormulas` or provide a custom easing function.
  */
 export const FaderFormulas: Record<string, FaderFormula> = {
-  GOLDEN_RATIO: (x, min, max) => ((x - min) / (max - min)) ** (1 / 5 ** 0.5),
-  LINEAR: x => x,
-  QUADRATIC: (x, min) => min + (x - min) ** 2,
+  goldenratio: (x, min, max) => ((x - min) / (max - min)) ** (1 / 5 ** 0.5),
+  linear: x => x,
+  quadratic: (x, min) => min + (x - min) ** 2,
 };
 
 export class Fader extends RootElement {
@@ -25,6 +25,9 @@ export class Fader extends RootElement {
 
   @property({ type: Number })
   min = 0;
+
+  @property({ attribute: 'type', type: String })
+  initialType = 'linear';
 
   @property({ attribute: 'value', type: Number })
   initialValue = 0;
@@ -39,7 +42,7 @@ export class Fader extends RootElement {
    * const mySlider = document.querySelector('root-fader');
    * mySlider.formula = FaderFormulas.GOLDEN_RATIO;
    */
-  public formula: FaderFormula = FaderFormulas.LINEAR;
+  public formula: FaderFormula = FaderFormulas.linear;
 
   private get parentAttributes() {
     const attrs: { [name: string]: string | null } = {};
@@ -71,6 +74,13 @@ export class Fader extends RootElement {
   set value(value: unknown) {
     if (this.input.value instanceof HTMLInputElement) {
       this.input.value.value = String(value);
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    if (this.initialType in FaderFormulas) {
+      this.formula = FaderFormulas[this.initialType];
     }
   }
 
