@@ -2,9 +2,24 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { spread } from '@open-wc/lit-helpers';
-import { WappElement } from '../base.lit';
+import { RootElement } from '../base.lit';
 
-export class Fader extends WappElement {
+export type FaderFormula = (x: number, min: number, max: number) => number;
+
+/**
+ * These fader formulas are easing functions that adjust how faders behave.
+ * The default formula is `FaderFormulas.LINEAR` which maps the fader
+ * position directly to its output value. To change the easing you can set
+ * the fader’s `formula` property to a different function. You can pass any
+ * of the default `FaderFormulas` or provide a custom easing function.
+ */
+export const FaderFormulas: Record<string, FaderFormula> = {
+  GOLDEN_RATIO: (x, min, max) => ((x - min) / (max - min)) ** (1 / 5 ** 0.5),
+  LINEAR: x => x,
+  QUADRATIC: (x, min) => min + (x - min) ** 2,
+};
+
+export class Fader extends RootElement {
   @property({ type: Number })
   max = 1;
 
@@ -14,8 +29,17 @@ export class Fader extends WappElement {
   @property({ attribute: 'value', type: Number })
   initialValue = 0;
 
-  // Override this to adjust the
-  public formula = (x: number): number => x;
+  /**
+   * The easing function used by this component to map the fader position
+   * to the output value. Other formulas are available in the `FaderFormulas`
+   * export, or you can provide your own easing function.
+   * @example
+   * import { FaderFormulas } from '@potato/root/components/fader';
+   *
+   * const mySlider = document.querySelector('root-fader');
+   * mySlider.formula = FaderFormulas.GOLDEN_RATIO;
+   */
+  public formula: FaderFormula = FaderFormulas.LINEAR;
 
   private get parentAttributes() {
     const attrs: { [name: string]: string | null } = {};
@@ -42,6 +66,12 @@ export class Fader extends WappElement {
       return this.input.value.value;
     }
     return '';
+  }
+
+  set value(value: unknown) {
+    if (this.input.value instanceof HTMLInputElement) {
+      this.input.value.value = String(value);
+    }
   }
 
   onInput(event: InputEvent) {
