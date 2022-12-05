@@ -97,6 +97,7 @@ export class Fader extends RootElement {
         .max=${this.max}
         .min=${this.min}
         .value=${this.initialValue}
+        aria-label="Range input from ${this.min} to ${this.max}"
         step="any"
         type="range"
       />
