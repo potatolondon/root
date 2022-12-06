@@ -30,20 +30,20 @@ root-fader input[type="range"] {
   background: none;
   height: 36px;
   width: 172px;
-  transform: translate(-69px, 65px) rotate(90deg);
+  transform: translate(-69px, 65px) rotate(-90deg);
 }
 
-/* BLINK / WEBKIT - TODO duplicate styles for Firefox */
+/* WEBKIT + BLINK */
 
-root-fader input[type=range]::-webkit-slider-runnable-track {
+root-fader input[type="range"]::-webkit-slider-runnable-track {
   --fader-value-percentage: calc(var(--fader-value, 0) * 100%);
 
   appearance: none;
-  background-color: var(--color-track-inactive);
+  background-color: var(--color-track-active);
   background-image: linear-gradient(
     to right,
     transparent var(--fader-value-percentage),
-    var(--color-track-active) var(--fader-value-percentage)
+    var(--color-track-inactive) var(--fader-value-percentage)
   );
   border-radius: 1px;
   cursor: pointer;
@@ -52,7 +52,39 @@ root-fader input[type=range]::-webkit-slider-runnable-track {
   margin-inline: 8px;
 }
 
-root-fader input[type=range]::-webkit-slider-thumb {
+root-fader input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  background-color: var(--color-thumb);
+  background-image: linear-gradient(var(--color-thumb-marker) 0, var(--color-thumb-marker) 1px);
+  background-size: 1px 10px;
+  background-repeat: no-repeat;
+  background-position: 3px 3px;
+  border-radius: 1px;
+  cursor: pointer;
+  height: 16px;
+  margin-block: -5px;
+  width: 7px;
+}
+
+/* MOZILLA */
+
+root-fader input[type="range"]::-moz-range-track {
+  appearance: none;
+  background-color: var(--color-track-inactive);
+  border-radius: 1px;
+  cursor: pointer;
+  display: block;
+  height: 6px;
+  margin-inline: 8px;
+}
+
+root-fader input[type="range"]::-moz-range-progress {
+  background-color: var(--color-track-active);
+  height: 6px;
+  margin-inline: 8px;
+}
+
+root-fader input[type="range"]::-moz-range-thumb {
   appearance: none;
   background-color: var(--color-thumb);
   background-image: linear-gradient(var(--color-thumb-marker) 0, var(--color-thumb-marker) 1px);
