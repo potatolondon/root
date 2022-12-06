@@ -20,7 +20,7 @@ root-fader {
   background-position: center;
   background-repeat: repeat-y;
   border-radius: 2px;
-
+  display: block;
   height: 172px;
   width: 36px;
 }
