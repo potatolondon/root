@@ -46,7 +46,7 @@ export class Fader extends RootElement {
 
   private get parentAttributes() {
     const attrs: { [name: string]: string | null } = {};
-    const exclude = ['id', 'max', 'min', 'value'];
+    const exclude = ['id', 'max', 'min', 'style', 'value'];
     for (const name of this.getAttributeNames()) {
       if (!exclude.includes(name)) {
         attrs[name] = this.getAttribute(name);
@@ -56,6 +56,14 @@ export class Fader extends RootElement {
   }
 
   input = createRef();
+
+  /** Returns a value normalised between 0-1. */
+  get normalisedValue() {
+    const value = Number.isNaN(this.valueAsNumber)
+      ? this.initialValue
+      : this.valueAsNumber;
+    return (value - this.min) / (this.max - this.min);
+  }
 
   get valueAsNumber() {
     if (this.input.value instanceof HTMLInputElement) {
@@ -82,9 +90,11 @@ export class Fader extends RootElement {
     if (this.initialType in FaderFormulas) {
       this.formula = FaderFormulas[this.initialType];
     }
+    this.setAttribute('style', `--fader-value: ${this.normalisedValue}`);
   }
 
   onInput(event: InputEvent) {
+    this.setAttribute('style', `--fader-value: ${this.normalisedValue}`);
     this.dispatchEvent(new InputEvent(event.type, event));
   }
 

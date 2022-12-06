@@ -36,14 +36,20 @@ root-fader input[type="range"] {
 /* BLINK / WEBKIT - TODO duplicate styles for Firefox */
 
 root-fader input[type=range]::-webkit-slider-runnable-track {
+  --fader-value-percentage: calc(var(--fader-value, 0) * 100%);
+
   appearance: none;
-  background: var(--color-track-inactive);
+  background-color: var(--color-track-inactive);
+  background-image: linear-gradient(
+    to right,
+    transparent var(--fader-value-percentage),
+    var(--color-track-active) var(--fader-value-percentage)
+  );
   border-radius: 1px;
   cursor: pointer;
   display: block;
   height: 6px;
   margin-inline: 8px;
-  overflow: hidden;
 }
 
 root-fader input[type=range]::-webkit-slider-thumb {
@@ -54,7 +60,6 @@ root-fader input[type=range]::-webkit-slider-thumb {
   background-repeat: no-repeat;
   background-position: 3px 3px;
   border-radius: 1px;
-  box-shadow: 172px 0 0 172px var(--color-track-active);
   cursor: pointer;
   height: 16px;
   margin-block: -5px;
