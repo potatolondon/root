@@ -1,5 +1,16 @@
+@import url("../components/fader/fader.css");
+
+html {
+  --color-dark: #121212;
+  --color-light: #fafafa;
+  --color-mid: #8884;
+
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  color-scheme: dark;
+}
+
 body {
-  background: #fafafa;
   font-family: system-ui, sans-serif;
   margin: 1rem;
 }
@@ -27,16 +38,15 @@ body {
 
 .note {
   align-items: flex-end;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-mid);
   display: flex;
   flex-basis: 100%;
   justify-content: center;
   padding: .5rem;
 }
 
-
 .note:hover {
-  background-color: lightgrey;
+  background-color: var(--color-mid);
 }
 
 .note:not(:last-of-type) {
@@ -44,13 +54,13 @@ body {
 }
 
 .note-natural {
-  background-color: #fff;
-  color: #000;
+  background-color: var(--color-light);
+  color: var(--color-dark);
 }
 
 .note-accidental {
-  background-color: #000;
-  color: #fff;
+  background-color: var(--color-dark);
+  color: var(--color-light);
 }
 
 input[type="number"] {

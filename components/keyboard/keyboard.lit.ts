@@ -36,18 +36,12 @@ export class Keyboard extends RootElement {
     super.connectedCallback();
     window.addEventListener('keydown', this.__onKeyboarddown);
     window.addEventListener('keyup', this.__onKeyboardup);
-    this.addEventListener('mousedown', this.__onKeydown);
-    this.addEventListener('mouseout', this.__onKeyup);
-    this.addEventListener('mouseup', this.__onKeyup);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     window.removeEventListener('keydown', this.__onKeyboarddown);
     window.removeEventListener('keyup', this.__onKeyboardup);
-    this.removeEventListener('mousedown', this.__onKeydown);
-    this.removeEventListener('mouseout', this.__onKeyup);
-    this.removeEventListener('mouseup', this.__onKeyup);
   }
 
   getNoteForKey(key: string) {
@@ -88,7 +82,7 @@ export class Keyboard extends RootElement {
     );
   }
 
-  __onKeydown(event: KeyboardEvent | MouseEvent) {
+  __onKeydown(event: Event) {
     if (!(event?.target instanceof HTMLElement)) return;
     if (!event.target.matches('[data-note]')) return;
 
@@ -102,7 +96,7 @@ export class Keyboard extends RootElement {
     );
   }
 
-  __onKeyup(event: KeyboardEvent | MouseEvent) {
+  __onKeyup(event: Event) {
     if (!(event?.target instanceof HTMLElement)) return;
     if (!event.target.matches('[data-note]')) return;
 
@@ -122,6 +116,12 @@ export class Keyboard extends RootElement {
         ${this.keys.map(
           ({ key, natural, note }) => html`
             <button
+              @mousedown=${this.__onKeydown}
+              @mouseout=${this.__onKeyup}
+              @mouseup=${this.__onKeyup}
+              @touchstart=${this.__onKeydown}
+              @touchcancel=${this.__onKeyup}
+              @touchend=${this.__onKeyup}
               class="note note-${natural ? 'natural' : 'accidental'}"
               data-note=${note}
             >

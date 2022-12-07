@@ -1,0 +1,99 @@
+root-fader {
+  --color-background: #3e4245;
+  --color-background-marker: #c6c6c64d;
+  --color-thumb: #c6c6c6;
+  --color-thumb-marker: #84898b;
+  --color-track-active: #05eb7c;
+  --color-track-inactive: #262a2d;
+
+  background-color: var(--color-background);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-background) 0px,
+    var(--color-background) 8px,
+    var(--color-background-marker) 8px,
+    var(--color-background-marker) 9px,
+    var(--color-background) 9px,
+    var(--color-background) 15px
+  );
+  background-size: 28px 15px;
+  background-position: center;
+  background-repeat: repeat-y;
+  border-radius: 2px;
+  display: block;
+  height: 172px;
+  width: 36px;
+}
+
+root-fader input[type="range"] {
+  appearance: none;
+  background: none;
+  height: 36px;
+  width: 172px;
+  transform: translate(-69px, 65px) rotate(-90deg);
+}
+
+/* WEBKIT + BLINK */
+
+root-fader input[type="range"]::-webkit-slider-runnable-track {
+  --fader-value-percentage: calc(var(--fader-value, 0) * 100%);
+
+  appearance: none;
+  background-color: var(--color-track-active);
+  background-image: linear-gradient(
+    to right,
+    transparent var(--fader-value-percentage),
+    var(--color-track-inactive) var(--fader-value-percentage)
+  );
+  border-radius: 1px;
+  cursor: pointer;
+  display: block;
+  height: 6px;
+  margin-inline: 8px;
+}
+
+root-fader input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  background-color: var(--color-thumb);
+  background-image: linear-gradient(var(--color-thumb-marker) 0, var(--color-thumb-marker) 1px);
+  background-size: 1px 10px;
+  background-repeat: no-repeat;
+  background-position: 3px 3px;
+  border-radius: 1px;
+  cursor: pointer;
+  height: 16px;
+  margin-block: -5px;
+  width: 7px;
+}
+
+/* MOZILLA */
+
+root-fader input[type="range"]::-moz-range-track {
+  appearance: none;
+  background-color: var(--color-track-inactive);
+  border-radius: 1px;
+  cursor: pointer;
+  display: block;
+  height: 6px;
+  margin-inline: 8px;
+}
+
+root-fader input[type="range"]::-moz-range-progress {
+  background-color: var(--color-track-active);
+  height: 6px;
+  margin-inline: 8px;
+}
+
+root-fader input[type="range"]::-moz-range-thumb {
+  appearance: none;
+  background-color: var(--color-thumb);
+  background-image: linear-gradient(var(--color-thumb-marker) 0, var(--color-thumb-marker) 1px);
+  background-size: 1px 10px;
+  background-repeat: no-repeat;
+  background-position: 3px 3px;
+  border-radius: 1px;
+  cursor: pointer;
+  height: 16px;
+  margin-block: -5px;
+  width: 7px;
+}
