@@ -1,20 +1,23 @@
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
+import { Fader } from '../fader/fader.lit';
+import { audioCtx } from '../../lib/audioContext';
 import { property } from 'lit/decorators.js';
 import { AudioComponent, RootElement } from '../base.lit';
 import { BaseOscillator, NoteOnEvent } from './index';
 
 export class Oscillator extends RootElement implements AudioComponent {
-  oscillator: BaseOscillator;
   private __onDetune: (event: InputEvent) => void;
   private __onDetuneStop: (event: MouseEvent) => void;
-  __onStickyToggle: (event: InputEvent) => void;
   __onDetuneAmount: (event: InputEvent) => void;
-  __onWaveform: (event: InputEvent) => void;
   __onNoteOn: (event: NoteOnEvent) => OscillatorNode | undefined;
-  waveforms: {};
-  waveform: string;
+  __onStickyToggle: (event: InputEvent) => void;
+  __onWaveform: (event: InputEvent) => void;
+
   enabled = true;
+  oscillator: BaseOscillator;
+  waveform: string;
+  waveforms: {};
 
   @property({ type: String })
   sendTo: string = '';
@@ -34,29 +37,18 @@ export class Oscillator extends RootElement implements AudioComponent {
     this.waveforms = BaseOscillator.waveforms;
     this.waveform = this.oscillator.waveform;
   }
-  connectedCallback() {
-    super.connectedCallback();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-  }
 
   render() {
     return html`
       <div class="osc">
         <label for="detune">Pitch bend</label>
         <div class="osc-pitch-bend">
-          <input
+          <root-fader
             @input=${this.__onDetune}
             @mouseup=${this.__onDetuneStop}
             id="detune"
-            max="1"
             min="-1"
-            step="any"
-            type="range"
-            value="0"
-          />
+          ></root-fader>
           <label for="sticky">Sticky?</label>
           <input @input=${this.__onStickyToggle} id="sticky" type="checkbox" />
         </div>

@@ -25,7 +25,7 @@
     "build:lib": "esbuild lib/*.ts --outdir=lib",
     "clean": "find components demo lib -name '*.js' -delete",
     "deploy": "npm run clean && npm run build && gcloud --project=potato-synth --quiet app deploy demo",
-    "start": "esbuild demo/index.ts --bundle --minify --serve=8000 --servedir=demo",
+    "start": "esbuild demo/index.{css,ts} --bundle --minify --serve=8000 --servedir=demo",
     "lint": "prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "test": "web-test-runner components/**/*.test.ts --coverage --node-resolve",
@@ -34,6 +34,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@open-wc/lit-helpers": "^0.5.1",
     "lit": "^2.2.1"
   },
   "devDependencies": {
