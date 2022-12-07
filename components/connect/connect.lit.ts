@@ -63,7 +63,7 @@ export class Connect extends RootElement {
 
     for (const node of audioNodes) {
       const from = [];
-      // TODO make audio classes responsible for returning their own audioNode. This current logic will break if the source node is a microphone.
+      // TODO make audio classes responsible for returning their own audioNode. This current logic is unsustainable for various source nodes eg. a microphone.
       if (node instanceof Oscillator) {
         from.push(node.__onNoteOn(event));
       } else if (node instanceof OscillatorModule) {
@@ -86,10 +86,6 @@ export class Connect extends RootElement {
         })
       }
     }
-
-    // audioChain.forEach(item => {
-    //   console.log(item.from.type)
-    // })
 
     for (const node of audioChain) {
       if (node.from && node.destination) {

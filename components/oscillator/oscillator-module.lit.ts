@@ -14,7 +14,7 @@ export class OscillatorModule extends RootElement implements AudioComponent {
   @property({ type: String })
   recieveFrom: string = '';
 
-  oscillators = [BaseOscillator]
+  enabledOscillators: BaseOscillator[] = []
   waveforms: {};
 
   constructor() {
@@ -25,11 +25,11 @@ export class OscillatorModule extends RootElement implements AudioComponent {
   enableOscillator( event: { target: HTMLInputElement; } ) {
     const checked = event.target.checked;
     if(checked) {
-      const osc: BaseOscillator = new BaseOscillator();
-      osc.waveform = event.target.id;
-      this.oscillators.push(osc);
+      const osc = new BaseOscillator();
+      osc.waveform = event.target.id as keyof typeof BaseOscillator.waveforms;
+      this.enabledOscillators.push(osc);
     } else {
-      this.oscillators = this.oscillators.filter(osc => {
+      this.enabledOscillators = this.enabledOscillators.filter(osc => {
         return osc.waveform !== event.target.id;
       })
     }
@@ -37,7 +37,7 @@ export class OscillatorModule extends RootElement implements AudioComponent {
 
   getOscNodes(event:NoteOnEvent) {
     const oscNodes = []
-     for (const osc of this.oscillators) {
+     for (const osc of this.enabledOscillators) {
         oscNodes.push(osc.__onNoteOn(event));
     }
     return oscNodes;

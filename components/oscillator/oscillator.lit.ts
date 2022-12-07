@@ -13,7 +13,7 @@ export class Oscillator extends RootElement implements AudioComponent {
   __onWaveform: (event: InputEvent) => void;
   __onNoteOn: (event: NoteOnEvent) => OscillatorNode | undefined;
   waveforms: {};
-  waveform: string;
+  waveform: string;s
   enabled = true;
 
   @property({ type: String })
