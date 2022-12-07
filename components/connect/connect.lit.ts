@@ -67,11 +67,11 @@ export class Connect extends RootElement {
       if (node instanceof Oscillator) {
         from.push(node.__onNoteOn(event));
       } else if (node instanceof OscillatorModule) {
-        const oscNodes = node.getOscNodes(event)
+        const oscNodes = node.getOscNodes(event);
 
         oscNodes.forEach(node => {
           from.push(node);
-        })
+        });
       } else {
         from.push(this.__searchBackwards(node));
       }
@@ -83,7 +83,7 @@ export class Connect extends RootElement {
             from: fromNode,
             destination,
           });
-        })
+        });
       }
     }
 

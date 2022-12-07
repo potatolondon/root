@@ -1,0 +1,5 @@
+root-osc-module .osc-module{
+  border: 1px solid red;
+  display: flex;
+  padding: 40px;
+}

@@ -1,9 +1,9 @@
-import { AudioComponent, RootElement } from "components/base.lit";
+import { AudioComponent, RootElement } from 'components/base.lit';
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
-import { property } from "lit/decorators.js";
-import { BaseOscillator, NoteOnEvent } from ".";
-
+import { property } from 'lit/decorators.js';
+import { BaseOscillator, NoteOnEvent } from '.';
+import '../toggle/toggle.lit';
 
 export class OscillatorModule extends RootElement implements AudioComponent {
   enabled = true;
@@ -14,7 +14,7 @@ export class OscillatorModule extends RootElement implements AudioComponent {
   @property({ type: String })
   recieveFrom: string = '';
 
-  enabledOscillators: BaseOscillator[] = []
+  enabledOscillators: BaseOscillator[] = [];
   waveforms: {};
 
   constructor() {
@@ -22,23 +22,23 @@ export class OscillatorModule extends RootElement implements AudioComponent {
     this.waveforms = BaseOscillator.waveforms;
   }
 
-  enableOscillator( event: { target: HTMLInputElement; } ) {
+  enableOscillator(event: { target: HTMLInputElement }) {
     const checked = event.target.checked;
-    if(checked) {
+    if (checked) {
       const osc = new BaseOscillator();
       osc.waveform = event.target.id as keyof typeof BaseOscillator.waveforms;
       this.enabledOscillators.push(osc);
     } else {
       this.enabledOscillators = this.enabledOscillators.filter(osc => {
         return osc.waveform !== event.target.id;
-      })
+      });
     }
   }
 
-  getOscNodes(event:NoteOnEvent) {
-    const oscNodes = []
-     for (const osc of this.enabledOscillators) {
-        oscNodes.push(osc.__onNoteOn(event));
+  getOscNodes(event: NoteOnEvent) {
+    const oscNodes = [];
+    for (const osc of this.enabledOscillators) {
+      oscNodes.push(osc.__onNoteOn(event));
     }
     return oscNodes;
   }
@@ -46,14 +46,16 @@ export class OscillatorModule extends RootElement implements AudioComponent {
   render() {
     return html`
       <div class="osc-module">
-      ${map(
-        Object.entries(this.waveforms),
-        ([value, label]) => html`
-        <label for="${value}">${label}</label>
-        <input id="${value}" type=checkbox @change="${this.enableOscillator}"/>
-        `
-      )}
-
+        ${map(
+          Object.entries(this.waveforms),
+          ([value, label]) => html`
+            <root-toggle
+              label=${label}
+              id=${value}
+              @change="${this.enableOscillator}"
+            ></root-toggle>
+          `
+        )}
       </div>
     `;
   }

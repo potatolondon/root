@@ -1,4 +1,6 @@
 @import url("../components/fader/fader.css");
+@import url("../components/toggle/toggle.css");
+@import url("../components/oscillator/oscillator-module.css");
 
 html {
   --color-dark: #121212;
