@@ -32,7 +32,7 @@ export class BaseOscillator {
 
   audioNode?: OscillatorNode;
 
-  gainNode?: GainNode
+  gainNode?: GainNode;
 
   isNoteOn = false;
 

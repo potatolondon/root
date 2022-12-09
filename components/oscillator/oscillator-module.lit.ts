@@ -8,8 +8,8 @@ import { Toggle } from '../toggle/toggle.lit';
 import { audioCtx } from 'lib/audioContext';
 
 interface OscillatorObject {
-  osc: BaseOscillator; 
-  enabled: boolean; 
+  osc: BaseOscillator;
+  enabled: boolean;
 }
 
 export class OscillatorModule extends RootElement implements AudioComponent {
@@ -21,9 +21,9 @@ export class OscillatorModule extends RootElement implements AudioComponent {
   @property({ type: String })
   recieveFrom: string = '';
 
-  oscillators:OscillatorObject[] = [];
+  oscillators: OscillatorObject[] = [];
   waveforms: {};
-  gainNode?: GainNode
+  gainNode?: GainNode;
 
   constructor() {
     super();
@@ -32,32 +32,32 @@ export class OscillatorModule extends RootElement implements AudioComponent {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.createOscillators()
+    this.createOscillators();
   }
 
   createOscillators() {
     for (const waveform in this.waveforms) {
-      const osc =  new BaseOscillator();
+      const osc = new BaseOscillator();
       osc.waveform = waveform as keyof typeof BaseOscillator.waveforms;
       this.oscillators.push({
         osc,
-        enabled: false
-      })
+        enabled: false,
+      });
     }
   }
 
-  enableOscillator(event: { target: HTMLInputElement, currentTarget: Toggle }) {
+  enableOscillator(event: { target: HTMLInputElement; currentTarget: Toggle }) {
     const checked = event.target.checked;
     if (checked) {
       this.oscillators.map(obj => {
-        if(obj.osc.waveform === event.currentTarget.type) {
+        if (obj.osc.waveform === event.currentTarget.type) {
           obj.enabled = true;
         }
         return obj;
-      })
+      });
     } else {
       this.oscillators.map(obj => {
-        if(obj.osc.waveform === event.currentTarget.type) {
+        if (obj.osc.waveform === event.currentTarget.type) {
           obj.enabled = false;
         }
         return obj;
@@ -65,21 +65,20 @@ export class OscillatorModule extends RootElement implements AudioComponent {
     }
   }
 
-  setGain(event: { currentTarget: Fader, target: HTMLInputElement }) {
+  setGain(event: { currentTarget: Fader; target: HTMLInputElement }) {
     const waveform = event.currentTarget.getAttribute('data-waveform');
     const value = parseFloat(event.target.value);
     for (const obj of this.oscillators) {
-      if(obj.osc.waveform === waveform) {
-          obj.osc.gainNode?.gain.setValueAtTime(value, audioCtx.currentTime);
-        }
+      if (obj.osc.waveform === waveform) {
+        obj.osc.gainNode?.gain.setValueAtTime(value, audioCtx.currentTime);
+      }
     }
-
   }
 
   getOscNodes(event: NoteOnEvent) {
     const oscNodes = [];
     for (const obj of this.oscillators) {
-      if(obj.enabled) {
+      if (obj.enabled) {
         oscNodes.push(obj.osc.__onNoteOn(event));
       }
     }
@@ -92,13 +91,16 @@ export class OscillatorModule extends RootElement implements AudioComponent {
         ${map(
           Object.entries(this.waveforms),
           ([value]) => html`
-          <div>
-            <root-fader @input="${this.setGain}" data-waveform="${value}"></root-fader>
-            <root-toggle
-              type=${value}
-              @change="${this.enableOscillator}"
-            ></root-toggle>
-          </div>
+            <div>
+              <root-fader
+                @input="${this.setGain}"
+                data-waveform="${value}"
+              ></root-fader>
+              <root-toggle
+                type=${value}
+                @change="${this.enableOscillator}"
+              ></root-toggle>
+            </div>
           `
         )}
       </div>
