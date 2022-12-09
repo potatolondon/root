@@ -90,7 +90,9 @@ export class BaseOscillator {
   __onNoteOn(event: NoteOnEvent) {
     this.isNoteOn = true;
     this.start(event.detail.note);
-    return this.audioNode?.connect(this.gainNode);
+    if(this.gainNode) {
+      return this.audioNode?.connect(this.gainNode);
+    }
   }
 
   __onNoteOff(event: NoteOffEvent) {
