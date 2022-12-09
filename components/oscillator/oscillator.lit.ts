@@ -40,7 +40,7 @@ export class Oscillator extends RootElement implements AudioComponent {
 
   render() {
     return html`
-      <div class="osc">
+      <div class="root-osc">
         <label for="detune">Pitch bend</label>
         <div class="osc-pitch-bend">
           <root-fader

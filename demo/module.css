@@ -1,0 +1,19 @@
+div[class^='root'], div[class*=' root'] {
+  background-color: #161719;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.module__heading {
+  font-size: 10px;
+  line-height: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.module__subheading {
+font-size: 8px;
+line-height: 10px;
+text-transform: uppercase;
+}
+

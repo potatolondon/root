@@ -76,7 +76,7 @@ export class Filter extends RootElement implements AudioComponent {
 
   render() {
     return html`
-      <div>
+      <div class="root-filter">
         <div>
           <input
             type="checkbox"

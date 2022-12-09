@@ -1,3 +1,4 @@
+import { Fader } from 'components/fader/fader.lit';
 import { audioCtx } from '../../lib/audioContext';
 
 export type NoteOffEvent = CustomEvent<{ note: number }>;
@@ -59,7 +60,7 @@ export class BaseOscillator {
   }
 
   __onDetune(event: InputEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
+    if (!(event.currentTarget instanceof Fader)) return;
     this.detune = event.currentTarget.valueAsNumber * this.detuneAmount * 100;
     for (const oscillator of this.activeNotes.values()) {
       oscillator.detune.setValueAtTime(this.detune, audioCtx.currentTime);
@@ -90,7 +91,7 @@ export class BaseOscillator {
   __onNoteOn(event: NoteOnEvent) {
     this.isNoteOn = true;
     this.start(event.detail.note);
-    if(this.gainNode) {
+    if (this.gainNode) {
       return this.audioNode?.connect(this.gainNode);
     }
   }

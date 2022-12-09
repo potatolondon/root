@@ -1,27 +1,35 @@
 root-toggle .toggle-control {
   --color-background: #161719;
-  align-items: center;
-  display: flex;
   background: var(--color-background);
-  flex-direction: column;
-  height: 1.86rem;
-  justify-content: center;
+  border-radius: 2px;
+  height: 1.5rem;
+  text-align: center;
   width: 2rem;
 }
 
-root-toggle root-svg {
-  margin-bottom: 4px;
+root-toggle .toggle-control__large {
+  align-items: center;
+  display: flex;
+  height: 2.125rem;
+  justify-content: center;
 }
 
-root-toggle .toggle-control::after {
+
+label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+root-toggle .toggle-control__light {
   --color-background: #84898B;
   background: var(--color-background);
-  content: "";
   height: 0.25rem;
+  margin-top: 4px;
   width: 1rem;
 }
 
-root-toggle input[type="checkbox"]:checked ~ label .toggle-control::after {
+root-toggle input[type="checkbox"]:checked ~ label .toggle-control__light {
   --color-background: #05EB7C;
   background: var(--color-background);
 }

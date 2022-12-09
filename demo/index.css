@@ -1,3 +1,4 @@
+@import url("./module.css");
 @import url("../components/fader/fader.css");
 @import url("../components/toggle/toggle.css");
 @import url("../components/oscillator/oscillator-module.css");
@@ -10,6 +11,7 @@ html {
   background-color: var(--color-dark);
   color: var(--color-light);
   color-scheme: dark;
+  font-family: 'Inter', sans-serif;
 }
 
 body {
@@ -17,7 +19,7 @@ body {
   margin: 1rem;
 }
 
-.osc {
+.root-osc {
   display: grid;
   gap: 1rem;
   grid-template-columns: auto 1fr;

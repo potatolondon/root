@@ -7,10 +7,10 @@ import { Fader } from '../fader/fader.lit';
 import { Toggle } from '../toggle/toggle.lit';
 import { audioCtx } from 'lib/audioContext';
 
-interface OscillatorObject {
+type OscillatorObject = {
   osc: BaseOscillator;
   enabled: boolean;
-}
+};
 
 export class OscillatorModule extends RootElement implements AudioComponent {
   enabled = true;
@@ -86,24 +86,58 @@ export class OscillatorModule extends RootElement implements AudioComponent {
     return oscNodes;
   }
 
+  __onDetune(event: InputEvent) {
+    for (const obj of this.oscillators) {
+      if (obj.enabled) {
+        obj.osc.__onDetune(event);
+      }
+    }
+  }
+
+  __onDetuneStop(event: MouseEvent) {
+    for (const obj of this.oscillators) {
+      obj.osc.__onDetuneStop(event);
+    }
+  }
+
   render() {
     return html`
-      <div class="osc-module">
-        ${map(
-          Object.entries(this.waveforms),
-          ([value]) => html`
-            <div>
-              <root-fader
-                @input="${this.setGain}"
-                data-waveform="${value}"
-              ></root-fader>
-              <root-toggle
-                type=${value}
-                @change="${this.toggleOscillator}"
-              ></root-toggle>
+      <div class="root-osc-module">
+        <h1 class="module__heading">Osc Module</h1>
+        <div class="osc-module__wrapper">
+          <div>
+            <div class="osc-module__control-sources">
+            ${map(
+              Object.entries(this.waveforms),
+              ([value]) => html`
+                <div class="osc-module__control">
+                  <root-fader
+                    @input="${this.setGain}"
+                    data-waveform="${value}"
+                  ></root-fader>
+                  <root-toggle
+                    type=${value}
+                    @change="${this.toggleOscillator}"
+                  ></root-toggle>
+                </div>
+              `
+            )}
             </div>
-          `
-        )}
+            <p class="module__subheading">Wave mix</p>
+          </div>
+          <div class="osc-module-control__single-wrapper">
+            <div class="osc-module__control-single">
+              <root-fader
+                @input=${this.__onDetune}
+                @mouseup=${this.__onDetuneStop}
+                id="detune"
+                min="-1"
+              ></root-fader>
+              <root-toggle type="detune" .toggle=${false}></root-toggle>
+            </div>
+            <p class="module__subheading">Detune</p>
+          </div>
+        </div>
       </div>
     `;
   }
