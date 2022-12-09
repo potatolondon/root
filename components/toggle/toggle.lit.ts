@@ -5,24 +5,21 @@ import '../svg/svg.lit';
 
 export class Toggle extends RootElement {
   @property({ type: String })
-  label = '';
-
-  @property({ type: String })
-  id = '';
+  type = '';
 
   render() {
     return html`
-      <label for="${this.id}">${this.label}</label>
-      <input id="${this.id}" type=checkbox "/>
-
-      <div class="toggle-control">
-        <div class="toggle-control__type">
-          <root-svg type="${this.id}"></root-svg>
-        </div>
-        <div class="toggle-control__light" />
-      </div>
+    <div>
+    <input type=checkbox id="${this.type}-toggle" >
+    <label for="${this.type}-toggle">
+    <div class="toggle-control">
+       <root-svg type="${this.type}"></root-svg>
+     </div>
+    </label>
+    </div>
     `;
   }
 }
 
 window.customElements.define('root-toggle', Toggle);
+

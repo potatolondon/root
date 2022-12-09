@@ -32,6 +32,8 @@ export class BaseOscillator {
 
   audioNode?: OscillatorNode;
 
+  gainNode?: GainNode
+
   isNoteOn = false;
 
   constructor() {
@@ -42,6 +44,7 @@ export class BaseOscillator {
     this.__onStickyToggle = this.__onStickyToggle.bind(this);
     this.__onNoteOn = this.__onNoteOn.bind(this);
     this.__onNoteOff = this.__onNoteOff.bind(this);
+    this.gainNode = audioCtx.createGain();
     document.addEventListener('noteOff', this.__onNoteOff);
   }
 
@@ -87,7 +90,7 @@ export class BaseOscillator {
   __onNoteOn(event: NoteOnEvent) {
     this.isNoteOn = true;
     this.start(event.detail.note);
-    return this.audioNode;
+    return this.audioNode?.connect(this.gainNode);
   }
 
   __onNoteOff(event: NoteOffEvent) {

@@ -1,5 +1,8 @@
 root-osc-module .osc-module{
-  border: 1px solid red;
   display: flex;
   padding: 40px;
+}
+
+root-osc-module root-toggle{
+  margin-inline-end: 4px;
 }
