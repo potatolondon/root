@@ -39,6 +39,7 @@ export class OscillatorModule extends RootElement implements AudioComponent {
     for (const waveform in this.waveforms) {
       const osc = new BaseOscillator();
       osc.waveform = waveform as keyof typeof BaseOscillator.waveforms;
+      osc.gainNode?.gain.setValueAtTime(0, audioCtx.currentTime);
       this.oscillators.push({
         osc,
         enabled: false,
@@ -46,7 +47,7 @@ export class OscillatorModule extends RootElement implements AudioComponent {
     }
   }
 
-  enableOscillator(event: { target: HTMLInputElement; currentTarget: Toggle }) {
+  toggleOscillator(event: { target: HTMLInputElement; currentTarget: Toggle }) {
     const checked = event.target.checked;
     if (checked) {
       this.oscillators.map(obj => {
@@ -98,7 +99,7 @@ export class OscillatorModule extends RootElement implements AudioComponent {
               ></root-fader>
               <root-toggle
                 type=${value}
-                @change="${this.enableOscillator}"
+                @change="${this.toggleOscillator}"
               ></root-toggle>
             </div>
           `

@@ -14,7 +14,6 @@ export class Synth extends RootElement {
       <root-midi></root-midi>
       <root-keyboard></root-keyboard>
       <root-connect>
-        <root-osc id="osc-1" sendTo="filter-1"></root-osc>
         <root-osc-module id="osc-2" sendTo="filter-1"></root-osc-module>
         <root-filter
           id="filter-1"
