@@ -1,4 +1,4 @@
-import { Fader } from 'components/fader/fader.lit';
+import { Fader } from '../fader/fader.lit';
 import { audioCtx } from '../../lib/audioContext';
 
 export type NoteOffEvent = CustomEvent<{ note: number }>;
