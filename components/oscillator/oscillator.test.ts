@@ -1,19 +1,22 @@
 import { expect, html, fixture } from '@open-wc/testing';
 import { BaseOscillator } from './index';
+import { Oscillator } from './oscillator.lit';
 
+let el: Oscillator;
 let oscillator: BaseOscillator;
-let inputEl;
-let stickyEl;
 let detuneInput: HTMLInputElement;
 let stickyInput: HTMLInputElement;
 
 describe('Oscillator', () => {
-  beforeEach(() => {
-    oscillator = new BaseOscillator();
+  beforeEach(async () => {
+    el = await fixture(html` <root-osc></root-osc> `);
+    oscillator = el.oscillator;
+    expect(el).to.be.instanceOf(Oscillator);
+    expect(oscillator).to.be.instanceOf(BaseOscillator);
   });
 
-  it('exists', () => {
-    expect(oscillator).to.be.accessible();
+  it('exists', async () => {
+    await expect(el).to.be.accessible();
     expect(oscillator.activeNotes.size).to.equal(0);
   });
 
@@ -39,25 +42,14 @@ describe('Oscillator', () => {
 
 describe('Detune', () => {
   beforeEach(async () => {
-    oscillator = new BaseOscillator();
-    inputEl = html`<input
-      @input=${oscillator.__onDetune}
-      @mouseup=${oscillator.__onDetuneStop}
-      id="detune"
-      max="1"
-      min="-1"
-      step="any"
-      type="range"
-      value="0"
-    />`;
-
-    detuneInput = await fixture(inputEl);
-    stickyEl = html`<input
-      @input=${oscillator.__onStickyToggle}
-      id="sticky"
-      type="checkbox"
-    />`;
-    stickyInput = await fixture(stickyEl);
+    el = await fixture(html` <root-osc></root-osc> `);
+    oscillator = el.oscillator;
+    detuneInput = el.querySelector('#detune')!;
+    stickyInput = el.querySelector('#sticky')!;
+    expect(el).to.be.instanceOf(Oscillator);
+    expect(oscillator).to.be.instanceOf(BaseOscillator);
+    expect(detuneInput).to.be.instanceOf(HTMLElement);
+    expect(stickyInput).to.be.instanceOf(HTMLElement);
   });
 
   it('responds to detune', () => {
@@ -79,7 +71,7 @@ describe('Detune', () => {
     expect(oscillator.detune).to.equal(-200);
     expect(oscillator.stickyPitchBend).to.be.true;
 
-    detuneInput?.dispatchEvent(new MouseEvent('mouseup'));
+    detuneInput.dispatchEvent(new MouseEvent('mouseup'));
     expect(oscillator.detune).to.equal(-200);
   });
 });

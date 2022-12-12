@@ -1,0 +1,39 @@
+.root-osc-module {
+  text-align: center;
+  padding: 40px;
+}
+
+.osc-module__wrapper {
+  display: flex;
+}
+
+.osc-module__control-sources {
+  --color-background: #3e4245;
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: row;
+  padding: 8px 2px 4px; 
+}
+
+.osc-module__control:first-of-type {
+  border-radius: 2px 0 0 2px;
+}
+
+.osc-module__control:last-of-type {
+  border-radius: 0 2px 2px 0;
+}
+
+.osc-module__control-single {
+  --color-background: #3e4245;
+  align-items: center;
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 2px 2px 2px; 
+  border-radius: 2px;
+}
+
+.osc-module-control__single-wrapper {
+  margin-left: 12px;
+}

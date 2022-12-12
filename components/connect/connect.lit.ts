@@ -1,7 +1,8 @@
 import { AudioComponent, RootElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
-import { NoteOnEvent } from '../oscillator';
-import { Oscillator } from '../oscillator/oscillator.lit';
+import { NoteOnEvent } from 'components/oscillator';
+import { Oscillator } from 'components/oscillator/oscillator.lit';
+import { OscillatorModule } from 'components/oscillator/oscillator-module.lit';
 
 const output = 'output';
 
@@ -61,19 +62,27 @@ export class Connect extends RootElement {
     );
 
     for (const node of audioNodes) {
-      let from;
-      // TODO make audio classes responsible for returning their own audioNode. This current logic will break if the source node is a microphone.
+      const from = [];
+      // TODO make audio classes responsible for returning their own audioNode. This current logic is unsustainable for various source nodes eg. a microphone.
       if (node instanceof Oscillator) {
-        from = node.__onNoteOn(event);
+        from.push(node.__onNoteOn(event));
+      } else if (node instanceof OscillatorModule) {
+        const oscNodes = node.getOscNodes(event);
+
+        oscNodes.forEach(node => {
+          from.push(node);
+        });
       } else {
-        from = this.__searchBackwards(node);
+        from.push(this.__searchBackwards(node));
       }
       const destination = this.__searchForwards(node);
 
       if (node.enabled) {
-        audioChain.add({
-          from,
-          destination,
+        from.forEach(fromNode => {
+          audioChain.add({
+            from: fromNode,
+            destination,
+          });
         });
       }
     }

@@ -1,3 +1,4 @@
+import { Fader } from '../fader/fader.lit';
 import { audioCtx } from '../../lib/audioContext';
 
 export type NoteOffEvent = CustomEvent<{ note: number }>;
@@ -32,6 +33,8 @@ export class BaseOscillator {
 
   audioNode?: OscillatorNode;
 
+  gainNode?: GainNode;
+
   isNoteOn = false;
 
   constructor() {
@@ -42,6 +45,7 @@ export class BaseOscillator {
     this.__onStickyToggle = this.__onStickyToggle.bind(this);
     this.__onNoteOn = this.__onNoteOn.bind(this);
     this.__onNoteOff = this.__onNoteOff.bind(this);
+    this.gainNode = audioCtx.createGain();
     document.addEventListener('noteOff', this.__onNoteOff);
   }
 
@@ -56,7 +60,7 @@ export class BaseOscillator {
   }
 
   __onDetune(event: InputEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
+    if (!(event.currentTarget instanceof Fader)) return;
     this.detune = event.currentTarget.valueAsNumber * this.detuneAmount * 100;
     for (const oscillator of this.activeNotes.values()) {
       oscillator.detune.setValueAtTime(this.detune, audioCtx.currentTime);
@@ -64,12 +68,12 @@ export class BaseOscillator {
   }
 
   __onDetuneAmount(event: InputEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
+    if (!(event.currentTarget instanceof Fader)) return;
     this.detuneAmount = event.currentTarget.valueAsNumber;
   }
 
   __onDetuneStop(event: MouseEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
+    if (!(event.currentTarget instanceof Fader)) return;
     if (this.stickyPitchBend) return;
     event.currentTarget.value = '0';
     this.detune = 0;
@@ -87,7 +91,9 @@ export class BaseOscillator {
   __onNoteOn(event: NoteOnEvent) {
     this.isNoteOn = true;
     this.start(event.detail.note);
-    return this.audioNode;
+    if (this.gainNode) {
+      return this.audioNode?.connect(this.gainNode);
+    }
   }
 
   __onNoteOff(event: NoteOffEvent) {

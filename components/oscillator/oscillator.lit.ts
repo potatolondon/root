@@ -1,7 +1,6 @@
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
-import { Fader } from '../fader/fader.lit';
-import { audioCtx } from '../../lib/audioContext';
+import '../fader/fader.lit';
 import { property } from 'lit/decorators.js';
 import { AudioComponent, RootElement } from '../base.lit';
 import { BaseOscillator, NoteOnEvent } from './index';
@@ -40,7 +39,7 @@ export class Oscillator extends RootElement implements AudioComponent {
 
   render() {
     return html`
-      <div class="osc">
+      <div class="root-osc">
         <label for="detune">Pitch bend</label>
         <div class="osc-pitch-bend">
           <root-fader
