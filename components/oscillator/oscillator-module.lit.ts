@@ -107,21 +107,21 @@ export class OscillatorModule extends RootElement implements AudioComponent {
         <div class="osc-module__wrapper">
           <div>
             <div class="osc-module__control-sources">
-            ${map(
-              Object.entries(this.waveforms),
-              ([value]) => html`
-                <div class="osc-module__control">
-                  <root-fader
-                    @input="${this.setGain}"
-                    data-waveform="${value}"
-                  ></root-fader>
-                  <root-toggle
-                    type=${value}
-                    @change="${this.toggleOscillator}"
-                  ></root-toggle>
-                </div>
-              `
-            )}
+              ${map(
+                Object.entries(this.waveforms),
+                ([value]) => html`
+                  <div class="osc-module__control">
+                    <root-fader
+                      @input="${this.setGain}"
+                      data-waveform="${value}"
+                    ></root-fader>
+                    <root-toggle
+                      type=${value}
+                      @change="${this.toggleOscillator}"
+                    ></root-toggle>
+                  </div>
+                `
+              )}
             </div>
             <p class="module__subheading">Wave mix</p>
           </div>
