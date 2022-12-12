@@ -59,7 +59,7 @@ describe('Detune', () => {
     expect(oscillator.stickyPitchBend).to.be.false;
 
     detuneInput.dispatchEvent(new MouseEvent('mouseup'));
-    // expect(oscillator.detune).to.equal(0);
+    expect(oscillator.detune).to.equal(0);
   });
 
   it('detune stickiness', () => {

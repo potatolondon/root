@@ -68,12 +68,12 @@ export class BaseOscillator {
   }
 
   __onDetuneAmount(event: InputEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
+    if (!(event.currentTarget instanceof Fader)) return;
     this.detuneAmount = event.currentTarget.valueAsNumber;
   }
 
   __onDetuneStop(event: MouseEvent) {
-    if (!(event.currentTarget instanceof HTMLInputElement)) return;
+    if (!(event.currentTarget instanceof Fader)) return;
     if (this.stickyPitchBend) return;
     event.currentTarget.value = '0';
     this.detune = 0;
