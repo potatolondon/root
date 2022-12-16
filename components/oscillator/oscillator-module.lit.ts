@@ -4,7 +4,7 @@ import { map } from 'lit/directives/map.js';
 import { property } from 'lit/decorators.js';
 import { BaseOscillator, NoteOnEvent } from '.';
 import { Fader } from '../fader/fader.lit';
-import { Toggle } from '../toggle/toggle.lit';
+import { Display } from '../display/display.lit';
 import { audioCtx } from 'lib/audioContext';
 
 type OscillatorObject = {
@@ -47,7 +47,10 @@ export class OscillatorModule extends RootElement implements AudioComponent {
     }
   }
 
-  toggleOscillator(event: { target: HTMLInputElement; currentTarget: Toggle }) {
+  toggleOscillator(event: {
+    target: HTMLInputElement;
+    currentTarget: Display;
+  }) {
     const checked = event.target.checked;
     if (checked) {
       this.oscillators.map(obj => {
@@ -115,10 +118,10 @@ export class OscillatorModule extends RootElement implements AudioComponent {
                       @input="${this.setGain}"
                       data-waveform="${value}"
                     ></root-fader>
-                    <root-toggle
+                    <root-display
                       type=${value}
                       @change="${this.toggleOscillator}"
-                    ></root-toggle>
+                    ></root-display>
                   </div>
                 `
               )}
@@ -133,7 +136,7 @@ export class OscillatorModule extends RootElement implements AudioComponent {
                 id="detune"
                 min="-1"
               ></root-fader>
-              <root-toggle type="detune" .toggle=${false}></root-toggle>
+              <root-display type="detune" .toggle=${false}></root-toggle>
             </div>
             <p class="module__subheading">Detune</p>
           </div>

@@ -1,4 +1,4 @@
-root-toggle .toggle-control {
+root-display .display-control {
   --color-background: #161719;
   background: var(--color-background);
   border-radius: 2px;
@@ -7,7 +7,7 @@ root-toggle .toggle-control {
   width: 2rem;
 }
 
-root-toggle .toggle-control__large {
+root-display .display-control__large {
   align-items: center;
   display: flex;
   height: 2.125rem;
@@ -21,7 +21,7 @@ label {
   align-items: center;
 }
 
-root-toggle .toggle-control__light {
+root-display .display-control__light {
   --color-background: #84898B;
   background: var(--color-background);
   height: 0.25rem;
@@ -29,17 +29,17 @@ root-toggle .toggle-control__light {
   width: 1rem;
 }
 
-root-toggle input[type="checkbox"]:checked ~ label .toggle-control__light {
+root-display input[type="checkbox"]:checked ~ label .display-control__light {
   --color-background: #05EB7C;
   background: var(--color-background);
 }
 
-root-toggle input[type="checkbox"]:focus-visible ~ label .toggle-control {
+root-display input[type="checkbox"]:focus-visible ~ label .display-control {
   --color-border: #05EB7C;
   border: 1px solid var(--color-border);
 }
 
-root-toggle input[type="checkbox"] {
+root-display input[type="checkbox"] {
   position: absolute;
   opacity: 0;
 }
