@@ -52,7 +52,7 @@ export class OscillatorModule extends RootElement implements AudioComponent {
     currentTarget: Display;
   }) {
     const checked = event.target.checked;
-    const type = event.currentTarget.id.split('-')[0]
+    const type = event.currentTarget.id.split('-')[0];
     if (checked) {
       this.oscillators.map(obj => {
         if (obj.osc.waveform === type) {
@@ -69,7 +69,7 @@ export class OscillatorModule extends RootElement implements AudioComponent {
       });
     }
 
-    console.log(this.oscillators)
+    console.log(this.oscillators);
   }
 
   setGain(event: { currentTarget: Fader; target: HTMLInputElement }) {
@@ -121,11 +121,13 @@ export class OscillatorModule extends RootElement implements AudioComponent {
                       @input="${this.setGain}"
                       data-waveform="${value}"
                     ></root-fader>
-                    <input type="checkbox" id="${value}-osc-toggle" @change="${this.toggleOscillator}"/>
+                    <input
+                      type="checkbox"
+                      id="${value}-osc-toggle"
+                      @change="${this.toggleOscillator}"
+                    />
                     <label for="${value}-osc-toggle">
-                      <root-display
-                        kind=${value}
-                      ></root-display>
+                      <root-display kind=${value}></root-display>
                     </label>
                   </div>
                 `

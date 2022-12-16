@@ -13,12 +13,12 @@ export class Display extends RootElement {
   render() {
     return this.toggle
       ? html`
-        <div class="display-control__wrapper">
-          <div class="display-control">
-            <root-svg type="${this.kind}"></root-svg>
+          <div class="display-control__wrapper">
+            <div class="display-control">
+              <root-svg type="${this.kind}"></root-svg>
+            </div>
+            <div class="display-control__light"></div>
           </div>
-          <div class="display-control__light"></div>
-        </div>
         `
       : html`
           <div class="display-control display-control__large">

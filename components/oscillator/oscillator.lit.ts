@@ -37,32 +37,42 @@ export class Oscillator extends RootElement implements AudioComponent {
     this.waveform = this.oscillator.waveform;
   }
 
-  createInput(value: string){
-    return value === this.waveform ? 
-      html `<input type="radio" name="osc-select" id="${value}-osc-select" checked />`
-      :html `<input type="radio" name="osc-select" id="${value}-osc-select"/>`;
+  createInput(value: string) {
+    return value === this.waveform
+      ? html`<input
+          type="radio"
+          name="osc-select"
+          id="${value}-osc-select"
+          checked
+        />`
+      : html`<input type="radio" name="osc-select" id="${value}-osc-select" />`;
   }
 
   render() {
     return html`
       <div class="root-osc">
-      <div class="root-osc__wave-select">
-        <form class="root-osc__wave-select-sources" @change=${this.__onWaveform}>
-              ${map(
-                Object.entries(this.waveforms),
-                ([value]) => html`
-                <label for="${value}-osc-select" class="root-osc__source">
-                  ${this.createInput(value)}
-                <root-display
-                  kind=${value}
-                ></root-display>
-                </label>`
-              )}
-        </form>
-        <p class="module__subheading">Wave Select</p>
-      </div>
-      <div class="osc-pitch-bend"> 
-        <div class="osc-pitch-bend__fader module-single-fader-display__no-toggle">
+        <div class="root-osc__wave-select">
+          <form
+            class="root-osc__wave-select-sources"
+            @change=${this.__onWaveform}
+          >
+            ${map(
+              Object.entries(this.waveforms),
+              ([value]) => html` <label
+                for="${value}-osc-select"
+                class="root-osc__source"
+              >
+                ${this.createInput(value)}
+                <root-display kind=${value}></root-display>
+              </label>`
+            )}
+          </form>
+          <p class="module__subheading">Wave Select</p>
+        </div>
+        <div class="osc-pitch-bend">
+          <div
+            class="osc-pitch-bend__fader module-single-fader-display__no-toggle"
+          >
             <root-fader
               @input=${this.__onDetune}
               @mouseup=${this.__onDetuneStop}
@@ -70,12 +80,12 @@ export class Oscillator extends RootElement implements AudioComponent {
               min="-1"
             ></root-fader>
             <root-display kind="detune" .toggle=${false}></root-display>
-            </div>
-            <p class="module__subheading">Detune</p>
           </div>
-          <div class="osc-pitch-bend__sticky">
+          <p class="module__subheading">Detune</p>
+        </div>
+        <div class="osc-pitch-bend__sticky">
           <input @input=${this.__onStickyToggle} id="sticky" type="checkbox" />
-          </div>
+        </div>
         <label for="detune-amount">Pitch bend semitones</label>
         <input
           @input=${this.__onDetuneAmount}

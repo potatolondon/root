@@ -52,9 +52,7 @@ export class BaseOscillator {
   __onWaveform(event: InputEvent) {
     if (!(event.target instanceof HTMLInputElement)) return;
     const value = event.target.id.split('-')[0];
-    if (
-      !Object.keys(BaseOscillator.waveforms).includes(value)
-    ) return;
+    if (!Object.keys(BaseOscillator.waveforms).includes(value)) return;
     this.waveform = value as keyof typeof BaseOscillator.waveforms;
   }
 
