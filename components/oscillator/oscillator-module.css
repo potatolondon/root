@@ -16,18 +16,22 @@
   padding: 8px 2px 4px; 
 }
 
-
-.osc-module__control-single {
-  --color-background: #3e4245;
-  align-items: center;
-  background-color: var(--color-background);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 8px 0 2px; 
-  border-radius: 2px;
-}
-
 .osc-module-control__single-wrapper {
   margin-left: 8px;
+}
+
+
+root-osc-module input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+
+root-osc-module input[type="checkbox"]:checked ~ label .display-control__light {
+  --color-background: #05EB7C;
+  background: var(--color-background);
+}
+
+root-osc-module input[type="checkbox"]:focus-visible ~ label .display-control {
+  --color-border: #05EB7C;
+  border: 1px solid var(--color-border);
 }

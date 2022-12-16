@@ -5,7 +5,7 @@ import '../svg/svg.lit';
 
 export class Display extends RootElement {
   @property({ type: String })
-  type = '';
+  kind = '';
 
   @property({ type: Boolean })
   toggle = true;
@@ -13,19 +13,16 @@ export class Display extends RootElement {
   render() {
     return this.toggle
       ? html`
-          <div>
-            <input type="checkbox" id="${this.type}-toggle" />
-            <label for="${this.type}-toggle">
-              <div class="display-control">
-                <root-svg type="${this.type}"></root-svg>
-              </div>
-              <div class="display-control__light"></div>
-            </label>
+        <div class="display-control__wrapper">
+          <div class="display-control">
+            <root-svg type="${this.kind}"></root-svg>
           </div>
+          <div class="display-control__light"></div>
+        </div>
         `
       : html`
           <div class="display-control display-control__large">
-            <root-svg type="${this.type}"></root-svg>
+            <root-svg type="${this.kind}"></root-svg>
           </div>
         `;
   }

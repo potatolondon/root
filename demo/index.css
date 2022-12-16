@@ -1,6 +1,7 @@
 @import url("./module.css");
 @import url("../components/fader/fader.css");
 @import url("../components/display/display.css");
+@import url("../components/oscillator/oscillator.css");
 @import url("../components/oscillator/oscillator-module.css");
 
 html {
@@ -17,18 +18,6 @@ html {
 body {
   font-family: system-ui, sans-serif;
   margin: 1rem;
-}
-
-.root-osc {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: auto 1fr;
-  place-items: center start;
-}
-
-.osc-pitch-bend {
-  display: flex;
-  gap: 1rem;
 }
 
 .notes {
