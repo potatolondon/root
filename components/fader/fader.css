@@ -29,8 +29,9 @@ root-fader input[type="range"] {
   appearance: none;
   background: none;
   height: 36px;
-  width: 172px;
+  margin: 0.5px 0.7px;
   transform: translate(-69px, 65px) rotate(-90deg);
+  width: 172px;
 }
 
 /* WEBKIT + BLINK */
@@ -49,7 +50,8 @@ root-fader input[type="range"]::-webkit-slider-runnable-track {
   cursor: pointer;
   display: block;
   height: 6px;
-  margin-inline: 8px;
+  margin-inline: 4px;
+  margin-right: 11px;
 }
 
 root-fader input[type="range"]::-webkit-slider-thumb {
