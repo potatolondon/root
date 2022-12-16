@@ -82,6 +82,7 @@ export class Fader extends RootElement {
   set value(value: unknown) {
     if (this.input.value instanceof HTMLInputElement) {
       this.input.value.value = String(value);
+      this.setFaderValueAttribute();
     }
   }
 
@@ -90,12 +91,16 @@ export class Fader extends RootElement {
     if (this.initialType in FaderFormulas) {
       this.formula = FaderFormulas[this.initialType];
     }
-    this.setAttribute('style', `--fader-value: ${this.normalisedValue}`);
+    this.setFaderValueAttribute();
   }
 
   onInput(event: InputEvent) {
-    this.setAttribute('style', `--fader-value: ${this.normalisedValue}`);
+    this.setFaderValueAttribute();
     this.dispatchEvent(new InputEvent(event.type, event));
+  }
+
+  setFaderValueAttribute() {
+    this.setAttribute('style', `--fader-value: ${this.normalisedValue}`);
   }
 
   render() {

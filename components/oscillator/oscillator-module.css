@@ -10,18 +10,12 @@
 .osc-module__control-sources {
   --color-background: #3e4245;
   background-color: var(--color-background);
+  border-radius: 2px;
   display: flex;
   flex-direction: row;
   padding: 8px 2px 4px; 
 }
 
-.osc-module__control:first-of-type {
-  border-radius: 2px 0 0 2px;
-}
-
-.osc-module__control:last-of-type {
-  border-radius: 0 2px 2px 0;
-}
 
 .osc-module__control-single {
   --color-background: #3e4245;
