@@ -70,7 +70,9 @@ export class Oscillator extends RootElement implements AudioComponent {
           <p class="module__subheading">Wave Select</p>
         </div>
         <div class="osc-pitch-bend">
-          <div class="osc-pitch-bend__fader module-single-fader-display__no-toggle">
+          <div
+            class="osc-pitch-bend__fader module-single-fader-display__no-toggle"
+          >
             <root-fader
               @input=${this.__onDetune}
               @mouseup=${this.__onDetuneStop}
@@ -83,11 +85,15 @@ export class Oscillator extends RootElement implements AudioComponent {
         </div>
         <div class="osc-pitch-bend__options">
           <div class="osc-pitch-bend__sticky">
-            <input @input=${this.__onStickyToggle} id="sticky" type="checkbox" />
+            <input
+              @input=${this.__onStickyToggle}
+              id="sticky"
+              type="checkbox"
+            />
             <label for="sticky"><root-display /></label>
           </div>
           <input
-            aria-labelledby="detune-amount-label" 
+            aria-labelledby="detune-amount-label"
             @input=${this.__onDetuneAmount}
             id="detune-amount"
             class="osc-pitch-bend__amount"
@@ -95,7 +101,9 @@ export class Oscillator extends RootElement implements AudioComponent {
             type="number"
             value="2"
           />
-          <label id="detune-amount-label" for="detune-amount" class="hidden" >Pitch bend semitones</label>
+          <label id="detune-amount-label" for="detune-amount" class="hidden"
+            >Pitch bend semitones</label
+          >
         </div>
       </div>
     `;

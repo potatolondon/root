@@ -1,8 +1,8 @@
 import { AudioComponent, RootElement } from '../base.lit';
 import { audioCtx } from '../../lib/audioContext';
-import { NoteOnEvent } from 'components/oscillator';
-import { Oscillator } from 'components/oscillator/oscillator.lit';
-import { OscillatorModule } from 'components/oscillator/oscillator-module.lit';
+import { NoteOnEvent } from '../oscillator';
+import { Oscillator } from '../oscillator/oscillator.lit';
+import { OscillatorModule } from '../oscillator/oscillator-module.lit';
 
 const output = 'output';
 

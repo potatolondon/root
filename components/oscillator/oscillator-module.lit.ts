@@ -1,11 +1,11 @@
-import { AudioComponent, RootElement } from 'components/base.lit';
+import { AudioComponent, RootElement } from '../base.lit';
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
 import { property } from 'lit/decorators.js';
 import { BaseOscillator, NoteOnEvent } from '.';
 import { Fader } from '../fader/fader.lit';
 import { Display } from '../display/display.lit';
-import { audioCtx } from 'lib/audioContext';
+import { audioCtx } from '../../lib/audioContext';
 
 type OscillatorObject = {
   osc: BaseOscillator;
