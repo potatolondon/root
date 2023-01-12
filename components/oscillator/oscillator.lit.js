@@ -1,31 +1,28 @@
+'use strict';
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __decorateClass = (decorators, target, key, kind) => {
+  var result =
+    kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if ((decorator = decorators[i]))
+      result =
+        (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result) __defProp(target, key, result);
+  return result;
+};
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
 import '../fader/fader.lit';
 import { property } from 'lit/decorators.js';
-import { AudioComponent, RootElement } from '../base.lit';
-import { BaseOscillator, NoteOnEvent } from './index';
-
-export class Oscillator extends RootElement implements AudioComponent {
-  private __onDetune: (event: InputEvent) => void;
-  private __onDetuneStop: (event: MouseEvent) => void;
-  __onDetuneAmount: (event: InputEvent) => void;
-  __onNoteOn: (event: NoteOnEvent) => OscillatorNode | undefined;
-  __onStickyToggle: (event: InputEvent) => void;
-  __onWaveform: (event: InputEvent) => void;
-
-  enabled = true;
-  oscillator: BaseOscillator;
-  waveform: string;
-  waveforms: {};
-
-  @property({ type: String })
-  sendTo: string = '';
-
-  @property({ type: String })
-  recieveFrom: string = '';
-
+import { RootElement } from '../base.lit';
+import { BaseOscillator } from './index';
+export class Oscillator extends RootElement {
   constructor() {
     super();
+    this.enabled = true;
+    this.sendTo = '';
+    this.recieveFrom = '';
     this.oscillator = new BaseOscillator();
     this.__onDetune = this.oscillator.__onDetune;
     this.__onDetuneStop = this.oscillator.__onDetuneStop;
@@ -36,8 +33,7 @@ export class Oscillator extends RootElement implements AudioComponent {
     this.waveforms = BaseOscillator.waveforms;
     this.waveform = this.oscillator.waveform;
   }
-
-  createInput(value: string) {
+  createInput(value) {
     return value === this.waveform
       ? html`<input
           type="radio"
@@ -47,7 +43,6 @@ export class Oscillator extends RootElement implements AudioComponent {
         />`
       : html`<input type="radio" name="osc-select" id="${value}-osc-select" />`;
   }
-
   render() {
     return html`
       <div class="root-osc">
@@ -70,7 +65,9 @@ export class Oscillator extends RootElement implements AudioComponent {
           <p class="module__subheading">Wave Select</p>
         </div>
         <div class="osc-pitch-bend">
-          <div class="osc-pitch-bend__fader module-single-fader-display__no-toggle">
+          <div
+            class="osc-pitch-bend__fader module-single-fader-display__no-toggle"
+          >
             <root-fader
               @input=${this.__onDetune}
               @mouseup=${this.__onDetuneStop}
@@ -83,11 +80,15 @@ export class Oscillator extends RootElement implements AudioComponent {
         </div>
         <div class="osc-pitch-bend__options">
           <div class="osc-pitch-bend__sticky">
-            <input @input=${this.__onStickyToggle} id="sticky" type="checkbox" />
+            <input
+              @input=${this.__onStickyToggle}
+              id="sticky"
+              type="checkbox"
+            />
             <label for="sticky"><root-display /></label>
           </div>
           <input
-            aria-labelledby="detune-amount-label" 
+            aria-labelledby="detune-amount-label"
             @input=${this.__onDetuneAmount}
             id="detune-amount"
             class="osc-pitch-bend__amount"
@@ -95,11 +96,24 @@ export class Oscillator extends RootElement implements AudioComponent {
             type="number"
             value="2"
           />
-          <label id="detune-amount-label" for="detune-amount" class="hidden" >Pitch bend semitones</label>
+          <label id="detune-amount-label" for="detune-amount" class="hidden"
+            >Pitch bend semitones</label
+          >
         </div>
       </div>
     `;
   }
 }
-
+__decorateClass(
+  [property({ type: String })],
+  Oscillator.prototype,
+  'sendTo',
+  2
+);
+__decorateClass(
+  [property({ type: String })],
+  Oscillator.prototype,
+  'recieveFrom',
+  2
+);
 window.customElements.define('root-osc', Oscillator);

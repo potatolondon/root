@@ -56,6 +56,6 @@ body {
   color: var(--color-light);
 }
 
-input[type="number"] {
-  width: 100px;
+.hidden {
+  display: none;
 }
