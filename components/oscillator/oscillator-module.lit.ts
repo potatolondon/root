@@ -122,11 +122,13 @@ export class OscillatorModule extends RootElement implements AudioComponent {
                       data-waveform="${value}"
                     ></root-fader>
                     <input
+                      aria-labelledby="${value}-toggle"
                       type="checkbox"
                       id="${value}-osc-toggle"
                       @change="${this.toggleOscillator}"
                     />
-                    <label for="${value}-osc-toggle">
+                    <label id="${value}-toggle" for="${value}-osc-toggle">
+                      <span class="hidden">${value}</span>
                       <root-display kind=${value}></root-display>
                     </label>
                   </div>

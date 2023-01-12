@@ -61,8 +61,10 @@ export class Oscillator extends RootElement implements AudioComponent {
               ([value]) => html` <label
                 for="${value}-osc-select"
                 class="root-osc__source"
+                id="${value}-select"
               >
                 ${this.createInput(value)}
+                <span class="hidden">${value}</span>
                 <root-display kind=${value}></root-display>
               </label>`
             )}
@@ -86,11 +88,15 @@ export class Oscillator extends RootElement implements AudioComponent {
         <div class="osc-pitch-bend__options">
           <div class="osc-pitch-bend__sticky">
             <input
+              aria-labelledby="sticky-label"
               @input=${this.__onStickyToggle}
               id="sticky"
               type="checkbox"
             />
-            <label for="sticky"><root-display /></label>
+            <label id="sticky-label" for="sticky">
+              <span class="hidden">Sticky</span>
+              <root-display />
+            </label>
           </div>
           <input
             aria-labelledby="detune-amount-label"
