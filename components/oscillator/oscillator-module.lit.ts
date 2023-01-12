@@ -68,8 +68,6 @@ export class OscillatorModule extends RootElement implements AudioComponent {
         return obj;
       });
     }
-
-    console.log(this.oscillators);
   }
 
   setGain(event: { currentTarget: Fader; target: HTMLInputElement }) {
