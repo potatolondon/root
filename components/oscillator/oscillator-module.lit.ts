@@ -1,11 +1,11 @@
-import { AudioComponent, RootElement } from 'components/base.lit';
+import { AudioComponent, RootElement } from '../base.lit';
 import { html } from 'lit';
 import { map } from 'lit/directives/map.js';
 import { property } from 'lit/decorators.js';
 import { BaseOscillator, NoteOnEvent } from '.';
 import { Fader } from '../fader/fader.lit';
-import { Toggle } from '../toggle/toggle.lit';
-import { audioCtx } from 'lib/audioContext';
+import { Display } from '../display/display.lit';
+import { audioCtx } from '../../lib/audioContext';
 
 type OscillatorObject = {
   osc: BaseOscillator;
@@ -47,23 +47,29 @@ export class OscillatorModule extends RootElement implements AudioComponent {
     }
   }
 
-  toggleOscillator(event: { target: HTMLInputElement; currentTarget: Toggle }) {
+  toggleOscillator(event: {
+    target: HTMLInputElement;
+    currentTarget: Display;
+  }) {
     const checked = event.target.checked;
+    const type = event.currentTarget.id.split('-')[0];
     if (checked) {
       this.oscillators.map(obj => {
-        if (obj.osc.waveform === event.currentTarget.type) {
+        if (obj.osc.waveform === type) {
           obj.enabled = true;
         }
         return obj;
       });
     } else {
       this.oscillators.map(obj => {
-        if (obj.osc.waveform === event.currentTarget.type) {
+        if (obj.osc.waveform === type) {
           obj.enabled = false;
         }
         return obj;
       });
     }
+
+    console.log(this.oscillators);
   }
 
   setGain(event: { currentTarget: Fader; target: HTMLInputElement }) {
@@ -115,10 +121,16 @@ export class OscillatorModule extends RootElement implements AudioComponent {
                       @input="${this.setGain}"
                       data-waveform="${value}"
                     ></root-fader>
-                    <root-toggle
-                      type=${value}
+                    <input
+                      aria-labelledby="${value}-toggle"
+                      type="checkbox"
+                      id="${value}-osc-toggle"
                       @change="${this.toggleOscillator}"
-                    ></root-toggle>
+                    />
+                    <label id="${value}-toggle" for="${value}-osc-toggle">
+                      <span class="hidden">${value}</span>
+                      <root-display kind=${value}></root-display>
+                    </label>
                   </div>
                 `
               )}
@@ -126,14 +138,14 @@ export class OscillatorModule extends RootElement implements AudioComponent {
             <p class="module__subheading">Wave mix</p>
           </div>
           <div class="osc-module-control__single-wrapper">
-            <div class="osc-module__control-single">
+            <div class="module-single-fader-display__no-toggle">
               <root-fader
                 @input=${this.__onDetune}
                 @mouseup=${this.__onDetuneStop}
                 id="detune"
                 min="-1"
               ></root-fader>
-              <root-toggle type="detune" .toggle=${false}></root-toggle>
+              <root-display kind="detune" .toggle=${false}></root-display>
             </div>
             <p class="module__subheading">Detune</p>
           </div>

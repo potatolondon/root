@@ -50,13 +50,10 @@ export class BaseOscillator {
   }
 
   __onWaveform(event: InputEvent) {
-    if (!(event.currentTarget instanceof HTMLSelectElement)) return;
-    if (
-      !Object.keys(BaseOscillator.waveforms).includes(event.currentTarget.value)
-    )
-      return;
-    this.waveform = event.currentTarget
-      .value as keyof typeof BaseOscillator.waveforms;
+    if (!(event.target instanceof HTMLInputElement)) return;
+    const value = event.target.id.split('-')[0];
+    if (!Object.keys(BaseOscillator.waveforms).includes(value)) return;
+    this.waveform = value as keyof typeof BaseOscillator.waveforms;
   }
 
   __onDetune(event: InputEvent) {
@@ -68,7 +65,7 @@ export class BaseOscillator {
   }
 
   __onDetuneAmount(event: InputEvent) {
-    if (!(event.currentTarget instanceof Fader)) return;
+    if (!(event.currentTarget instanceof HTMLInputElement)) return;
     this.detuneAmount = event.currentTarget.valueAsNumber;
   }
 

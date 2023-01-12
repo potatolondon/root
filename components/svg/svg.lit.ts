@@ -1,4 +1,4 @@
-import { RootElement } from 'components/base.lit';
+import { RootElement } from '../base.lit';
 import { html } from 'lit-html';
 import { property } from 'lit/decorators.js';
 

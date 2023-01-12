@@ -1,0 +1,76 @@
+.root-osc {
+  display: flex;
+  align-items: center;
+}
+
+.root-osc__wave-select {
+  text-align: center;
+}
+
+.root-osc__wave-select-sources {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 105px;
+}
+
+.root-osc__source {
+  --color-background: #3e4245;
+  background-color: var(--color-background);
+  padding: 5px;
+  margin: 5px;
+}
+
+.osc-pitch-bend {
+  margin: 10px;
+}
+
+.osc-pitch-bend__options {
+  margin: 5px;
+}
+
+.osc-pitch-bend__sticky {
+  --color-background: #3e4245;
+  background-color: var(--color-background);
+  width: fit-content;
+  padding: 5px;
+  border-radius: 2px;
+}
+
+.osc-pitch-bend__amount {
+  margin-top: 10px;
+  height: 30px;
+  width: 35px;
+}
+
+
+root-osc input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+root-osc input[type="radio"]:checked + root-display .display-control__light {
+  --color-background: #05EB7C;
+  background: var(--color-background);
+}
+
+
+root-osc input[type="radio"]:focus-visible + root-display .display-control {
+  --color-border: #05EB7C;
+  border: 1px solid var(--color-border);
+}
+
+
+root-osc input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+
+root-osc input[type="checkbox"]:checked ~ label .display-control__light {
+  --color-background: #05EB7C;
+  background: var(--color-background);
+}
+
+root-osc input[type="checkbox"]:focus-visible ~ label .display-control {
+  --color-border: #05EB7C;
+  border: 1px solid var(--color-border);
+}

@@ -1,0 +1,30 @@
+root-display .display-control__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+root-display .display-control {
+  --color-background: #161719;
+  background: var(--color-background);
+  border-radius: 2px;
+  height: 1.5rem;
+  text-align: center;
+  width: 2rem;
+}
+
+root-display .display-control__large {
+  align-items: center;
+  display: flex;
+  height: 2.125rem;
+  justify-content: center;
+}
+
+root-display .display-control__light {
+  --color-background: #84898B;
+  background: var(--color-background);
+  height: 0.25rem;
+  margin-top: 4px;
+  width: 1rem;
+}
