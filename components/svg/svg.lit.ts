@@ -88,6 +88,38 @@ export class SVG extends RootElement {
             />
           </svg>
         `;
+      case 'lowpass':
+        return html`
+          <svg
+            width="16"
+            height="8"
+            viewBox="0 0 16 8"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 1H7.7889C9.79502 1 11.6684 2.00261 12.7812 3.6718L15 7"
+              stroke="#C6C6C6"
+              stroke-linecap="round"
+            />
+          </svg>
+        `;
+      case 'highpass':
+        return html`
+          <svg
+            width="16"
+            height="8"
+            viewBox="0 0 16 8"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 1H8.2111C6.20498 1 4.3316 2.00261 3.2188 3.6718L1 7"
+              stroke="#C6C6C6"
+              stroke-linecap="round"
+            />
+          </svg>
+        `;
     }
   }
 
