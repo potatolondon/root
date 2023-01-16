@@ -8,15 +8,20 @@ export class Filter extends RootElement implements AudioComponent {
   static filterTypes = {
     lowpass: 'Lowpass',
     highpass: 'Highpass',
-    bandpass: 'Bandpass',
-    lowshelf: 'Lowshelf',
-    peaking: 'Peaking',
-    notch: 'Notch',
+    // bandpass: 'Bandpass',
+    // lowshelf: 'Lowshelf',
+    // peaking: 'Peaking',
+    // notch: 'Notch',
   };
 
-  audioNode = audioCtx.createBiquadFilter();
+  defaults: BiquadFilterOptions = {
+    frequency: 22_050,
+    gain: 0,
+    Q: 1,
+    type: Object.keys(Filter.filterTypes)[0] as BiquadFilterType,
+  };
 
-  initialFrequency = 1000;
+  audioNode = new BiquadFilterNode(audioCtx, { ...this.defaults });
 
   @property({ type: Boolean })
   enabled: boolean = true;
@@ -27,105 +32,104 @@ export class Filter extends RootElement implements AudioComponent {
   @property({ type: String })
   recieveFrom: string = '';
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.audioNode.type = 'bandpass';
-    this.audioNode.frequency.setValueAtTime(
-      this.initialFrequency,
-      audioCtx.currentTime
-    );
-    this.audioNode.gain.value = 10;
+  __onFrequencyChange({ currentTarget }: InputEvent) {
+    if (currentTarget && 'valueAsNumber' in currentTarget) {
+      this.audioNode.frequency.setValueAtTime(
+        currentTarget.valueAsNumber as number,
+        audioCtx.currentTime,
+      );
+    }
   }
 
-  toggleFilter() {
-    this.enabled = !this.enabled;
+  __onQChange({ currentTarget }: InputEvent) {
+    if (currentTarget && 'valueAsNumber' in currentTarget) {
+      this.audioNode.Q.setValueAtTime(
+        currentTarget.valueAsNumber as number,
+        audioCtx.currentTime,
+      );
+    }
   }
 
-  __onInput({ currentTarget }: InputEvent) {
-    if (!this.enabled) return;
-    if (!(currentTarget instanceof HTMLInputElement)) return;
-
-    const { id, value, type } = currentTarget;
-
-    if (id.includes('type')) {
-      this.audioNode.type = value as BiquadFilterType;
+  __onTypeChange({ currentTarget }: InputEvent) {
+    if (currentTarget && 'value' in currentTarget) {
+      this.audioNode.type = currentTarget.value as BiquadFilterType;
     }
+  }
 
-    if (id.includes('gain')) {
-      const val = parseInt(value, 10);
-      this.audioNode.gain.setValueAtTime(val, audioCtx.currentTime);
-    }
-
-    if (id.includes('frequency')) {
-      const rangeInput: HTMLInputElement | null = document.querySelector(
-        '#filter-frequency-range'
+  __onGainChange({ currentTarget }: InputEvent) {
+    if (currentTarget && 'valueAsNumber' in currentTarget) {
+      this.audioNode.gain.setValueAtTime(
+        currentTarget.valueAsNumber as number,
+        audioCtx.currentTime,
       );
-      const numberInput: HTMLInputElement | null = document.querySelector(
-        '#filter-frequency-number'
-      );
-      const val = parseInt(value, 10);
-      if (type === 'number' && rangeInput) {
-        rangeInput.value = String(val);
-        this.audioNode.frequency.setValueAtTime(val, audioCtx.currentTime);
-      } else if (numberInput) {
-        numberInput.value = String(value);
-        this.audioNode.frequency.setValueAtTime(val, audioCtx.currentTime);
-      }
     }
   }
 
   render() {
     return html`
       <div class="root-filter">
-        <div>
-          <input
-            type="checkbox"
-            id="filter-switch"
-            name="filter-switch"
-            @input=${this.toggleFilter}
-            checked
-          />
-          <label for="filter-switch">Filter Switch</label>
-        </div>
-        <label for="filter-type">Filter Type</label>
-        <select
-          id="filter-type"
-          @input=${this.__onInput}
-          ?disabled=${!this.enabled}
-        >
-          ${map(
-            Object.entries(Filter.filterTypes),
-            ([value, label]) => html`
-              <option ?selected=${value === this.audioNode.type} value=${value}>
-                ${label}
-              </option>
-            `
-          )}
-        </select>
-        <div>
-          <label for="filter-frequency">Filter Frequency: </label>
-          <input
-            @input=${this.__onInput}
-            type="range"
-            .value=${this.initialFrequency}
-            id="filter-frequency-range"
-            name="filter-frequency"
-            min="20"
-            max="20000"
-            ?disabled=${!this.enabled}
-            aria-label="Filter frequency range"
-          />
-          <input
-            @input=${this.__onInput}
-            type="number"
-            .value=${this.initialFrequency}
-            id="filter-frequency-number"
-            name="filter-frequency"
-            min="20"
-            max="20000"
-            ?disabled=${!this.enabled}
-            aria-label="Filter frequency number input"
-          />
+        <h1 class="module__heading">Filter Module</h1>
+
+        <div class="filter__wrapper">
+          <div>
+            <root-fader
+              @input="${this.__onFrequencyChange}"
+              id="filter-frequency"
+              name="filter-frequency"
+              min="10"
+              max="22050"
+              value=${this.defaults.frequency}
+              ?disabled=${!this.enabled}
+            ></root-fader>
+            <label class="module__subheading" for="filter-frequency">Freq</label>
+          </div>
+
+          <div>
+            <root-fader
+              @input="${this.__onQChange}"
+              id="filter-q"
+              name="filter-q"
+              min="0"
+              max="10"
+              value=${this.defaults.Q}
+              ?disabled=${!this.enabled}
+            ></root-fader>
+            <label class="module__subheading" for="filter-q">Res</label>
+          </div>
+
+          <form class="root-filter__types">
+            ${map(Object.entries(Filter.filterTypes), ([value, key]) => html`
+              <label
+                for="filter-type-${value}"
+                class="root-filter__type"
+              >
+                <input
+                  @input=${this.__onTypeChange}
+                  type="radio"
+                  name="filter-type"
+                  id="filter-type-${value}"
+                  value="${value}"
+                  ?checked=${value === this.defaults.type}
+                >
+                <span class="hidden">${key}</span>
+                <root-display kind=${value}></root-display>
+              </label>
+            `)}
+            <label class="module__subheading">Mode</label>
+          </form>
+
+          <div>
+            <root-fader
+              @input="${this.__onGainChange}"
+              id="filter-gain"
+              name="filter-gain"
+              min="0"
+              max="40"
+              value=${this.defaults.gain}
+              ?disabled=${!this.enabled}
+            ></root-fader>
+            <label class="module__subheading" for="filter-gain">Boost</label>
+          </div>
         </div>
       </div>
     `;

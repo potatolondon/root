@@ -1,0 +1,54 @@
+.root-filter {
+  text-align: center;
+  padding: 40px;
+}
+
+.filter__wrapper {
+  display: flex;
+}
+
+.root-filter__types {
+  align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: end;
+}
+
+.root-filter__type {
+  --color-background: #3e4245;
+  background-color: var(--color-background);
+  padding: 5px;
+  margin: 5px;
+}
+
+root-filter input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+root-filter input[type="radio"]:checked + root-display .display-control__light {
+  --color-background: #05EB7C;
+  background: var(--color-background);
+}
+
+
+root-filter input[type="radio"]:focus-visible + root-display .display-control {
+  --color-border: #05EB7C;
+  border: 1px solid var(--color-border);
+}
+
+
+root-filter input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+
+root-filter input[type="checkbox"]:checked ~ label .display-control__light {
+  --color-background: #05EB7C;
+  background: var(--color-background);
+}
+
+root-filter input[type="checkbox"]:focus-visible ~ label .display-control {
+  --color-border: #05EB7C;
+  border: 1px solid var(--color-border);
+}

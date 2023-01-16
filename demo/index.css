@@ -1,6 +1,7 @@
 @import url("./module.css");
-@import url("../components/fader/fader.css");
 @import url("../components/display/display.css");
+@import url("../components/fader/fader.css");
+@import url("../components/filter/filter.css");
 @import url("../components/oscillator/oscillator.css");
 @import url("../components/oscillator/oscillator-module.css");
 
