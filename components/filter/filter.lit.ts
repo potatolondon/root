@@ -36,7 +36,7 @@ export class Filter extends RootElement implements AudioComponent {
     if (currentTarget && 'valueAsNumber' in currentTarget) {
       this.audioNode.frequency.setValueAtTime(
         currentTarget.valueAsNumber as number,
-        audioCtx.currentTime,
+        audioCtx.currentTime
       );
     }
   }
@@ -45,7 +45,7 @@ export class Filter extends RootElement implements AudioComponent {
     if (currentTarget && 'valueAsNumber' in currentTarget) {
       this.audioNode.Q.setValueAtTime(
         currentTarget.valueAsNumber as number,
-        audioCtx.currentTime,
+        audioCtx.currentTime
       );
     }
   }
@@ -60,7 +60,7 @@ export class Filter extends RootElement implements AudioComponent {
     if (currentTarget && 'valueAsNumber' in currentTarget) {
       this.audioNode.gain.setValueAtTime(
         currentTarget.valueAsNumber as number,
-        audioCtx.currentTime,
+        audioCtx.currentTime
       );
     }
   }
@@ -81,7 +81,9 @@ export class Filter extends RootElement implements AudioComponent {
               value=${this.defaults.frequency}
               ?disabled=${!this.enabled}
             ></root-fader>
-            <label class="module__subheading" for="filter-frequency">Freq</label>
+            <label class="module__subheading" for="filter-frequency"
+              >Freq</label
+            >
           </div>
 
           <div>
@@ -98,23 +100,23 @@ export class Filter extends RootElement implements AudioComponent {
           </div>
 
           <form class="root-filter__types">
-            ${map(Object.entries(Filter.filterTypes), ([value, key]) => html`
-              <label
-                for="filter-type-${value}"
-                class="root-filter__type"
-              >
-                <input
-                  @input=${this.__onTypeChange}
-                  type="radio"
-                  name="filter-type"
-                  id="filter-type-${value}"
-                  value="${value}"
-                  ?checked=${value === this.defaults.type}
-                >
-                <span class="hidden">${key}</span>
-                <root-display kind=${value}></root-display>
-              </label>
-            `)}
+            ${map(
+              Object.entries(Filter.filterTypes),
+              ([value, key]) => html`
+                <label for="filter-type-${value}" class="root-filter__type">
+                  <input
+                    @input=${this.__onTypeChange}
+                    type="radio"
+                    name="filter-type"
+                    id="filter-type-${value}"
+                    value="${value}"
+                    ?checked=${value === this.defaults.type}
+                  />
+                  <span class="hidden">${key}</span>
+                  <root-display kind=${value}></root-display>
+                </label>
+              `
+            )}
             <label class="module__subheading">Mode</label>
           </form>
 

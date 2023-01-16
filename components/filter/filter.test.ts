@@ -38,7 +38,9 @@ describe('Filter', () => {
 
   it('responds to changes in type (mode)', async () => {
     const el: Filter = await fixture(html` <root-filter></root-filter>`);
-    const elRadio = el.querySelector('#filter-type-highpass') as HTMLInputElement;
+    const elRadio = el.querySelector(
+      '#filter-type-highpass'
+    ) as HTMLInputElement;
     expect(elRadio).to.be.instanceOf(HTMLInputElement);
     elRadio.click();
     expect(el.audioNode.type).to.equal('highpass');
