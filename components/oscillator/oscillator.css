@@ -10,14 +10,14 @@
 .root-osc__wave-select-sources {
   display: flex;
   flex-wrap: wrap;
-  max-width: 105px;
+  max-width: 110px;
 }
 
 .root-osc__source {
   --color-background: #3e4245;
   background-color: var(--color-background);
   padding: 5px;
-  margin: 5px;
+  margin: 6px;
 }
 
 .osc-pitch-bend {
