@@ -1,8 +1,14 @@
+root-connect {
+  display: flex;
+  justify-content: center;
+}
+
 div[class^='root'], div[class*=' root'] {
   background-color: #161719;
-  border-radius: 4px;
-  width: fit-content;
   border: 1px solid #3E4245;
+  border-radius: 4px;
+  margin: 20px;
+  width: fit-content;
 }
 
 .module__heading {

@@ -28,3 +28,37 @@ root-display .display-control__light {
   margin-top: 4px;
   width: 1rem;
 }
+
+
+div[class^='root'] input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+
+input[type="checkbox"]:checked ~ label .display-control__light {
+  --color-background: #05EB7C;
+  background: var(--color-background);
+}
+
+input[type="checkbox"]:focus-visible ~ label .display-control {
+  --color-border: #05EB7C;
+  border: 1px solid var(--color-border);
+}
+
+div[class^='root'] input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+input[type="radio"]:checked ~ root-display .display-control__light {
+  --color-background: #05EB7C;
+  background: var(--color-background);
+}
+
+
+input[type="radio"]:focus-visible ~ root-display .display-control {
+  --color-border: #05EB7C;
+  border: 1px solid var(--color-border);
+}
+
+
