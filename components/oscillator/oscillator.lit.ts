@@ -9,7 +9,7 @@ export class Oscillator extends RootElement implements AudioComponent {
   private __onDetune: (event: InputEvent) => void;
   private __onDetuneStop: (event: MouseEvent) => void;
   __onDetuneAmount: (event: InputEvent) => void;
-  __onNoteOn: (event: NoteOnEvent) => OscillatorNode | undefined;
+  __onNoteOn: (event: NoteOnEvent) => AudioNode | void;
   __onStickyToggle: (event: InputEvent) => void;
   __onWaveform: (event: InputEvent) => void;
 

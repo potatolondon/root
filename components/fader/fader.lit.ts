@@ -46,7 +46,7 @@ export class Fader extends RootElement {
 
   private get parentAttributes() {
     const attrs: { [name: string]: string | null } = {};
-    const exclude = ['id', 'max', 'min', 'style', 'value'];
+    const exclude = ['id', 'max', 'min', 'style', 'type', 'value'];
     for (const name of this.getAttributeNames()) {
       if (!exclude.includes(name)) {
         attrs[name] = this.getAttribute(name);

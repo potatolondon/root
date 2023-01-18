@@ -14,7 +14,7 @@ div[class^='root'], div[class*=' root'] {
 
 .module__subheading {
 font-size: 8px;
-line-height: 10px;
+line-height: 14px;
 text-transform: uppercase;
 }
 
@@ -25,8 +25,7 @@ text-transform: uppercase;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 8px 0 2px; 
+  padding: 8px 0 2px;
   border-radius: 2px;
   width: fit-content;
 }
-

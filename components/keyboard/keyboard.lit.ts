@@ -53,7 +53,7 @@ export class Keyboard extends RootElement {
   __generateKeys() {
     for (const key of Keyboard.keys) {
       const note = this.getNoteForKey(key);
-      if (!note) throw new Error(`Invalid key ${key}`)
+      if (!note) throw new Error(`Invalid key ${key}`);
       const natural = Keyboard.isNatural(note);
       this.keys.push({ key, natural, note });
     }

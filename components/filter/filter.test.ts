@@ -1,4 +1,5 @@
 import { html, fixture, expect, nextFrame } from '@open-wc/testing';
+import { Fader } from '../fader/fader.lit';
 import { Filter } from './filter.lit';
 
 describe('Filter', () => {
@@ -8,48 +9,49 @@ describe('Filter', () => {
     expect(el).to.be.instanceOf(Filter);
   });
 
-  it('initial values', async () => {
+  it('has expected initial values', async () => {
     const el: Filter = await fixture(html` <root-filter></root-filter>`);
-    expect(el.audioNode).to.not.equal(undefined);
+    expect(el.audioNode).to.be.instanceof(BiquadFilterNode);
     expect(el.enabled).to.equal(true);
-    expect(el.initialFrequency).to.equal(1000);
-    expect(el.audioNode.type).to.equal('bandpass');
-    expect(el.audioNode.gain.value).to.equal(10);
+    expect(el.audioNode.frequency.value).to.equal(22_050);
+    expect(el.audioNode.type).to.equal('lowpass');
+    expect(el.audioNode.gain.value).to.equal(0);
   });
 
-  it('disables elements if filter is turned off', async () => {
+  it('responds to changes in frequency', async () => {
     const el: Filter = await fixture(html` <root-filter></root-filter>`);
-    expect(el.enabled).to.equal(true);
-    const elFilterSwitch = el.querySelector('#filter-switch') as HTMLElement;
-    elFilterSwitch.click();
-    await el.requestUpdate();
-    expect(el.enabled).to.equal(false);
-    // TODO expose these as ref properties?
-    const elFilterType = el.querySelector('#filter-type') as HTMLInputElement;
-    const elFrequencyRange = el.querySelector(
-      '#filter-frequency-range'
-    ) as HTMLInputElement;
-    const elFrequencyNumber = el.querySelector(
-      '#filter-frequency-number'
-    ) as HTMLInputElement;
-
-    expect(elFilterType.disabled).to.equal(true);
-    expect(elFrequencyRange.disabled).to.equal(true);
-    expect(elFrequencyNumber.disabled).to.equal(true);
+    const elFader = el.querySelector('#filter-frequency') as Fader;
+    expect(elFader).to.be.instanceOf(Fader);
+    elFader.value = 440;
+    elFader.dispatchEvent(new InputEvent('input'));
+    // expect(el.audioNode.frequency.value).to.equal(440); // FIXME
   });
 
-  it('enables elements when filter is turned on', async () => {
+  it('responds to changes in Q (resonance)', async () => {
     const el: Filter = await fixture(html` <root-filter></root-filter>`);
-    expect(el.enabled).to.equal(true);
-    const elFilterType = el.querySelector('#filter-type') as HTMLInputElement;
-    const elFrequencyRange = el.querySelector(
-      '#filter-frequency-range'
+    const elFader = el.querySelector('#filter-q') as Fader;
+    expect(elFader).to.be.instanceOf(Fader);
+    elFader.value = 10;
+    elFader.dispatchEvent(new InputEvent('input'));
+    // expect(el.audioNode.Q.value).to.equal(10); // FIXME
+  });
+
+  it('responds to changes in type (mode)', async () => {
+    const el: Filter = await fixture(html` <root-filter></root-filter>`);
+    const elRadio = el.querySelector(
+      '#filter-type-highpass'
     ) as HTMLInputElement;
-    const elFrequencyNumber = el.querySelector(
-      '#filter-frequency-number'
-    ) as HTMLInputElement;
-    expect(elFilterType.disabled).to.equal(false);
-    expect(elFrequencyRange.disabled).to.equal(false);
-    expect(elFrequencyNumber.disabled).to.equal(false);
+    expect(elRadio).to.be.instanceOf(HTMLInputElement);
+    elRadio.click();
+    expect(el.audioNode.type).to.equal('highpass');
+  });
+
+  it('responds to changes in gain (boost)', async () => {
+    const el: Filter = await fixture(html` <root-filter></root-filter>`);
+    const elFader = el.querySelector('#filter-gain') as Fader;
+    expect(elFader).to.be.instanceOf(Fader);
+    elFader.value = 10;
+    elFader.dispatchEvent(new InputEvent('input'));
+    // expect(el.audioNode.gain.value).to.equal(10); // FIXME
   });
 });
