@@ -95,7 +95,7 @@ export class Oscillator extends RootElement implements AudioComponent {
             />
             <label id="sticky-label" for="sticky">
               <span class="hidden">Sticky</span>
-              <root-display />
+              <root-display text="Sticky"/>
             </label>
           </div>
           <input

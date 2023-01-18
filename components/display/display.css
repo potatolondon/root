@@ -50,6 +50,11 @@ div[class^='root'] input[type="radio"] {
   opacity: 0;
 }
 
+.display-control:has(> h3) {
+  height: 3rem;
+  width: 4rem;
+}
+
 input[type="radio"]:checked ~ root-display .display-control__light {
   --color-background: #05EB7C;
   background: var(--color-background);
