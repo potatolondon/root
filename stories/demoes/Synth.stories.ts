@@ -6,9 +6,16 @@ import '../../components/user-input/user-input.lit';
 import '../../components/midi-input/midi-input.lit';
 import '../../components/connect/connect.lit';
 
+import SynthDocumentation from './SynthDocumentation.mdx';
+
 export default {
   title: 'Demoes/Synth',
-  parameters: {},
+  parameters: {
+    docs: {
+      page: SynthDocumentation,
+    },
+  },
+  
 };
 
 const SingleOscillator = () => html` <root-midi></root-midi>
