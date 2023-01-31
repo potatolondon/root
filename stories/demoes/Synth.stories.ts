@@ -7,7 +7,7 @@ import '../../components/midi-input/midi-input.lit';
 import '../../components/connect/connect.lit';
 
 export default {
-  title: 'Synth',
+  title: 'Demoes/Synth',
   parameters: {},
 };
 

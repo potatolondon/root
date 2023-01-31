@@ -2,9 +2,15 @@
 
 import { Meta, Story } from '@storybook/addon-docs';
 
-# Filter Component
+# Filter
+
+Root Filter is based on Web Audio API's BiquadFilterNode. 
+
+The filter currently offers a lowpass and hipass filter with rolloff set to -12 (default).
 
 ```html
-<root-filter></root-filter>
+<root-filter recieveFrom="osc-1" sendTo-"output"></root-filter>
 ```
-<Story id="filter--basic" />
+<Story id="components-filter--basic" />
+
+This filter makes use of Root Fader's quadratic function - so the frequency input range moves from 10hz to 20KHz, according to the human hearing range.

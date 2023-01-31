@@ -1,0 +1,32 @@
+<!-- Fader-Documentation.mdx -->
+
+import { Meta, Story } from '@storybook/addon-docs';
+
+# Display Component
+The UI component for a display. Optional toggle, svg or text.
+
+## Display
+
+```html
+  <root-display kind="detune" .toggle=${false}></root-display>
+```
+
+<Story id="components-display--no-toggle" />
+
+
+## Toggle
+
+```html
+  <root-display kind="sine"></root-display>
+```
+
+<Story id="components-display--toggle" />
+
+## Text
+
+
+```html
+<root-display text="Sticky"/>
+```
+
+<Story id="components-display--text" />
