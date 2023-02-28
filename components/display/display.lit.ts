@@ -14,10 +14,8 @@ export class Display extends RootElement {
   text = '';
 
   addText() {
-    if(!this.kind) {
-      return html`
-    <h3 class="module__text">${this.text}</h3>
-      `
+    if (!this.kind) {
+      return html` <h3 class="module__text">${this.text}</h3> `;
     }
   }
 

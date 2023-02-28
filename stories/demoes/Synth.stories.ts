@@ -15,7 +15,6 @@ export default {
       page: SynthDocumentation,
     },
   },
-  
 };
 
 const SingleOscillator = () => html` <root-midi></root-midi>
@@ -43,7 +42,6 @@ const OscillatorModule = () => html` <root-midi></root-midi>
   </root-connect>`;
 
 export const SynthOscillatorModule = OscillatorModule.bind({});
-
 
 const TwoOscTypes = () => html` <root-midi></root-midi>
   <root-keyboard></root-keyboard>

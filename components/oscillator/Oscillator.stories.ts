@@ -20,16 +20,15 @@ const Template = () => html`
   <root-connect>
     <root-osc sendTo="output"></root-osc>
   </root-connect>
-  `;
+`;
 
 export const Basic = Template.bind({});
-
 
 const OscModule = () => html`
   <root-midi></root-midi>
   <root-connect>
     <root-osc-module sendTo="output"></root-osc-module>
   </root-connect>
-  `;
+`;
 
 export const OscillatorModule = OscModule.bind({});

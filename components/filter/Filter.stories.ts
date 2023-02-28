@@ -13,8 +13,7 @@ export default {
   },
 };
 
-const Template = () => html`
-<root-connect>
+const Template = () => html` <root-connect>
   <root-filter></root-filter>
 </root-connect>`;
 

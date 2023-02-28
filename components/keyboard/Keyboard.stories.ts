@@ -14,8 +14,7 @@ export default {
   },
 };
 
-const Template = () => html`
-<root-midi></root-midi>
-<root-keyboard></root-keyboard>`;
+const Template = () => html` <root-midi></root-midi>
+  <root-keyboard></root-keyboard>`;
 
 export const Basic = Template.bind({});
