@@ -1,0 +1,67 @@
+root-keyboard {  
+    --color-dark-key: #3e4245;
+    --color-light-key: #c6c6c6;
+}
+
+.notes {
+    display: flex;
+    height: 10vw;
+    gap: 4px;
+    justify-content: space-between;
+    margin-block: 1rem;
+    min-height: 5rem;
+}
+
+.note {
+    align-items: flex-end;
+    border: none;
+    display: flex;
+    flex-basis: 100%;
+    justify-content: center;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 1rem;
+    position: relative;
+    transition: transform 80ms linear;
+}
+
+.note:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.note:active {
+    transform: scale(1);
+    cursor: pointer;
+}
+
+.note-natural {
+    background-color: var(--color-light-key);
+    color: var(--color-dark);
+    padding-bottom: 1rem;
+    font-weight: 600;
+}
+
+.note-natural:hover {
+    background-color: color-mix(in srgb, var(--color-light-key) 50%, white);
+}
+
+.note-natural:active {
+    background-color: color-mix(in srgb, var(--color-light-key) 20%, white);
+}
+
+.note-accidental {
+    background-color: var(--color-dark-key);
+    color: var(--color-light);
+    height: calc(100% - 0.5rem);
+    padding-bottom: .5rem;
+    font-weight: 500;
+}
+
+.note-accidental:hover {
+    background-color: color-mix(in srgb, var(--color-dark-key) 70%, black);
+}
+
+.note-accidental:active {
+    background-color: color-mix(in srgb, var(--color-dark-key) 90%, black);
+}
