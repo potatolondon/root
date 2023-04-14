@@ -4,12 +4,12 @@
 @import url("../components/filter/filter.css");
 @import url("../components/oscillator/oscillator.css");
 @import url("../components/oscillator/oscillator-module.css");
+@import url("../components/keyboard/keyboard.css");
 
 html {
   --color-dark: #121212;
   --color-light: #fafafa;
   --color-mid: #8884;
-
   background-color: var(--color-dark);
   color: var(--color-light);
   color-scheme: dark;
@@ -19,42 +19,6 @@ html {
 body {
   font-family: system-ui, sans-serif;
   margin: 1rem;
-}
-
-.notes {
-  display: flex;
-  height: 10vw;
-  justify-content: space-between;
-  margin-block: 1rem;
-  min-height: 5rem;
-  overflow-x: auto;
-}
-
-.note {
-  align-items: flex-end;
-  border: 1px solid var(--color-mid);
-  display: flex;
-  flex-basis: 100%;
-  justify-content: center;
-  padding: .5rem;
-}
-
-.note:hover {
-  background-color: var(--color-mid);
-}
-
-.note:not(:last-of-type) {
-  border-right: none;
-}
-
-.note-natural {
-  background-color: var(--color-light);
-  color: var(--color-dark);
-}
-
-.note-accidental {
-  background-color: var(--color-dark);
-  color: var(--color-light);
 }
 
 .hidden {
