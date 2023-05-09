@@ -6,7 +6,7 @@ import './keyboard.css';
 import KeyboardDocumentation from './KeyboardDocumentation.mdx';
 
 export default {
-  title: 'Keyboard',
+  title: 'Components/Keyboard',
   parameters: {
     docs: {
       page: KeyboardDocumentation,
@@ -14,6 +14,7 @@ export default {
   },
 };
 
-const Template = () => html`<root-keyboard></root-keyboard>`;
+const Template = () => html` <root-midi></root-midi>
+  <root-keyboard></root-keyboard>`;
 
 export const Basic = Template.bind({});

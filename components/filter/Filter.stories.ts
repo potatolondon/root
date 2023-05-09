@@ -5,7 +5,7 @@ import './filter.lit.ts';
 import FilterDocumentation from './FilterDocumentation.mdx';
 
 export default {
-  title: 'Filter',
+  title: 'Components/Filter',
   parameters: {
     docs: {
       page: FilterDocumentation,
@@ -13,6 +13,8 @@ export default {
   },
 };
 
-const Template = () => html`<root-filter></root-filter>`;
+const Template = () => html` <root-connect>
+  <root-filter></root-filter>
+</root-connect>`;
 
 export const Basic = Template.bind({});

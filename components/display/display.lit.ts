@@ -10,12 +10,22 @@ export class Display extends RootElement {
   @property({ type: Boolean })
   toggle = true;
 
+  @property({ type: String })
+  text = '';
+
+  addText() {
+    if (!this.kind) {
+      return html` <h3 class="module__text">${this.text}</h3> `;
+    }
+  }
+
   render() {
     return this.toggle
       ? html`
           <div class="display-control__wrapper">
             <div class="display-control">
               <root-svg type="${this.kind}"></root-svg>
+              ${this.addText()}
             </div>
             <div class="display-control__light"></div>
           </div>
@@ -23,6 +33,7 @@ export class Display extends RootElement {
       : html`
           <div class="display-control display-control__large">
             <root-svg type="${this.kind}"></root-svg>
+            ${this.addText()}
           </div>
         `;
   }

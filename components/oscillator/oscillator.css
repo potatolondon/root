@@ -10,14 +10,14 @@
 .root-osc__wave-select-sources {
   display: flex;
   flex-wrap: wrap;
-  max-width: 105px;
+  max-width: 110px;
 }
 
 .root-osc__source {
   --color-background: #3e4245;
   background-color: var(--color-background);
   padding: 5px;
-  margin: 5px;
+  margin: 6px;
 }
 
 .osc-pitch-bend {
@@ -40,37 +40,4 @@
   margin-top: 10px;
   height: 30px;
   width: 35px;
-}
-
-
-root-osc input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-}
-
-root-osc input[type="radio"]:checked + root-display .display-control__light {
-  --color-background: #05EB7C;
-  background: var(--color-background);
-}
-
-
-root-osc input[type="radio"]:focus-visible + root-display .display-control {
-  --color-border: #05EB7C;
-  border: 1px solid var(--color-border);
-}
-
-
-root-osc input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-}
-
-root-osc input[type="checkbox"]:checked ~ label .display-control__light {
-  --color-background: #05EB7C;
-  background: var(--color-background);
-}
-
-root-osc input[type="checkbox"]:focus-visible ~ label .display-control {
-  --color-border: #05EB7C;
-  border: 1px solid var(--color-border);
 }

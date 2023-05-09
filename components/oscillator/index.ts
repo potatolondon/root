@@ -46,6 +46,7 @@ export class BaseOscillator {
     this.__onNoteOn = this.__onNoteOn.bind(this);
     this.__onNoteOff = this.__onNoteOff.bind(this);
     this.gainNode = audioCtx.createGain();
+    this.gainNode.gain.setTargetAtTime(0.2, audioCtx.currentTime, 0.015);
     document.addEventListener('noteOff', this.__onNoteOff);
   }
 

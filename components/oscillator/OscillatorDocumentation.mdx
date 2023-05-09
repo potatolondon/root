@@ -4,12 +4,22 @@ import { Meta, Story } from '@storybook/addon-docs';
 
 # Oscillator Component
 
-This file is a documentation-only `MDX`file to customize Storybook's [DocsPage](https://storybook.js.org/docs/react/writing-docs/docs-page#replacing-docspage).
+Root Oscillator is based on Web Audio API's OscillatorNode.
 
-It can be further expanded with your own code snippets and include specific information related to your stories.
-Refer to docs: https://storybook.js.org/docs/web-components/writing-docs/docs-page
+Oscillator supports a number of features including multiple oscillator types and pitchbend.
+
+## Basic Oscillator
 
 ```html
-<root-osc></root-osc>
+<root-osc send-To="output"></root-osc>
 ```
-<Story id="oscillator--basic" />
+<Story id="components-oscillator--basic" />
+
+
+## Oscillator Module
+
+```html
+<root-osc-module send-To='output'></root-osc-module>
+```
+<Story id="components-oscillator--oscillator-module" />
+

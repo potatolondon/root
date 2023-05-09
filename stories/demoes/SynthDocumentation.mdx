@@ -1,0 +1,60 @@
+<!-- Oscillator-Documentation.mdx -->
+
+import { Meta, Story } from '@storybook/addon-docs';
+
+# Synths
+
+Synth combinations made with our components
+
+## Single Oscillator Synth
+
+```html
+<root-midi></root-midi>
+<root-keyboard></root-keyboard>
+<root-connect>
+  <root-osc id="osc-1" sendTo="filter-1"></root-osc>
+  <root-filter
+    id="filter-1"
+    sendTo="output"
+    recieveFrom="osc-1"
+  ></root-filter>
+</root-connect>
+```
+<Story id="demoes-synth--basic" />
+
+
+## Oscillator Module
+
+```html
+<root-midi></root-midi>
+<root-keyboard></root-keyboard>
+<root-connect>
+  <root-osc-module id="osc-2" sendTo="filter-2"></root-osc-module>
+  <root-filter
+    id="filter-2"
+    sendTo="output"
+    recieveFrom="osc-2"
+  ></root-filter>
+</root-connect>
+```
+<Story id="demoes-synth--synth-oscillator-module" />
+
+
+## Two Oscillator Module
+
+```html
+<root-midi></root-midi>
+<root-keyboard></root-keyboard>
+<root-connect>
+  <root-osc id="osc-3" sendTo="filter-3"></root-osc>
+  <root-osc-module id="osc-4" sendTo="filter-3"></root-osc-module>
+  <root-filter
+    id="filter-3"
+    sendTo="output"
+    recieveFrom="osc-3 osc-4"
+  ></root-filter>
+</root-connect>
+```
+<Story id="demoes-synth--synth-two-oscillator-types" />
+
+

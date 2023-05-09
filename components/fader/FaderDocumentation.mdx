@@ -3,8 +3,52 @@
 import { Meta, Story } from '@storybook/addon-docs';
 
 # Fader Component
+The UI component for a fader. 
+
+The input range uses the following easing functions used map the fader position to the output value. 
+
+
+<Story id="components-fader--basic" />
+
+## Linear
+This is the default fader type:
+
+```js
+  linear: x => x,
+```
 
 ```html
 <root-fader></root-fader>
 ```
-<Story id="fader" />
+
+
+## Quadratic
+
+```js
+  quadratic: (x, min) => min + (x - min) ** 2,
+```
+
+```html
+<root-fader type="quadratic"></root-fader>
+```
+
+## Golden Ratio
+
+```js
+  goldenratio: (x, min, max) => ((x - min) / (max - min)) ** (1 / 5 ** 0.5),
+```
+
+```html
+<root-fader type="goldenratio"></root-fader>
+```
+
+
+## Using the formulaes in JS
+
+```js
+  import { FaderFormulas } from '@potato/root/components/fader';
+
+  const mySlider = document.querySelector('root-fader');
+
+  mySlider.formula = FaderFormulas.GOLDEN_RATIO;
+```
