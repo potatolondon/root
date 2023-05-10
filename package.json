@@ -35,7 +35,8 @@
   },
   "dependencies": {
     "@open-wc/lit-helpers": "^0.5.1",
-    "lit": "^2.2.1"
+    "lit": "^2.2.1",
+    "storybook-css-modules-preset": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
