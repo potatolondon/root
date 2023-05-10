@@ -1,3 +1,4 @@
+import '../demo/index.css';
 import '../components/fader/fader.css';
 import '../components/filter/filter.css';
 

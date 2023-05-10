@@ -1,5 +1,8 @@
 import { html } from 'lit-html';
 
+import './oscillator.css';
+import './oscillator-module.css';
+
 import './oscillator.lit.ts';
 import './oscillator-module.lit.ts';
 import '../display/display.lit';
