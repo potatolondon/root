@@ -7,6 +7,9 @@ import FilterDocumentation from './FilterDocumentation.mdx';
 export default {
   title: 'Components/Filter',
   parameters: {
+    controls: {
+      hideNoControlsWarning: true,
+    },
     docs: {
       page: FilterDocumentation,
     },

@@ -12,6 +12,9 @@ import OscillatorDocumentation from './OscillatorDocumentation.mdx';
 export default {
   title: 'Components/Oscillator',
   parameters: {
+    controls: {
+      hideNoControlsWarning: true,
+    },
     docs: {
       page: OscillatorDocumentation,
     },

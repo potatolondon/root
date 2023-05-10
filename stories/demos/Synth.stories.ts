@@ -9,8 +9,11 @@ import '../../components/connect/connect.lit';
 import SynthDocumentation from './SynthDocumentation.mdx';
 
 export default {
-  title: 'Demoes/Synth',
+  title: 'Demos/Synth',
   parameters: {
+    controls: {
+      hideNoControlsWarning: true,
+    },
     docs: {
       page: SynthDocumentation,
     },

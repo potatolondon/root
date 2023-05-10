@@ -8,6 +8,9 @@ import KeyboardDocumentation from './KeyboardDocumentation.mdx';
 export default {
   title: 'Components/Keyboard',
   parameters: {
+    controls: {
+      hideNoControlsWarning: true,
+    },
     docs: {
       page: KeyboardDocumentation,
     },

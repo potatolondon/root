@@ -7,6 +7,9 @@ import DisplayDocumentation from './DisplayDocumentation.mdx';
 export default {
   title: 'Components/Display',
   parameters: {
+    controls: {
+      hideNoControlsWarning: true,
+    },
     docs: {
       page: DisplayDocumentation,
     },

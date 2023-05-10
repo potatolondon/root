@@ -7,6 +7,9 @@ import FaderDocumentation from './FaderDocumentation.mdx';
 export default {
   title: 'Components/Fader',
   parameters: {
+    controls: {
+      hideNoControlsWarning: true,
+    },
     docs: {
       page: FaderDocumentation,
     },
