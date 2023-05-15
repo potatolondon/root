@@ -16,7 +16,8 @@ export type FaderFormula = (x: number, min: number, max: number) => number;
 export const FaderFormulas: Record<string, FaderFormula> = {
   goldenratio: (x, min, max) => ((x - min) / (max - min)) ** (1 / 5 ** 0.5),
   linear: x => x,
-  quadratic: (x, min) => min + (x - min) ** 2,
+  logarithmic: (x, min) => min + (x - min) ** 2,
+  // logarithmic: (x, min) => min + (x - min) ** 2,
 };
 
 export class Fader extends RootElement {
@@ -62,7 +63,14 @@ export class Fader extends RootElement {
     const value = Number.isNaN(this.valueAsNumber)
       ? this.initialValue
       : this.valueAsNumber;
-    return (value - this.min) / (this.max - this.min);
+
+    const returnedValue = (value - this.min) / (this.max - this.min);
+
+    const frequency = this.min * Math.E ** (Math.log(this.max / this.min) * returnedValue);
+
+    console.log(returnedValue, frequency);
+  
+    return returnedValue;
   }
 
   get valueAsNumber() {

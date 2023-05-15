@@ -76,11 +76,11 @@ export class Filter extends RootElement implements AudioComponent {
               @input="${this.__onFrequencyChange}"
               id="filter-frequency"
               name="filter-frequency"
-              min="10"
-              max="1000"
+              min="15"
+              max="16000"
               value=${this.defaults.frequency}
               ?disabled=${!this.enabled}
-              type="quadratic"
+              type="logarithmic"
             ></root-fader>
             <label class="module__subheading" for="filter-frequency"
               >Freq</label
