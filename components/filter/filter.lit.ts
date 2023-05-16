@@ -58,10 +58,7 @@ export class Filter extends RootElement implements AudioComponent {
 
   __onGainChange({ currentTarget }: InputEvent) {
     if (currentTarget && 'valueAsNumber' in currentTarget) {
-      this.audioNode.gain.setValueAtTime(
-        currentTarget.valueAsNumber as number,
-        audioCtx.currentTime
-      );
+      this.audioNode.gain.value = currentTarget.valueAsNumber as number;
     }
   }
 
