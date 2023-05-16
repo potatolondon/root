@@ -33,9 +33,9 @@ export class Filter extends RootElement implements AudioComponent {
   recieveFrom: string = '';
 
   __onFrequencyChange({ currentTarget }: InputEvent) {
-    if (currentTarget && 'valueAsNumber' in currentTarget) {
+    if (currentTarget && 'convertedValue' in currentTarget) {
       this.audioNode.frequency.setValueAtTime(
-        currentTarget.valueAsNumber as number,
+        currentTarget.convertedValue as number,
         audioCtx.currentTime
       );
     }

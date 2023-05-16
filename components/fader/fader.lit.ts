@@ -16,8 +16,7 @@ export type FaderFormula = (x: number, min: number, max: number) => number;
 export const FaderFormulas: Record<string, FaderFormula> = {
   goldenratio: (x, min, max) => ((x - min) / (max - min)) ** (1 / 5 ** 0.5),
   linear: x => x,
-  logarithmic: (x, min) => min + (x - min) ** 2,
-  // logarithmic: (x, min) => min + (x - min) ** 2,
+  logarithmic: (x, min, max) => min * Math.E ** (Math.log(max / min) * x),
 };
 
 export class Fader extends RootElement {
@@ -58,6 +57,8 @@ export class Fader extends RootElement {
 
   input = createRef();
 
+  convertedValue = this.initialValue;
+
   /** Returns a value normalised between 0-1. */
   get normalisedValue() {
     const value = Number.isNaN(this.valueAsNumber)
@@ -66,10 +67,8 @@ export class Fader extends RootElement {
 
     const returnedValue = (value - this.min) / (this.max - this.min);
 
-    const frequency = this.min * Math.E ** (Math.log(this.max / this.min) * returnedValue);
+    this.convertedValue = this.formula(returnedValue, this.min, this.max);
 
-    console.log(returnedValue, frequency);
-  
     return returnedValue;
   }
 
@@ -100,6 +99,7 @@ export class Fader extends RootElement {
       this.formula = FaderFormulas[this.initialType];
     }
     this.setFaderValueAttribute();
+    this.convertedValue = this.formula(this.initialValue, this.min, this.max);
   }
 
   onInput(event: InputEvent) {
