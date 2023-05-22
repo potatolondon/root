@@ -118,6 +118,9 @@ export class Filter extends RootElement implements AudioComponent {
             <label class="module__subheading">Mode</label>
           </form>
 
+        <!--
+        TODO: Filter boost/gain compensation implementation TBC!
+
           <div>
             <root-fader
               @input="${this.__onGainChange}"
@@ -130,6 +133,8 @@ export class Filter extends RootElement implements AudioComponent {
             ></root-fader>
             <label class="module__subheading" for="filter-gain">Boost</label>
           </div>
+        -->
+
         </div>
       </div>
     `;
