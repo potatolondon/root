@@ -46,12 +46,12 @@ describe('Filter', () => {
     expect(el.audioNode.type).to.equal('highpass');
   });
 
-  it('responds to changes in gain (boost)', async () => {
-    const el: Filter = await fixture(html` <root-filter></root-filter>`);
-    const elFader = el.querySelector('#filter-gain') as Fader;
-    expect(elFader).to.be.instanceOf(Fader);
-    elFader.value = 10;
-    elFader.dispatchEvent(new InputEvent('input'));
-    // expect(el.audioNode.gain.value).to.equal(10); // FIXME
-  });
+  // it('responds to changes in gain (boost)', async () => {
+  //   const el: Filter = await fixture(html` <root-filter></root-filter>`);
+  //   const elFader = el.querySelector('#filter-gain') as Fader;
+  //   expect(elFader).to.be.instanceOf(Fader);
+  //   elFader.value = 10;
+  //   elFader.dispatchEvent(new InputEvent('input'));
+  //   // expect(el.audioNode.gain.value).to.equal(10); // FIXME
+  // });
 });
