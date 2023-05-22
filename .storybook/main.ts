@@ -1,6 +1,6 @@
 module.exports = {
   stories: [
-    '../stories/Introduction.stories.mdx',  // Initial page
+    '../stories/Introduction.stories.mdx', // Initial page
     '../stories/**/*.stories.@(js|jsx|ts|tsx)',
     '../components/**/*.stories.mdx',
     '../components/**/*.stories.@(js|jsx|ts|tsx)',

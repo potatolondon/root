@@ -23,12 +23,12 @@ const Template = () => html` <root-connect>
 
 export const Basic = Template.bind({});
 
-const TemplateQuadratic = () => html` <root-connect>
-  <root-fader type="quadratic"></root-fader>
+const TemplateLogarithmic = () => html` <root-connect>
+  <root-fader type="logarithmic"></root-fader>
   <root-connect></root-connect
 ></root-connect>`;
 
-export const Quadratic = TemplateQuadratic.bind({});
+export const Logarithmic = TemplateLogarithmic.bind({});
 
 const TemplateGoldenRatio = () => html` <root-connect>
   <root-fader type="goldenration"></root-fader>

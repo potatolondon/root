@@ -33,9 +33,9 @@ export class Filter extends RootElement implements AudioComponent {
   recieveFrom: string = '';
 
   __onFrequencyChange({ currentTarget }: InputEvent) {
-    if (currentTarget && 'valueAsNumber' in currentTarget) {
+    if (currentTarget && 'convertedValue' in currentTarget) {
       this.audioNode.frequency.setValueAtTime(
-        currentTarget.valueAsNumber as number,
+        currentTarget.convertedValue as number,
         audioCtx.currentTime
       );
     }
@@ -58,10 +58,7 @@ export class Filter extends RootElement implements AudioComponent {
 
   __onGainChange({ currentTarget }: InputEvent) {
     if (currentTarget && 'valueAsNumber' in currentTarget) {
-      this.audioNode.gain.setValueAtTime(
-        currentTarget.valueAsNumber as number,
-        audioCtx.currentTime
-      );
+      this.audioNode.gain.value = currentTarget.valueAsNumber as number;
     }
   }
 
@@ -76,11 +73,11 @@ export class Filter extends RootElement implements AudioComponent {
               @input="${this.__onFrequencyChange}"
               id="filter-frequency"
               name="filter-frequency"
-              min="10"
-              max="1000"
+              min="15"
+              max="16000"
               value=${this.defaults.frequency}
               ?disabled=${!this.enabled}
-              type="quadratic"
+              type="logarithmic"
             ></root-fader>
             <label class="module__subheading" for="filter-frequency"
               >Freq</label

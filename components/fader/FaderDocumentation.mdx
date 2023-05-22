@@ -22,14 +22,14 @@ This is the default fader type:
 ```
 
 
-## Quadratic
+## Logarithmic
 
 ```js
-  quadratic: (x, min) => min + (x - min) ** 2,
+  logarithmic: min * Math.E ** (Math.log(max / min) * x),
 ```
 
 ```html
-<root-fader type="quadratic"></root-fader>
+<root-fader type="logarithmic"></root-fader>
 ```
 
 ## Golden Ratio
