@@ -107,7 +107,7 @@ export class OscillatorModule extends RootElement implements AudioComponent {
   render() {
     return html`
       <div class="root-osc-module">
-        <h1 class="module__heading">Osc Module</h1>
+        <h1 class="module__heading">Multi-wave Oscillator</h1>
         <div class="osc-module__wrapper">
           <div>
             <div class="osc-module__control-sources">
