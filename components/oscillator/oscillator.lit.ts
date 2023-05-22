@@ -51,65 +51,69 @@ export class Oscillator extends RootElement implements AudioComponent {
   render() {
     return html`
       <div class="root-osc">
-        <div class="root-osc__wave-select">
-          <form
-            class="root-osc__wave-select-sources"
-            @change=${this.__onWaveform}
-          >
-            ${map(
-              Object.entries(this.waveforms),
-              ([value]) => html` <label
-                for="${value}-osc-select"
-                class="root-osc__source"
-                id="${value}-select"
-              >
-                ${this.createInput(value)}
-                <span class="hidden">${value}</span>
-                <root-display kind=${value}></root-display>
-              </label>`
-            )}
-          </form>
-          <p class="module__subheading">Wave Select</p>
-        </div>
-        <div class="osc-pitch-bend">
-          <div
-            class="osc-pitch-bend__fader module-single-fader-display__no-toggle"
-          >
-            <root-fader
-              @input=${this.__onDetune}
-              @mouseup=${this.__onDetuneStop}
-              id="detune"
-              min="-1"
-            ></root-fader>
-            <root-display kind="detune" .toggle=${false}></root-display>
+        <h1 class="module__heading">Single-wave Oscillator</h1>
+        <div class="osc-module__wrapper">
+          <div class="osc__wave-select">
+            <form
+              class="root-osc__wave-select-sources"
+              @change=${this.__onWaveform}
+            >
+              ${map(
+                Object.entries(this.waveforms),
+                ([value]) => html` <label
+                  for="${value}-osc-select"
+                  class="root-osc__source"
+                  id="${value}-select"
+                >
+                  ${this.createInput(value)}
+                  <span class="hidden">${value}</span>
+                  <root-display kind=${value}></root-display>
+                </label>`
+              )}
+            </form>
+            <p class="module__subheading">Wave</p>
           </div>
-          <p class="module__subheading">Detune</p>
-        </div>
-        <div class="osc-pitch-bend__options">
-          <div class="osc-pitch-bend__sticky">
+          <div class="osc-pitch-bend">
+            <div
+              class="osc-pitch-bend__fader module-single-fader-display__no-toggle"
+            >
+              <root-fader
+                @input=${this.__onDetune}
+                @mouseup=${this.__onDetuneStop}
+                id="detune"
+                min="-1"
+              ></root-fader>
+              <root-display kind="detune" .toggle=${false}></root-display>
+            </div>
+            <p class="module__subheading">Detune</p>
+          </div>
+          <div class="osc-pitch-bend__options">
+            <div class="osc-pitch-bend__sticky">
+              <input
+                aria-labelledby="sticky-label"
+                @input=${this.__onStickyToggle}
+                id="sticky"
+                type="checkbox"
+              />
+              <label id="sticky-latch" for="sticky">
+                <span class="hidden">Latch</span>
+                <root-display text="Latch" />
+              </label>
+            </div>
             <input
-              aria-labelledby="sticky-label"
-              @input=${this.__onStickyToggle}
-              id="sticky"
-              type="checkbox"
+              aria-labelledby="detune-amount-label"
+              @input=${this.__onDetuneAmount}
+              id="detune-amount"
+              class="osc-pitch-bend__amount"
+              step="1"
+              type="number"
+              value="2"
             />
-            <label id="sticky-label" for="sticky">
-              <span class="hidden">Sticky</span>
-              <root-display text="Sticky" />
-            </label>
+            <label id="detune-amount-label" for="detune-amount" class="hidden"
+              >Pitch bend semitones</label
+            >
+            <p class="module__subheading">Semitone Range</p>
           </div>
-          <input
-            aria-labelledby="detune-amount-label"
-            @input=${this.__onDetuneAmount}
-            id="detune-amount"
-            class="osc-pitch-bend__amount"
-            step="1"
-            type="number"
-            value="2"
-          />
-          <label id="detune-amount-label" for="detune-amount" class="hidden"
-            >Pitch bend semitones</label
-          >
         </div>
       </div>
     `;
