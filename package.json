@@ -24,7 +24,7 @@
     "build:demo": "esbuild demo/index.ts --bundle --minify --outdir=demo",
     "build:lib": "esbuild lib/*.ts --outdir=lib",
     "clean": "find components demo lib -name '*.js' -delete",
-    "deploy": "npm run clean && npm run build && gcloud --project=potato-synth --quiet app deploy demo",
+    "deploy": "npm run clean && npm run build && gcloud --project=potato-synth --quiet app deploy .",
     "start": "esbuild demo/index.{css,ts} --bundle --minify --serve=8000 --servedir=demo",
     "lint": "prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "prettier \"**/*.ts\" --write --ignore-path .gitignore",
