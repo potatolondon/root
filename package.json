@@ -1,5 +1,5 @@
 {
-  "name": "web-audio",
+  "name": "@potato/root",
   "description": "Web Audio Component Library",
   "license": "MIT",
   "author": "Potato London Ltd <opensource@potatolondon.com> (https://p.ota.to)",
@@ -7,7 +7,7 @@
     "Liam Newmarch <liam@potatolondon.com>",
     "Purvi Trivedi <purvi.trivedi@potatolondon.com>"
   ],
-  "version": "0.0.0",
+  "version": "0.1.0",
   "exports": {
     "./components/filter": "./components/filter/filter.lit.js",
     "./components/keyboard": "./components/keyboard/keyboard.lit.js",
