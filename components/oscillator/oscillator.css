@@ -9,7 +9,7 @@
   align-items: center;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .root-osc__wave-select-sources {
@@ -32,7 +32,7 @@
 .osc-pitch-bend__options {
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: flex-end;
   margin-left: 5px;
 }
 
