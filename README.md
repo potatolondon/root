@@ -51,29 +51,10 @@ npm start
 
 ## Modules
 
-![](https://github.com/potatolondon/root/blob/main/images/multi-wave-oscillator.webp?raw=true)
-
-### Multi-wave oscillator module
-
-This module provides the ability to generate and mix four classic waveshapes: sine, saw, square and triangle with a global detune control.
-
-![](https://github.com/potatolondon/root/blob/main/images/dual-filter.webp?raw=true)
-
-### Dual filter module
-
-Simple filter module that can be switched between lowpass and highpass modes, with controls for cutoff frequency, resonance and boost.
-
-![](https://github.com/potatolondon/root/blob/main/images/single-wave-oscillator.webp?raw=true)
-
-### Single-wave oscillator module
-
-Stripped down version of the multi-wave oscillator module that provides the functionality to generate a single waveform, coupled with a detune control with user-definable range and latch mechanism.
-
-![](https://github.com/potatolondon/root/blob/main/images/keyboard.webp?raw=true)
-
-### Keyboard module
-
-A straightforward MIDI input device enabling the user to play using the corresponding keys on their QWERTY keyboard or by using the mouse to control the on-screen keyboard.
+- [Multi-wave oscillator module](https://potatolondon.github.io/root/?path=/story/components-oscillator--oscillator-module)
+- [Dual filter module](https://potatolondon.github.io/root/?path=/story/components-filter--basic)
+- [Single-wave oscillator module](https://potatolondon.github.io/root/?path=/story/components-oscillator--basic)
+- [Keyboard module](https://potatolondon.github.io/root/?path=/story/components-keyboard--basic)
 
 ## Build with Root
 
