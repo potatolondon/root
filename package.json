@@ -7,7 +7,7 @@
     "Liam Newmarch <liam@potatolondon.com>",
     "Purvi Trivedi <purvi.trivedi@potatolondon.com>"
   ],
-  "version": "0.1.0",
+  "version": "0.2.0",
   "exports": {
     "./components/filter": "./components/filter/filter.lit.js",
     "./components/keyboard": "./components/keyboard/keyboard.lit.js",
