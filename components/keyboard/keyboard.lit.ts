@@ -11,6 +11,9 @@ export class Keyboard extends RootElement {
   // Keyboard keys to use for musical typing
   static keys = Array.from("awsedftgyhujkolp;']\\");
 
+  // Keyboard keys to use for Keyboard Events
+  static keyEvents = ['Enter', 'Space'];
+
   // Zero-indexed natural notes in a C major scale
   static naturals = [0, 2, 4, 5, 7, 9, 11];
 
@@ -87,6 +90,13 @@ export class Keyboard extends RootElement {
     if (!(event?.target instanceof HTMLElement)) return;
     if (!event.target.matches('[data-note]')) return;
 
+    if (
+      event instanceof KeyboardEvent &&
+      !Keyboard.keyEvents.includes(event.code)
+    ) {
+      return;
+    }
+
     const note = parseInt(event.target.dataset.note ?? '', 10);
     if (!note) return;
     this.dispatchEvent(
@@ -101,8 +111,16 @@ export class Keyboard extends RootElement {
     if (!(event?.target instanceof HTMLElement)) return;
     if (!event.target.matches('[data-note]')) return;
 
+    if (
+      event instanceof KeyboardEvent &&
+      !Keyboard.keyEvents.includes(event.code)
+    ) {
+      return;
+    }
+
     const note = parseInt(event.target.dataset.note ?? '', 10);
     if (!note) return;
+
     this.dispatchEvent(
       new CustomEvent('noteOff', {
         bubbles: true,
@@ -117,6 +135,8 @@ export class Keyboard extends RootElement {
         ${this.keys.map(
           ({ key, natural, note }) => html`
             <button
+              @keydown=${this.__onKeydown}
+              @keyup=${this.__onKeyup}
               @mousedown=${this.__onKeydown}
               @mouseout=${this.__onKeyup}
               @mouseup=${this.__onKeyup}
