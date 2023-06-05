@@ -12,7 +12,7 @@ export class Keyboard extends RootElement {
   static keys = Array.from("awsedftgyhujkolp;']\\");
 
   // Keyboard keys to use for Keyboard Events
-  static keyEvents = ["Enter", "Space"];
+  static keyEvents = ['Enter', 'Space'];
 
   // Zero-indexed natural notes in a C major scale
   static naturals = [0, 2, 4, 5, 7, 9, 11];
@@ -90,7 +90,10 @@ export class Keyboard extends RootElement {
     if (!(event?.target instanceof HTMLElement)) return;
     if (!event.target.matches('[data-note]')) return;
 
-    if(event instanceof KeyboardEvent && !(Keyboard.keyEvents.includes(event.code))) {
+    if (
+      event instanceof KeyboardEvent &&
+      !Keyboard.keyEvents.includes(event.code)
+    ) {
       return;
     }
 
@@ -108,7 +111,10 @@ export class Keyboard extends RootElement {
     if (!(event?.target instanceof HTMLElement)) return;
     if (!event.target.matches('[data-note]')) return;
 
-    if(event instanceof KeyboardEvent && !(Keyboard.keyEvents.includes(event.code))) {
+    if (
+      event instanceof KeyboardEvent &&
+      !Keyboard.keyEvents.includes(event.code)
+    ) {
       return;
     }
 
