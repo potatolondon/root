@@ -5,11 +5,11 @@ handlers:
   - url: /
     require_matching_file: true
     secure: always
-    static_dir: demo
+    static_dir: dist
 
   # Handle root index
   - url: /(index.html)?
     require_matching_file: true
     secure: always
-    static_files: demo/index.html
-    upload: demo/index.html
+    static_files: dist/index.html
+    upload: dist/index.html

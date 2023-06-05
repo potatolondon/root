@@ -1,0 +1,19 @@
+@import url("./module.css");
+
+html {
+  --color-dark: #121212;
+  --color-light: #fafafa;
+  --color-mid: #8884;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  color-scheme: dark;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 1rem;
+}
+
+.hidden {
+  display: none;
+}

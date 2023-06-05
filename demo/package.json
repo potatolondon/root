@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "dependencies": {
+    "@potato/root": ".."
+  },
+  "scripts": {
+    "build": "esbuild src/index.{css,ts} --bundle --minify --outdir=dist",
+    "clean": "rm -rf dist && mkdir dist && cp src/index.html dist",
+    "deploy": "gcloud --project=potato-synth --quiet app deploy .",
+    "prebuild": "npm run clean",
+    "predeploy": "npm run build",
+    "start": "esbuild src/index.{css,ts} --bundle --minify --serve=8000 --servedir=src"
+  }
+}

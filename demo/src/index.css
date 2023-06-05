@@ -1,0 +1,6 @@
+@import url("@potato/root/themes/default/base.css");
+@import url("@potato/root/components/fader/fader.css");
+@import url("@potato/root/components/filter/filter.css");
+@import url("@potato/root/components/keyboard/keyboard.css");
+@import url("@potato/root/components/oscillator/oscillator-module.css");
+@import url("@potato/root/components/oscillator/oscillator.css");
