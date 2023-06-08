@@ -19,6 +19,7 @@
 /_site/
 /dist/
 /out-tsc/
+/storybook-static/
 
 components/**/*.js
 lib/**/*.js
