@@ -19,6 +19,9 @@
 /_site/
 /dist/
 /out-tsc/
+/storybook-static/
 
-storybook-static
+components/**/*.js
+lib/**/*.js
+
 custom-elements.json

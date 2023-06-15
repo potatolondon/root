@@ -1,0 +1,11 @@
+# Ignore all files
+*
+
+# Include these files explicitly
+!/components/
+!/lib/
+!/.npm*
+!/LICENSE
+!/package*.json
+!/README.md
+!/tsconfig.json

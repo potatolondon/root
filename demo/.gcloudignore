@@ -3,4 +3,4 @@
 
 # Include these files explicitly
 !/app.yaml
-!/demo/
+!/dist/
