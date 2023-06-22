@@ -2,18 +2,17 @@ import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { AudioComponent, RootElement } from '../base.lit';
-import { BaseFilter} from './index';
+import { BaseFilter } from './index';
 
 export class Filter extends RootElement implements AudioComponent {
+  __onFrequencyChange: (event: InputEvent) => void;
+  __onQChange: (event: InputEvent) => void;
+  __onTypeChange: (event: InputEvent) => void;
+  __onGainChange: (event: InputEvent) => void;
 
-  __onFrequencyChange: (event:InputEvent) => void;
-  __onQChange:(event:InputEvent) => void;
-  __onTypeChange:(event:InputEvent) => void;
-  __onGainChange:(event:InputEvent) => void;
-
-  filter: BaseFilter;
-  defaults: BiquadFilterOptions
-  filterTypes: {}
+  component: BaseFilter;
+  defaults: BiquadFilterOptions;
+  filterTypes: {};
 
   @property({ type: Boolean })
   enabled: boolean = true;
@@ -24,14 +23,14 @@ export class Filter extends RootElement implements AudioComponent {
   @property({ type: String })
   recieveFrom: string = '';
 
-  constructor(){
+  constructor() {
     super();
-    this.filter = new BaseFilter();
-    this.__onFrequencyChange = this.filter.__onFrequencyChange;
-    this.__onQChange = this.filter.__onQChange;
-    this.__onTypeChange = this.filter.__onTypeChange;
-    this.__onGainChange = this.filter.__onGainChange;
-    this.defaults = this.filter.defaults;
+    this.component = new BaseFilter();
+    this.__onFrequencyChange = this.component.__onFrequencyChange;
+    this.__onQChange = this.component.__onQChange;
+    this.__onTypeChange = this.component.__onTypeChange;
+    this.__onGainChange = this.component.__onGainChange;
+    this.defaults = this.component.defaults;
     this.filterTypes = BaseFilter.filterTypes;
   }
 

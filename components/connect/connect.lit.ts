@@ -27,13 +27,13 @@ export class Connect extends RootElement {
 
     while (node) {
       if (node.enabled) {
-        return node.audioNode;
+        return node.component.audioNode;
       }
       from = document.querySelector(`#${node.recieveFrom}`);
       if (from && from.enabled) break;
       node = from;
     }
-    return from?.audioNode;
+    return from?.component.audioNode;
   }
 
   __searchForwards(node: AudioComponent | null) {
@@ -48,7 +48,7 @@ export class Connect extends RootElement {
       node = to;
     }
 
-    return to?.audioNode;
+    return to?.component.audioNode;
   }
 
   // gets nodes and connects them

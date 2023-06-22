@@ -55,5 +55,4 @@ export class BaseFilter {
       this.audioNode.gain.value = currentTarget.valueAsNumber as number;
     }
   }
-
 }
