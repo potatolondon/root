@@ -2,26 +2,17 @@ import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { AudioComponent, RootElement } from '../base.lit';
-import { audioCtx } from '../../lib/audioContext';
+import { BaseFilter } from './index';
 
 export class Filter extends RootElement implements AudioComponent {
-  static filterTypes = {
-    lowpass: 'Lowpass',
-    highpass: 'Highpass',
-    // bandpass: 'Bandpass',
-    // lowshelf: 'Lowshelf',
-    // peaking: 'Peaking',
-    // notch: 'Notch',
-  };
+  __onFrequencyChange: (event: InputEvent) => void;
+  __onQChange: (event: InputEvent) => void;
+  __onTypeChange: (event: InputEvent) => void;
+  __onGainChange: (event: InputEvent) => void;
 
-  defaults: BiquadFilterOptions = {
-    frequency: 22_050,
-    gain: 0,
-    Q: 1,
-    type: Object.keys(Filter.filterTypes)[0] as BiquadFilterType,
-  };
-
-  audioNode = new BiquadFilterNode(audioCtx, { ...this.defaults });
+  component: BaseFilter;
+  defaults: BiquadFilterOptions;
+  filterTypes: {};
 
   @property({ type: Boolean })
   enabled: boolean = true;
@@ -32,34 +23,15 @@ export class Filter extends RootElement implements AudioComponent {
   @property({ type: String })
   recieveFrom: string = '';
 
-  __onFrequencyChange({ currentTarget }: InputEvent) {
-    if (currentTarget && 'convertedValue' in currentTarget) {
-      this.audioNode.frequency.setValueAtTime(
-        currentTarget.convertedValue as number,
-        audioCtx.currentTime
-      );
-    }
-  }
-
-  __onQChange({ currentTarget }: InputEvent) {
-    if (currentTarget && 'valueAsNumber' in currentTarget) {
-      this.audioNode.Q.setValueAtTime(
-        currentTarget.valueAsNumber as number,
-        audioCtx.currentTime
-      );
-    }
-  }
-
-  __onTypeChange({ currentTarget }: InputEvent) {
-    if (currentTarget && 'value' in currentTarget) {
-      this.audioNode.type = currentTarget.value as BiquadFilterType;
-    }
-  }
-
-  __onGainChange({ currentTarget }: InputEvent) {
-    if (currentTarget && 'valueAsNumber' in currentTarget) {
-      this.audioNode.gain.value = currentTarget.valueAsNumber as number;
-    }
+  constructor() {
+    super();
+    this.component = new BaseFilter();
+    this.__onFrequencyChange = this.component.__onFrequencyChange;
+    this.__onQChange = this.component.__onQChange;
+    this.__onTypeChange = this.component.__onTypeChange;
+    this.__onGainChange = this.component.__onGainChange;
+    this.defaults = this.component.defaults;
+    this.filterTypes = BaseFilter.filterTypes;
   }
 
   render() {
@@ -99,7 +71,7 @@ export class Filter extends RootElement implements AudioComponent {
 
           <form class="root-filter__types">
             ${map(
-              Object.entries(Filter.filterTypes),
+              Object.entries(this.filterTypes),
               ([value, key]) => html`
                 <label for="filter-type-${value}" class="root-filter__type">
                   <input

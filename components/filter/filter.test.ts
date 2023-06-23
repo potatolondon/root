@@ -11,11 +11,11 @@ describe('Filter', () => {
 
   it('has expected initial values', async () => {
     const el: Filter = await fixture(html` <root-filter></root-filter>`);
-    expect(el.audioNode).to.be.instanceof(BiquadFilterNode);
+    expect(el.component.audioNode).to.be.instanceof(BiquadFilterNode);
     expect(el.enabled).to.equal(true);
-    expect(el.audioNode.frequency.value).to.equal(22_050);
-    expect(el.audioNode.type).to.equal('lowpass');
-    expect(el.audioNode.gain.value).to.equal(0);
+    expect(el.component.audioNode.frequency.value).to.equal(22_050);
+    expect(el.component.audioNode.type).to.equal('lowpass');
+    expect(el.component.audioNode.gain.value).to.equal(0);
   });
 
   it('responds to changes in frequency', async () => {
@@ -43,7 +43,7 @@ describe('Filter', () => {
     ) as HTMLInputElement;
     expect(elRadio).to.be.instanceOf(HTMLInputElement);
     elRadio.click();
-    expect(el.audioNode.type).to.equal('highpass');
+    expect(el.component.audioNode.type).to.equal('highpass');
   });
 
   // it('responds to changes in gain (boost)', async () => {

@@ -1,7 +1,9 @@
 import { LitElement } from 'lit';
 
 export interface AudioComponent extends LitElement {
-  audioNode?: AudioNode | null;
+  component: {
+    audioNode?: AudioNode | null;
+  };
   enabled: boolean;
   sendTo: string;
   recieveFrom?: string | undefined;
